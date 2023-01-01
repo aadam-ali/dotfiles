@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+ln -sf "$PWD/.profile" "$HOME/.profile"
+
+if [[ ! -f $HOME/.bash_local ]]; then
+    touch $HOME/.bash_local
+    echo "# A file to to enter local environemnt variables and aliases" >> $HOME/.bash_local
+fi
+
+ln -sf "$PWD/.bashrc" "$HOME/.bashrc"
+. $HOME/.bashrc
+
+ln -sf "$PWD/.gitconfig" "$HOME/.gitconfig"
+
+ln -nsf "$PWD/scripts" "$HOME/Scripts"

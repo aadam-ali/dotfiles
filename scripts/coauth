@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+[[ -d "$CONFIG/coauth" ]] || mkdir $CONFIG/coauth
+
+coauthors="$CONFIG/coauth/coauthors.txt"
+template="$CONFIG/coauth/git-template"
+
+command=$1
+
+start_pairing() {
+	git config --global commit.template $template
+	echo -e "\n" >>$template
+	while true; do
+		author="$(cat $coauthors | fzy)"
+
+		if [[ $author != "" ]]; then
+			echo "Co-authored-by: $author" >>$template
+			echo "Added co-author: $author"
+		else
+			printf "\e[32mPairing mode enabled.\e[0m\n"
+			echo "Run 'coauth stop' to end session. Run 'coauth reset' to change co-authors"
+			break
+		fi
+	done
+}
+
+case $1 in
+start)
+	start_pairing
+	;;
+stop)
+	>$template
+	git config --global --unset commit.template
+	printf "\e[31mPairing mode disabled. Run 'coauth start' to start session.\e[0m\n"
+	;;
+reset)
+	>$template
+	start_pairing
+	;;
+show)
+	awk NF $template
+	;;
+add)
+	echo $2 >>$coauthors
+	echo "Added $2 to $coauthors"
+	;;
+*)
+	echo "coauth: $1: No such command"
+	;;
+esac
