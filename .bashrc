@@ -11,7 +11,7 @@ export NOTES="$REPOS/$GH_USER/notes"
 # aliases
 alias ll="ls -lhA"
 alias ls="ls --color=auto"
-alias me="cd $REPOS/$GH_NAME"
+alias me="cd $REPOS/$GH_USER"
 alias run="docker run -it --rm"
 
 # enable bash completion in interactive shells
@@ -43,7 +43,7 @@ prompt () {
     fi
   fi
 
-  PS1="$c\u$e$bbl@$e$c\h$e $b\W$e$branch$bw\$$e "
+  PS1="$VIRTUAL_ENV_PROMPT$c\u$e$bbl@$e$c\h$e $b\W$e$branch$bw\$$e "
 }
 
 export PROMPT_COMMAND="prompt"
