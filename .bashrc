@@ -1,12 +1,12 @@
 # environment variables
 export CONFIG="$HOME/.config"
-export DOTFILES="$REPOS/$GH_USER/dotfiles"
 export EDITOR=vi
 export GH_USER="Aadam-Ali"
 export HOSTNAME=$(hostname)
-export NOTES="$REPOS/$GH_USER/notes"
 export REPOS="$HOME/Repos"
+export DOTFILES="$REPOS/$GH_USER/dotfiles"
 export SCRIPTS="$DOTFILES/scripts"
+export NOTES="$REPOS/$GH_USER/notes"
 
 # aliases
 alias ll="ls -lhA"
