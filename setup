@@ -13,3 +13,7 @@ ln -sf "$PWD/.bashrc" "$HOME/.bashrc"
 ln -sf "$PWD/.gitconfig" "$HOME/.gitconfig"
 
 ln -nsf "$PWD/scripts" "$HOME/Scripts"
+
+ln -sf "$PWD/.vimrc" "$HOME/.vimrc"
+
+ln -sf "$PWD/.tmux.conf" "$HOME/.tmux.conf"
