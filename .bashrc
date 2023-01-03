@@ -39,11 +39,11 @@ prompt () {
   if [[ $branch ]]; then
     branch="$bbl:$e$p$branch$e"
     if [[ $changes ]]; then
-      branch="$branch$r•$e"
+      branch="$branch$r*$e"
     fi
   fi
 
-  PS1="$VIRTUAL_ENV_PROMPT$c\u$e$bbl@$e$c\h$e $b\W$e$branch$bw\$$e "
+  PS1="$VIRTUAL_ENV_PROMPT$c\u$e$bbl@$e$c\h$e$bbl|$e$b\W$e$branch$bw\$$e "
 }
 
 export PROMPT_COMMAND="prompt"
