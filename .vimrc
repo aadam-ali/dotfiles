@@ -1,8 +1,6 @@
 set number
 set ruler
 
-set conceallevel=2
-
 set expandtab
 set shiftwidth=2
 set smarttab

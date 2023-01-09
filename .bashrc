@@ -37,13 +37,14 @@ prompt () {
   branch=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
 
   if [[ $branch ]]; then
-    branch="$bbl:$e$p$branch$e"
     if [[ $changes ]]; then
-      branch="$branch$r*$e"
+      branch=" $br*$e$bp($branch)$e"
+    else
+      branch=" $bp($branch)$e"
     fi
   fi
 
-  PS1="$VIRTUAL_ENV_PROMPT$c\u$e$bbl@$e$c\h$e$bbl|$e$b\W$e$branch$bw\$$e "
+  PS1="$bw$VIRTUAL_ENV_PROMPT$e$bc\W$e$branch\$ "
 }
 
 export PROMPT_COMMAND="prompt"
