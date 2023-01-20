@@ -35,6 +35,7 @@ bc='\[\e[1;36m\]' bw='\[\e[1;37m\]'
 prompt () {
   changes=$(git status -su 2>/dev/null)  
   branch=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+  venv=""
 
   if [[ $branch ]]; then
     if [[ $changes ]]; then
@@ -44,7 +45,11 @@ prompt () {
     fi
   fi
 
-  PS1="$bw$VIRTUAL_ENV_PROMPT$e$bc\W$e$branch\$ "
+  if [[ $VIRTUAL_ENV ]]; then
+    venv="(${VIRTUAL_ENV##*/}) "
+  fi
+
+  PS1="$bw$venv$e$bc\W$e$branch\$ "
 }
 
 export PROMPT_COMMAND="prompt"
