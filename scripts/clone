@@ -2,12 +2,12 @@
 
 repo=$1
 
-repo=${repo#https://github.com/}
-repo=${repo#git@github.com:}
+repo="${repo#https://github.com/}"
+repo="${repo#git@github.com:}"
 
-repo_name=${repo##*/}
-repo_name=${repo_name%'.git'}
+repo_name="${repo##*/}"
+repo_name="${repo_name%'.git'}"
 user=${repo%%/*}
 
 path="$REPOS/$user/$repo_name"
-git clone $1 $path
+git clone "$1" "${path}"

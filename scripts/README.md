@@ -7,4 +7,4 @@ utilise throughout my daily workflow. Use at your own discretion.
 | ------------------ | --------------------------------------------------------- |
 | [clone](./clone)   | Clone repos following a common directory pattern          |
 | [coauth](./coauth) | Set coauthors to use in commit messages (only for GitHub) |
-| [zet](./zet)       | My notes manager (loosely based on Zettelkasten)          |
+| [nb](./nb)         | My notes manager (loosely based on Zettelkasten)          |
