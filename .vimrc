@@ -18,4 +18,4 @@ filetype on
 filetype plugin on
 syntax on
 
-nmap <C-l> :r!zet l<CR>
+nmap <C-l> :r!nb link<CR>

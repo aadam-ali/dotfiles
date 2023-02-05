@@ -1,50 +1,106 @@
 #!/usr/bin/env bash
+config_dir="${HOME}/.config/coauth"
 
-[[ -d "$CONFIG/coauth" ]] || mkdir $CONFIG/coauth
+coauthors="${config_dir}/coauthors"
+template="${config_dir}/git-template"
 
-coauthors="$CONFIG/coauth/coauthors.txt"
-template="$CONFIG/coauth/git-template"
+if [[ ! -d "${config_dir}" ]]; then
+  mkdir -p "${config_dir}"
+  > "${coauthors}"
+  > "${template}"
+fi
 
-command=$1
+[[ ! -f "${coauthors}" ]] && > "${coauthors}"
+[[ ! -f "${template}" ]] && > "${template}"
 
-start_pairing() {
-	git config --global commit.template $template
-	echo -e "\n" >>$template
-	while true; do
-		author="$(cat $coauthors | fzy)"
+command="$1"
 
-		if [[ $author != "" ]]; then
-			echo "Co-authored-by: $author" >>$template
-			echo "Added co-author: $author"
-		else
-			printf "\e[32mPairing mode enabled.\e[0m\n"
-			echo "Run 'coauth stop' to end session. Run 'coauth reset' to change co-authors"
-			break
-		fi
-	done
+help () {
+  echo "Usage: coauth <subcommand>"
+  echo
+  echo "  help    Print this help"
+  echo "  add     Add a new coauthor to the coauthors file"
+  echo "  end     End a pairing session"
+  echo "  list    List all available coauthors"
+  echo "  reset   Runs start"
+  echo "  show    Shows the current coauthors"
+  echo "  start   Start a pairing session"
 }
 
-case $1 in
-start)
-	start_pairing
-	;;
-stop)
-	>$template
-	git config --global --unset commit.template
-	printf "\e[31mPairing mode disabled. Run 'coauth start' to start session.\e[0m\n"
-	;;
-reset)
-	>$template
-	start_pairing
-	;;
-show)
-	awk NF $template
-	;;
-add)
-	echo $2 >>$coauthors
-	echo "Added $2 to $coauthors"
-	;;
-*)
-	echo "coauth: $1: No such command"
-	;;
+command_not_found () {
+  echo "coauth: unexpected command '$1'" 1>&2
+  echo "Try 'coauth help' for more information"
+}
+
+add () {
+  if [[ "$1" ]]; then
+    echo "$1" >> "${coauthors}"
+    echo "Added $1 to ${coauthors}"
+  else
+    echo "Usage: coauth add <tag>"
+  fi
+}
+
+end () {
+  > "${template}"
+  git config --global --unset commit.template
+  printf "\e[31mPairing mode disabled. Run 'coauth start' to start session.\e[0m\n"
+}
+
+list () {
+  awk NF "${coauthors}"
+}
+
+reset () {
+  start
+}
+
+show () {
+  awk NF "${template}"
+}
+
+start () {
+  git config --global commit.template "${template}"
+
+  echo -e "\n" > "${template}"
+  while true; do
+    author="$(cat "${coauthors}" | fzy)"
+
+    if [[ "${author}" ]]; then
+        echo "Co-authored-by: ${author}" >> "${template}"
+        echo "Added co-author: ${author}"
+    else
+        printf "\e[32mPairing mode enabled.\e[0m\n"
+        echo "Run 'coauth stop' to end session. Run 'coauth reset' to change co-authors"
+        break
+    fi
+  done
+}
+
+case "$1" in
+  "" | "help")
+    help
+    ;;
+  "add")
+    shift
+    add "$@"
+    ;;
+  "end")
+    end
+    ;;
+  "list")
+    list
+    ;;
+  "reset")
+    reset
+    ;;
+  "show")
+    show
+    ;;
+  "start")
+    start
+    ;;
+  *)
+    command_not_found "$@"
+    ;;
 esac

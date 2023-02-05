@@ -1,24 +1,24 @@
 # environment variables
-export CONFIG="$HOME/.config"
+export CONFIG="${HOME}/.config"
 export EDITOR=vi
 export GH_USER="Aadam-Ali"
-export HOSTNAME=$(hostname)
-export REPOS="$HOME/Repos"
-export DOTFILES="$REPOS/$GH_USER/dotfiles"
-export SCRIPTS="$DOTFILES/scripts"
-export NOTES="$REPOS/$GH_USER/notes"
+export HOSTNAME="$(hostname)"
+export REPOS="${HOME}/Repos"
+export DOTFILES="${REPOS}/${GH_USER}/dotfiles"
+export SCRIPTS="${DOTFILES}/scripts"
+export NOTES="${REPOS}/${GH_USER}/notes"
 
 # aliases
 alias ll="ls -lhA"
 alias ls="ls --color=auto"
-alias me="cd $REPOS/$GH_USER"
+alias me="cd ${REPOS}/${GH_USER}"
 alias run="docker run -it --rm"
 
 # enable bash completion in interactive shells
 if ! shopt -oq posix; then
-  if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+  if [[ -f "/usr/share/bash-completion/bash_completion" ]]; then
     . /usr/share/bash-completion/bash_completion
-  elif [[ -f /etc/bash_completion ]]; then
+  elif [[ -f "/etc/bash_completion" ]]; then
     . /etc/bash_completion
   fi
 fi
@@ -33,29 +33,29 @@ by='\[\e[1;33m\]' bb='\[\e[1;34m\]' bp='\[\e[1;35m\]' \
 bc='\[\e[1;36m\]' bw='\[\e[1;37m\]' 
 
 prompt () {
-  changes=$(git status -su 2>/dev/null)  
-  branch=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+  changes="$(git status -su 2>/dev/null)"  
+  branch="$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
   venv=""
 
-  if [[ $branch ]]; then
-    if [[ $changes ]]; then
-      branch=" $br*$e$bp($branch)$e"
+  if [[ "${branch}" ]]; then
+    if [[ "${changes}" ]]; then
+      branch="[${r}${branch}${e}]"
     else
-      branch=" $bp($branch)$e"
+      branch="[${g}${branch}${e}]"
     fi
   fi
 
-  if [[ $VIRTUAL_ENV ]]; then
-    venv="(${VIRTUAL_ENV##*/}) "
+  if [[ "${VIRTUAL_ENV}" ]]; then
+    venv="[${VIRTUAL_ENV##*/}]"
   fi
 
-  PS1="$bw$venv$e$bc\W$e$branch\$ "
+  PS1="${venv}[${c}\u@\h \W${e}]${branch}\$ "
 }
 
 export PROMPT_COMMAND="prompt"
 
 # WSL2 specific settings
-if [[ $(uname -r) =~ "microsoft" ]]; then
+if [[ "$(uname -r)" =~ "microsoft" ]]; then
   /usr/bin/keychain -q --nogui $HOME/.ssh/github
-  source $HOME/.keychain/$HOSTNAME-sh
+  source "${HOME}/.keychain/${HOSTNAME}-sh"
 fi

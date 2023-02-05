@@ -1,0 +1,168 @@
+#!/usr/bin/env bash
+
+config_dir="${HOME}/.config/nb"
+active_file="${config_dir}/active"
+
+[[ -z "${NOTES}" ]] && NOTES="~/Notes"
+
+if [[ ! -d "${config_dir}" ]]; then
+  mkdir -p "${config_dir}"
+  echo "default" > "${active_file}"
+  mkdir -p "${NOTES}/default"
+fi
+
+if [[ -f "${active_file}" || "$(cat ${active_file})" == "" ]]; then
+  active_nb_name="$(cat "${active_file}")"
+else
+  active_nb_name="default"
+  mkdir -p "${NOTES}/${active_nb}"
+fi
+
+active_nb="${NOTES}/${active_nb_name}"
+cd "${active_nb}"
+
+help () {
+  echo "Usage: nb <subcommand>"
+  echo
+  echo "  help    Print this help"
+  echo "  edit    Edit a note"
+  echo "  gen     Generates READMEs for GitHub navigation"
+  echo "  link    Link a note to another"
+  echo "  new     Create a new item of the specified type"
+  echo "  read    Read note"
+  echo "  select  Select a workspace"
+}
+
+command_not_found () {
+  echo "nb: unexpected command '$1'" 1>&2
+  echo "Try 'nb help' for more information"
+}
+
+new_book () {
+  [[ "$1" == "" ]] && echo "Usage: nb new book <name>" && exit 1
+
+  mkdir "${NOTES}/$1"
+  echo "$1" > "${active_file}"
+}
+
+new_note () {
+  datetime=$(date +%Y%m%d%H%M%S)
+
+  mkdir -p "${active_nb}/${datetime}"
+  file="${active_nb}/${datetime}/README.md"
+
+  echo "# $@" > "${file}"
+  ${EDITOR} ${file}
+}
+
+new () {
+  case "$1" in
+    "note")
+      shift
+      new_note "$@"
+      ;;
+    "book")
+      shift
+      new_book "$@"
+      ;;
+    *)
+      command_not_found "$@"
+      ;;
+  esac
+}
+
+select_nb () {
+  cd "${NOTES}"
+  nb=$(for nb in $(ls -d */); do echo ${nb%%/}; done | fzy)
+  echo "${nb}" > "${active_file}"
+}
+
+list_notes () {
+  cd "${NOTES}"
+  grep --max-count=1 -H "# " ./**/**/*.md |
+  sed -e "s/README.md//g" -e "s/\.\///g" -e "s/\/:# /: /g"
+}
+
+select_note () {
+  list_notes | fzy
+}
+
+list_notes_for_nb () {
+  grep --max-count=1 -H "# " ./**/*.md |
+  sed -e "s/README.md//g" -e "s/\.\///g" -e "s/\/:# /: /g"
+}
+
+select_note_from_nb () {
+  list_notes_for_nb | fzy
+}
+
+edit_note () {
+  ${EDITOR} $(select_note_from_nb | awk -F ": " '{print $1"/README.md"}')
+}
+
+read_note () {
+  less -i $(select_note_from_nb | awk -F ": " '{print $1"/README.md"}')
+}
+
+link_note () {
+  select_note | awk -F ": " '{print "* ["$1"](/"$1"/) "$2}'
+}
+
+generate_readme () {
+  nb_notes="$(list_notes_for_nb)"
+  > "${NOTES}/README.md"
+  echo "# Notes" >> "${NOTES}/README.md"
+  echo >> "${NOTES}/README.md"
+
+  for nb in $(cd "${NOTES}"; ls -d */); do
+    cd "${NOTES}/${nb}"
+
+    echo "* [${nb%%/}](/${nb})" >> "${NOTES}/README.md"
+
+    > "README.md"
+    echo "# ${active_nb_name}" > "README.md"
+    echo >> "README.md"
+    for note in "${nb_notes}"; do
+      echo "$(echo "${note}" |
+      awk -F ": " '{print "* ["$1"](//"$1"/) "$2}'|
+      sed "s/(\//(\/${active_nb_name}/g")" >> "README.md"
+    done
+  done
+}
+
+case "$1" in
+  "" | "h" | "help")
+    help
+    ;;
+  "e" | "edit")
+    edit_note
+    ;;
+  "g" | "gen")
+    generate_readme
+    ;;
+  "l" | "link")
+    link_note
+    ;;
+  "n" | "new")
+    shift
+    new "$@"
+    ;;
+  "r" | "read")
+    read_note
+    ;;
+  "s" | "select")
+    select_nb
+    ;;
+  "shw")
+    echo "${active_nb_name}"
+    ;;
+  "sw")
+    select_note_from_nb
+    ;;
+  "sa")
+    select_note
+    ;;
+  *)
+    command_not_found "$@"
+    ;;
+esac
