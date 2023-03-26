@@ -11,6 +11,7 @@ export NOTES="${REPOS}/${GH_USER}/notes"
 # aliases
 alias ll="ls -lhA"
 alias ls="ls --color=auto"
+alias grep="grep --color=auto"
 alias me="cd ${REPOS}/${GH_USER}"
 alias run="docker run -it --rm"
 
@@ -33,23 +34,34 @@ by='\[\e[1;33m\]' bb='\[\e[1;34m\]' bp='\[\e[1;35m\]' \
 bc='\[\e[1;36m\]' bw='\[\e[1;37m\]' 
 
 prompt () {
-  changes="$(git status -su 2>/dev/null)"  
-  branch="$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
-  venv=""
+  local fbranch venv dir="${PWD##*/}"
+
+  branch="$(git branch --show-current 2>/dev/null)"
+  changes="$(git status -su 2>/dev/null)"
+
+  [[ "${PWD}" == "${HOME}" ]] && dir="~"
 
   if [[ "${branch}" ]]; then
     if [[ "${changes}" ]]; then
-      branch="[${r}${branch}${e}]"
+      fbranch="(${r}${branch}${e})"
     else
-      branch="[${g}${branch}${e}]"
+      fbranch="(${g}${branch}${e})"
     fi
+    branch="(${branch})"
   fi
 
   if [[ "${VIRTUAL_ENV}" ]]; then
-    venv="[${VIRTUAL_ENV##*/}]"
+    venv="(${VIRTUAL_ENV##*/}) "
   fi
 
-  PS1="${venv}[${c}\u@\h \W${e}]${branch}\$ "
+  wrap_length=$(( $COLUMNS / 2 ))
+
+  length="${venv}${USER}@$(hostname):${dir}${branch}$ "
+  if [[ ${#length} < ${wrap_length} ]]; then
+    PS1="${venv}${bg}\u@\h${e}:${bb}\W${e}${fbranch}\$ "
+  else
+    PS1="${venv}${bg}\u@\h${e}:${bb}\W${e}${fbranch}\n\$ "
+  fi
 }
 
 export PROMPT_COMMAND="prompt"
