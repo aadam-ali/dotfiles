@@ -34,7 +34,7 @@ by='\[\e[1;33m\]' bb='\[\e[1;34m\]' bp='\[\e[1;35m\]' \
 bc='\[\e[1;36m\]' bw='\[\e[1;37m\]' 
 
 prompt () {
-  local fbranch venv dir="${PWD##*/}"
+  local fbranch venv
 
   branch="$(git branch --show-current 2>/dev/null)"
   changes="$(git status -su 2>/dev/null)"
@@ -56,18 +56,12 @@ prompt () {
 
   wrap_length=$(( $COLUMNS / 2 ))
 
-  length="${venv}${USER}@$(hostname):${dir}${branch}$ "
+  length="${venv}${USER}@$(hostname):${PWD}${branch}$ "
   if [[ ${#length} < ${wrap_length} ]]; then
-    PS1="${venv}${bg}\u@\h${e}:${bb}\W${e}${fbranch}\$ "
+    PS1="${venv}${bg}\u@\h${e}:${bb}\w${e}${fbranch}\$ "
   else
-    PS1="${venv}${bg}\u@\h${e}:${bb}\W${e}${fbranch}\n\$ "
+    PS1="${venv}${bg}\u@\h${e}:${bb}\w${e}${fbranch}\n\$ "
   fi
 }
 
 export PROMPT_COMMAND="prompt"
-
-# WSL2 specific settings
-if [[ "$(uname -r)" =~ "microsoft" ]]; then
-  /usr/bin/keychain -q --nogui $HOME/.ssh/github
-  source "${HOME}/.keychain/${HOSTNAME}-sh"
-fi

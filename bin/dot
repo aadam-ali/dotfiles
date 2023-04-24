@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-cd $HOME/Repos/Aadam-Ali/dotfiles
+if [[ -d $HOME/Repos/Aadam-Ali/dotfiles ]]; then
+  cd $HOME/Repos/Aadam-Ali/dotfiles
+else
+  mkdir -P $HOME/Repos/Aadam-Ali
+  git clone git@github.com:Aadam-Ali/dotfiles $HOME/Repos/Aadam-Ali/dotfiles
+  cd $HOME/Repos/Aadam-Ali/dotfiles
+fi
 
 ln -sf "$PWD/.profile" "$HOME/.profile"
 
