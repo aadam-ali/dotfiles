@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+cd $HOME/Repos/Aadam-Ali/dotfiles
+
 ln -sf "$PWD/.profile" "$HOME/.profile"
 
 if [[ ! -f $HOME/.bash_local ]]; then
@@ -12,7 +14,7 @@ ln -sf "$PWD/.bashrc" "$HOME/.bashrc"
 
 ln -sf "$PWD/.gitconfig" "$HOME/.gitconfig"
 
-ln -nsf "$PWD/scripts" "$HOME/Scripts"
+ln -nsf "$PWD/bin" "$HOME/Scripts"
 
 ln -sf "$PWD/.vimrc" "$HOME/.vimrc"
 
