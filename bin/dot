@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
+set -e
+
 export OS=$(uname)
 
-if [[ ${OS} == "Linux" ]]; then
+if [[ ${OS} == "Linux" ]] && [[ ! $(which ansible) ]]; then
   sudo apt-get update -y && sudo apt-get upgrade -y
-  sudo apt-get install -y ansible
-elif [[ ${OS} == "Darwin" ]]; then
+  sudo apt-get install -y ansible git
+elif [[ ${OS} == "Darwin" ]] && [[ ! $(which ansible) ]]; then
   if [[ ! $(which brew) ]]; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
@@ -13,20 +15,24 @@ elif [[ ${OS} == "Darwin" ]]; then
 fi
 
 if [[ ! -f $HOME/.ssh/id_rsa ]]; then
-  mkdir -P $HOME/.ssh
+  mkdir -p $HOME/.ssh
   ssh-keygen -f $HOME/.ssh/id_rsa -N ''
   echo "========== Add the following key to GitHub (Before Cloning Dotfiles) =========="
   cat $HOME/.ssh/id_rsa.pub
   echo "==============================================================================="
-  read -p "Press enter to continue ..."
+  read -r -p "Press enter to continue ..." key_press </dev/tty
 fi
 
 if [[ ! -d $HOME/Repos/Aadam-Ali/dotfiles ]]; then
-  mkdir -P $HOME/Repos/Aadam-Ali
+  mkdir -p $HOME/Repos/Aadam-Ali
   git clone git@github.com:Aadam-Ali/dotfiles $HOME/Repos/Aadam-Ali/dotfiles
+  cd $HOME/Repos/Aadam-Ali/dotfiles
+else
+  cd $HOME/Repos/Aadam-Ali/dotfiles
+  git stash -q
+  git pull
+  git stash pop -q || true
 fi
-
-cd $HOME/Repos/Aadam-Ali/dotfiles
 
 ln -sf "$PWD/.profile" "$HOME/.profile"
 

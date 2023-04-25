@@ -10,9 +10,11 @@ configured for my setup(s).
 
 ### Setup
 
-To up these dotfiles simple run:
+To set up these dotfiles simple run:
 ```bash
-$ git clone https://github.com/Aadam-Ali/dotfiles
-$ cd dotfiles
-$ ./setup 
+bash <(curl -s https://raw.githubusercontent.com/Aadam-Ali/dotfiles/main/bin/dot)
+```
+OR
+```bash
+bash <(wget -qO- https://raw.githubusercontent.com/Aadam-Ali/dotfiles/main/bin/dot)
 ```

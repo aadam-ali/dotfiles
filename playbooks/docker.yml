@@ -6,9 +6,9 @@
     state: stopped 
   become: true
 
-- name: Adding 'aadam' To Docker Group
+- name: "Adding '{{ ansible_user_id }}' To Docker Group"
   ansible.builtin.user:
-    name: aadam
+    name: "{{ ansible_user_id }}"
     groups: docker
     append: true
   become: true

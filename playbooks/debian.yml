@@ -60,5 +60,5 @@
       - vim
       - virtualbox-7.0
     state: latest 
-    update_cache: yes
   become: true
+
