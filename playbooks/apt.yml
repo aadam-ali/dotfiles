@@ -1,0 +1,64 @@
+---
+# Add GPG keys for apt repositories
+- name: Retrieving GPG Key For Hashicorp Apt Repository
+  ansible.builtin.get_url:
+    url: https://apt.releases.hashicorp.com/gpg
+    dest: /usr/share/keyrings/hashicorp-archive-keyring.asc 
+  become: true
+
+- name: Retrieving GPG Key For Virtualbox Apt Repository
+  ansible.builtin.get_url:
+    url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
+    dest: /usr/share/keyrings/oracle_vbox_2016.asc
+  become: true
+
+- name: Retrieving GPG Key For VSCode Apt Repository
+  ansible.builtin.get_url:
+    url: https://packages.microsoft.com/keys/microsoft.asc 
+    dest: /usr/share/keyrings/microsoft.asc
+  become: true
+
+# Add apt repositories to sources.list.d/
+- name: Adding Hashicorp Apt Repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.asc] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+    state: present
+  become: true
+
+- name: Adding Virtualbox Apt Repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle_vbox_2016.asc] https://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release }} contrib"
+    state: present
+  become: true
+
+- name: Adding VSCode Apt Repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/microsoft.asc] https://packages.microsoft.com/repos/code stable main"
+    filename: vscode
+    state: present
+  become: true
+
+# Updating all packages and install any specific packages
+- name: Updating Apt Packages
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+    autoremove: true
+    update_cache: true
+  become: true
+
+- name: Installing Packages With Apt
+  ansible.builtin.apt:
+    name:
+      - code
+      - docker.io
+      - fzy
+      - htop
+      - python3-venv
+      - tmux
+      - vagrant
+      - vim
+      - virtualbox-7.0
+    state: latest 
+    update_cache: yes
+  become: true

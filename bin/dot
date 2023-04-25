@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+export OS=$(uname)
+
+if [[ ${OS} == "Linux" ]]; then
+  sudo apt-get update -y && sudo apt-get upgrade -y
+  sudo apt-get install -y ansible
+elif [[ ${OS} == "Darwin" ]]; then
+  if [[ ! $(which brew) ]]; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
+  brew install -q ansible
+fi
+
+if [[ ! -f $HOME/.ssh/id_rsa ]]; then
+  mkdir -P $HOME/.ssh
+  ssh-keygen -f $HOME/.ssh/id_rsa -N ''
+  echo "========== Add the following key to GitHub (Before Cloning Dotfiles) =========="
+  cat $HOME/.ssh/id_rsa.pub
+  echo "==============================================================================="
+  read -p "Press enter to continue ..."
+fi
+
+if [[ ! -d $HOME/Repos/Aadam-Ali/dotfiles ]]; then
+  mkdir -P $HOME/Repos/Aadam-Ali
+  git clone git@github.com:Aadam-Ali/dotfiles $HOME/Repos/Aadam-Ali/dotfiles
+fi
+
+cd $HOME/Repos/Aadam-Ali/dotfiles
+
+ln -sf "$PWD/.profile" "$HOME/.profile"
+
+if [[ ! -f $HOME/.bash_local ]]; then
+    touch $HOME/.bash_local
+    echo "# A file to to enter local environemnt variables and aliases" >> $HOME/.bash_local
+fi
+
+ln -sf "$PWD/.bashrc" "$HOME/.bashrc"
+. $HOME/.bashrc
+
+ln -sf "$PWD/.gitconfig" "$HOME/.gitconfig"
+
+ln -nsf "$PWD/bin" "$HOME/Scripts"
+
+ln -sf "$PWD/.vimrc" "$HOME/.vimrc"
+
+ln -sf "$PWD/.tmux.conf" "$HOME/.tmux.conf"
+
+ansible-playbook --diff -v -K -i playbooks/hosts playbooks/playbook.yml

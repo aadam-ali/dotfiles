@@ -1,0 +1,14 @@
+---
+# Enable Docker service and add account to Docker group
+- name: Enabling Docker
+  ansible.builtin.systemd:
+    name: docker
+    state: stopped 
+  become: true
+
+- name: Adding 'aadam' To Docker Group
+  ansible.builtin.user:
+    name: aadam
+    groups: docker
+    append: true
+  become: true

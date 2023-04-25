@@ -1,0 +1,27 @@
+---
+- name: Bootstrapping New Machine
+  hosts: local
+  connection: local
+
+  tasks:
+  - name: Add GPG Keys For apt Repositories and Update Packages
+    ansible.builtin.import_tasks: 
+      file: apt.yml
+    when:
+      - ansible_facts['distribution'] in ['Ubuntu', 'Debian']
+
+  - name: Run Bootstrapping Commands for MacOS
+    ansible.builtin.import_tasks:
+      file: mac.yml
+    when:
+      - ansible_facts['distribution'] == 'MacOSX'
+
+  - name: Setup Docker
+    ansible.builtin.import_tasks:
+      file: docker.yml
+    when:
+      - ansible_facts['distribution'] in ['Ubuntu', 'Debian']
+
+  - name: Pull Tooling Repositories
+    ansible.builtin.import_tasks:
+      file: repos.yml
