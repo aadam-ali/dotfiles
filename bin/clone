@@ -9,5 +9,9 @@ repo_name="${repo##*/}"
 repo_name="${repo_name%'.git'}"
 user=${repo%%/*}
 
+if ! echo "$GH_USER $ORG" | grep -qw "${user}"; then
+  user="tools";
+fi
+
 path="$REPOS/$user/$repo_name"
 git clone "$1" "${path}"

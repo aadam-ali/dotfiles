@@ -22,3 +22,6 @@
     when:
       - ansible_facts['os_family'] == 'Debian'
 
+  - name: Clone Tooling Repos
+    ansible.builtin.import_tasks:
+      file: repos.yml

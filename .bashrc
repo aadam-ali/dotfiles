@@ -4,6 +4,7 @@ export EDITOR=vi
 export GH_USER="Aadam-Ali"
 export HOSTNAME="$(hostname)"
 export REPOS="${HOME}/Repos"
+export TOOLS="${REPOS}/tools"
 export DOTFILES="${REPOS}/${GH_USER}/dotfiles"
 export SCRIPTS="${DOTFILES}/scripts"
 export NOTES="${REPOS}/${GH_USER}/notes"

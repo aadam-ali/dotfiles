@@ -1,0 +1,16 @@
+---
+- name: Cloning pyenv 
+  ansible.builtin.git:
+    repo: "git@github.com:pyenv/pyenv.git" 
+    dest: "{{ ansible_env['HOME'] }}/Repos/tools/pyenv"
+    depth: 1
+    clone: yes
+    update: yes
+
+- name: Cloning tfenv 
+  ansible.builtin.git:
+    repo: "git@github.com:tfutils/tfenv.git"
+    dest: "{{ ansible_env['HOME'] }}/Repos/tools/tfenv"
+    depth: 1
+    clone: yes
+    update: yes

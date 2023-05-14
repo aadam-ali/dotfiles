@@ -70,7 +70,27 @@
       - containerd.io
       - docker-compose-plugin
       - docker-buildx-plugin
-    state: latest
+    state: present
+  become: true
+
+- name: Installing Python Build Dependencies With Apt
+  ansible.builtin.apt:
+    name:
+      - build-essential
+      - libssl-dev
+      - zlib1g-dev
+      - libbz2-dev
+      - libreadline-dev
+      - libsqlite3-dev
+      - curl
+      - libncursesw5-dev
+      - xz-utils
+      - tk-dev
+      - libxml2-dev
+      - libxmlsec1-dev
+      - libffi-dev
+      - liblzma-dev
+    state: present
   become: true
 
 - name: Installing Packages With Apt
@@ -84,5 +104,5 @@
       - vagrant
       - vim
       - virtualbox-7.0
-    state: latest 
+    state: present
   become: true
