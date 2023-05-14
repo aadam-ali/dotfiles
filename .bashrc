@@ -20,14 +20,20 @@ alias run="docker run -it --rm"
 prefix_path() {
   for dir in $@; do
     test -d $dir || continue
-    [[ ":$PATH:" =~ ":$dir:" ]] || export PATH="$dir:$PATH"
+    PATH=${PATH/":$dir:"/:}
+    PATH=${PATH/#":$dir"/}
+    PATH=${PATH/%":$dir"/}
+    export PATH="$dir:$PATH"
   done
 } && export -f prefix_path
 
 suffix_path() {
-  for dir in $@; do
+  for dir in "$@"; do
     test -d $dir || continue
-    [[ ":$PATH:" =~ ":$dir:" ]] || export PATH="$PATH:$dir"
+    PATH=${PATH/":$dir:"/:}
+    PATH=${PATH/#":$dir"/}
+    PATH=${PATH/%":$dir"/}
+    export PATH="$PATH:$dir"
   done
 } && export -f suffix_path
 
@@ -37,9 +43,23 @@ export PYENV_ROOT="$TOOLS/pyenv"
 export TFENV_ROOT="$TOOLS/tfenv"
 
 prefix_path \
-  "$HOME/Scripts" \
+  "$HOME/.local/bin" \
+  "$HOME/bin" \
   "$PYENV_ROOT/bin" \
-  "$TFENV_ROOT/bin"
+  "$TFENV_ROOT/bin" \
+  "$HOME/Scripts"
+
+suffix_path \
+  /usr/local/opt/gnu-sed/libexec/gnubin \
+  /usr/local/bin \
+  /usr/local/sbin \
+  /usr/bin \
+  /usr/sbin \
+  /bin \
+  /sbin \
+  /usr/games \
+  /usr/local/games \
+  /snap/bin
 
 # enable bash completion in interactive shells
 if ! shopt -oq posix; then
