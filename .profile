@@ -17,8 +17,3 @@ fi
 if [[ -d "$HOME/.local/bin" ]]; then
     PATH="$HOME/.local/bin:$PATH"
 fi
-
-# add scripts to PATH
-if [[ -d "$HOME/Scripts" ]]; then
-  export PATH="$HOME/Scripts:$PATH"
-fi

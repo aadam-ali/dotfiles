@@ -16,6 +16,31 @@ alias grep="grep --color=auto"
 alias me="cd ${REPOS}/${GH_USER}"
 alias run="docker run -it --rm"
 
+# path
+prefix_path() {
+  for dir in $@; do
+    test -d $dir || continue
+    [[ ":$PATH:" =~ ":$dir:" ]] || export PATH="$dir:$PATH"
+  done
+} && export -f prefix_path
+
+suffix_path() {
+  for dir in $@; do
+    test -d $dir || continue
+    [[ ":$PATH:" =~ ":$dir:" ]] || export PATH="$PATH:$dir"
+  done
+} && export -f suffix_path
+
+export PYENV_ROOT="$TOOLS/pyenv"
+[[ -d $PYENV_ROOT ]] && eval "$(pyenv init -)"
+
+export TFENV_ROOT="$TOOLS/tfenv"
+
+prefix_path \
+  "$HOME/Scripts" \
+  "$PYENV_ROOT/bin" \
+  "$TFENV_ROOT/bin"
+
 # enable bash completion in interactive shells
 if ! shopt -oq posix; then
   if [[ -f "/usr/share/bash-completion/bash_completion" ]]; then
