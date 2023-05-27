@@ -3,7 +3,7 @@
 - name: Retrieving GPG Key For Hashicorp Apt Repository
   ansible.builtin.get_url:
     url: https://apt.releases.hashicorp.com/gpg
-    dest: /usr/share/keyrings/hashicorp-archive-keyring.asc 
+    dest: /usr/share/keyrings/hashicorp-archive-keyring.asc
   become: true
 
 - name: Retrieving GPG Key For Virtualbox Apt Repository
@@ -14,7 +14,7 @@
 
 - name: Retrieving GPG Key For VSCode Apt Repository
   ansible.builtin.get_url:
-    url: https://packages.microsoft.com/keys/microsoft.asc 
+    url: https://packages.microsoft.com/keys/microsoft.asc
     dest: /usr/share/keyrings/microsoft.asc
   become: true
 

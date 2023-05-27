@@ -3,7 +3,7 @@
 - name: Enabling Docker
   ansible.builtin.systemd:
     name: docker
-    state: stopped 
+    state: stopped
   become: true
 
 - name: "Adding '{{ ansible_user_id }}' To Docker Group"
