@@ -18,13 +18,13 @@ command="$1"
 help () {
   echo "Usage: coauth <subcommand>"
   echo
-  echo "  help    Print this help"
-  echo "  add     Add a new coauthor to the coauthors file"
-  echo "  end     End a pairing session"
-  echo "  list    List all available coauthors"
-  echo "  reset   Runs start"
-  echo "  show    Shows the current coauthors"
-  echo "  start   Start a pairing session"
+  echo "  help       Print this help"
+  echo "  add        Add a new coauthor to the coauthors file"
+  echo "  stop       End a pairing session"
+  echo "  list       List all available coauthors"
+  echo "  restart    Restart the pairing session"
+  echo "  show       Shows the current coauthors"
+  echo "  start      Start a pairing session"
 }
 
 command_not_found () {
@@ -41,7 +41,7 @@ add () {
   fi
 }
 
-end () {
+stop () {
   > "${template}"
   git config --global --unset commit.template
   printf "\e[31mPairing mode disabled. Run 'coauth start' to start session.\e[0m\n"
@@ -51,7 +51,7 @@ list () {
   awk NF "${coauthors}"
 }
 
-reset () {
+restart () {
   start
 }
 
@@ -85,14 +85,14 @@ case "$1" in
     shift
     add "$@"
     ;;
-  "end")
-    end
+  "stop")
+    stop
     ;;
   "list")
     list
     ;;
-  "reset")
-    reset
+  "restart")
+    restart
     ;;
   "show")
     show

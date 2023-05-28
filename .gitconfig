@@ -6,3 +6,8 @@
 	editor = vim
 [init]
 	defaultBranch = main
+[user]
+	name = Aadam Ali
+	email = 57071686+Aadam-Ali@users.noreply.github.com
+[commit]
+	template = /home/aadam/.config/coauth/git-template
