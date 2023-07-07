@@ -37,7 +37,7 @@
 - name: Enable Docker
   ansible.builtin.systemd:
     name: docker
-    state: started 
+    state: started
   become: true
 
 - name: "Add '{{ ansible_user_id }}' To Docker Group"
@@ -47,10 +47,8 @@
     append: true
   become: true
 
-- name: Install Virtualisation Packages 
+- name: Install Virtualisation Packages
   ansible.builtin.apt:
     name: "{{ virtualisation_pkgs }}"
     state: present
   when: ansible_facts['virtualization_role'] != 'guest'
-
-

@@ -23,12 +23,7 @@
     name: "{{ casks }}"
     state: present
 
-- name: Install Virtualisation Packages 
-  community.general.homebrew_cask:
-    name: "{{ virtualisation_pkgs }}"
-    state: present
-
-- name: Install Virtualisation Tooling
+- name: Install Virtualisation Packages
   community.general.homebrew_cask:
     name: "{{ virtualisation_pkgs }}"
     state: present
