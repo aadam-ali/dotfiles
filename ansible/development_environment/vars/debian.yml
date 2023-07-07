@@ -1,0 +1,56 @@
+---
+pyenv_deps:
+  [
+    build-essential,
+    libssl-dev,
+    zlib1g-dev,
+    libbz2-dev,
+    libreadline-dev,
+    libsqlite3-dev,
+    curl,
+    libncursesw5-dev,
+    xz-utils,
+    tk-dev,
+    libxml2-dev,
+    libxmlsec1-dev,
+    libffi-dev,
+    liblzma-dev,
+  ]
+pkg_repos_keys:
+  [
+    {
+      url: https://apt.releases.hashicorp.com/gpg,
+      dest: /usr/share/keyrings/hashicorp.asc,
+    },
+    {
+      url: https://www.virtualbox.org/download/oracle_vbox_2016.asc,
+      dest: /usr/share/keyrings/oracle_vbox_2016.asc,
+    },
+    {
+      url: https://packages.microsoft.com/keys/microsoft.asc,
+      dest: /usr/share/keyrings/microsoft.asc,
+    },
+    {
+      url: "https://download.docker.com/linux/{{ ansible_distribution|lower }}/gpg",
+      dest: /usr/share/keyrings/docker.asc,
+    },
+  ]
+pkg_repos:
+  [
+    {
+      repo: "deb [signed-by=/usr/share/keyrings/hashicorp.asc] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main",
+      filename: hashicorp,
+    },
+    {
+      repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle_vbox_2016.asc] https://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release }} contrib",
+      filename: virtualbox,
+    },
+    {
+      repo: "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/microsoft.asc] https://packages.microsoft.com/repos/code stable main",
+      filename: vscode,
+    },
+    {
+      repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker.asc] https://download.docker.com/linux/{{ansible_distribution|lower }} {{ ansible_distribution_release }} stable",
+      filename: docker,
+    },
+  ]

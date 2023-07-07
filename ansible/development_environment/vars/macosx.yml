@@ -1,0 +1,5 @@
+---
+docker_pkgs: [colima, docker]
+casks: [aws-vault, visual-studio-code, firefox]
+os_pkgs: [gnu-sed, grep, coreutils]
+virtualisation_pkgs: [virtualbox, vagrant]

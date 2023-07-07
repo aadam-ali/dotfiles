@@ -8,6 +8,8 @@ export TOOLS="${REPOS}/tools"
 export DOTFILES="${REPOS}/${GH_USER}/dotfiles"
 export SCRIPTS="${DOTFILES}/scripts"
 export NOTES="${REPOS}/${GH_USER}/notes"
+export HISTSIZE=5000
+export HISTFILESIZE=10000
 
 # aliases
 alias ll="ls -lhA"
@@ -43,6 +45,7 @@ export PYENV_ROOT="$TOOLS/pyenv"
 export TFENV_ROOT="$TOOLS/tfenv"
 
 prefix_path \
+  "$HOME/go/bin" \
   "$HOME/.local/bin" \
   "$HOME/bin" \
   "$PYENV_ROOT/bin" \
@@ -50,7 +53,9 @@ prefix_path \
   "$HOME/Scripts"
 
 suffix_path \
+  /usr/local/opt/coreutils/libexec/gnubin \
   /usr/local/opt/gnu-sed/libexec/gnubin \
+  /usr/local/opt/grep/libexec/gnubin \
   /usr/local/bin \
   /usr/local/sbin \
   /usr/bin \

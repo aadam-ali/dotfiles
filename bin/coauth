@@ -28,8 +28,9 @@ help () {
 }
 
 command_not_found () {
-  echo "coauth: unexpected command '$1'" 1>&2
+  echo "coauth: unexpected command '$1'"
   echo "Try 'coauth help' for more information"
+  exit 1
 }
 
 add () {

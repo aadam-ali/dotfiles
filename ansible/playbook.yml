@@ -1,0 +1,7 @@
+---
+- name: Configure Development Environment
+  hosts: local
+  connection: local
+
+  roles:
+    - development_environment

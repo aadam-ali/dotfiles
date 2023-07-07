@@ -7,7 +7,6 @@ export OS=$(uname)
 if [[ ${OS} == "Linux" ]] && [[ ! $(which ansible) ]]; then
   sudo apt-get update -y && sudo apt-get upgrade -y
   sudo apt-get install software-properties-common git
-  sudo add-apt-repository --yes --update ppa:ansible/ansible
   sudo apt-get install -y ansible
 elif [[ ${OS} == "Darwin" ]] && [[ ! $(which ansible) ]]; then
   if [[ ! $(which brew) ]]; then
@@ -54,4 +53,4 @@ ln -sf "$PWD/.vimrc" "$HOME/.vimrc"
 
 ln -sf "$PWD/.tmux.conf" "$HOME/.tmux.conf"
 
-ansible-playbook --diff -v -K -i playbooks/hosts playbooks/playbook.yml
+ansible-playbook --diff -v -K -i ansible/hosts ansible/playbook.yml

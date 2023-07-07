@@ -1,0 +1,13 @@
+---
+- include_tasks: variables.yml
+
+- name: Setup Debian Based Distro
+  include_tasks: debian.yml
+  when: ansible_facts['os_family']|lower == 'debian'
+
+- name: Setup MacOS
+  include_tasks: macosx.yml
+  when: ansible_facts['distribution']|lower == 'macosx'
+
+- name: Run Common
+  include_tasks: common.yml

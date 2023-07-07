@@ -1,0 +1,9 @@
+---
+- name: Pull Repos
+  ansible.builtin.git:
+    repo: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    depth: 1
+    clone: yes
+    update: yes
+  loop: "{{ repositories }}"
