@@ -108,7 +108,7 @@ prompt () {
   wrap_length=$(( $COLUMNS / 2 ))
 
   length="${venv}${USER}@$(hostname):${PWD}${branch}$ "
-  if [[ ${#length} < ${wrap_length} ]]; then
+  if [[ ${#length} -lt ${wrap_length} ]]; then
     PS1="${venv}${bg}\u@\h${e}:${bb}\w${e}${fbranch}\$ "
   else
     PS1="${venv}${bg}\u@\h${e}:${bb}\w${e}${fbranch}\n\$ "
