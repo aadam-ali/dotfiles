@@ -76,7 +76,11 @@ select_note () {
 }
 
 list_notes_for_nb () {
-  cd "${active_nb}"
+  if [[ -n "${1}" ]]; then
+    cd "${NOTES}/${1}"
+  else
+    cd "${active_nb}"
+  fi
   grep --max-count=1 -H "# " **/*.md |
   sed -e "s/\/README.md:#/:/g"
 }
@@ -104,23 +108,24 @@ search_notes () {
 }
 
 generate_readme_files () {
-  nb_notes="$(list_notes_for_nb)"
   > "${NOTES}/README.md"
   echo "# Notes" >> "${NOTES}/README.md"
   echo >> "${NOTES}/README.md"
 
   for nb in $(cd "${NOTES}"; ls -d */); do
+    fmtd_nb=$(basename ${nb})
+    nb_notes="$(list_notes_for_nb ${fmtd_nb})"
     cd "${NOTES}/${nb}"
 
     echo "* [${nb%%/}](/${nb})" >> "${NOTES}/README.md"
 
     > "README.md"
-    echo "# ${active_nb_name}" > "README.md"
+    echo "# ${fmtd_nb}" > "README.md"
     echo >> "README.md"
     for note in "${nb_notes}"; do
       echo "$(echo "${note}" |
       awk -F ": " '{print "* ["$1"](//"$1"/) "$2}'|
-      sed "s/(\//(\/${active_nb_name}/g")" >> "README.md"
+      sed "s/(\//(\/${fmtd_nb}/g")" >> "README.md"
     done
   done
 }
@@ -151,7 +156,7 @@ case "$1" in
   "e" | "edit")
     edit_note
     ;;
-  "g" | "generate-readme-files")
+  "g" | "gen" | "generate-readme-files")
     generate_readme_files
     ;;
   "l" | "link")
