@@ -65,7 +65,7 @@ start () {
 
   echo -e "\n" > "${template}"
   while true; do
-    author="$(cat "${coauthors}" | fzy)"
+    author="$(cat "${coauthors}" | fzf)"
 
     if [[ "${author}" ]]; then
         echo "Co-authored-by: ${author}" >> "${template}"

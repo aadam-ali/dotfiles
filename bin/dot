@@ -45,12 +45,14 @@ fi
 ln -sf "$PWD/.bashrc" "$HOME/.bashrc"
 . $HOME/.bashrc
 
-ln -sf "$PWD/.gitconfig" "$HOME/.gitconfig"
+ln -sf "$DOTFILES/.gitconfig" "$HOME/.gitconfig"
 
-ln -nsf "$PWD/bin" "$HOME/Scripts"
+ln -nsf "$DOTFILES/bin" "$HOME/Scripts"
 
-ln -sf "$PWD/.vimrc" "$HOME/.vimrc"
+[[ ! -d $HOME/.vim/autoload ]] && mkdir -p $HOME/.vim/autoload
+ln -sf "$DOTFILES/vim/.vimrc" "$HOME/.vimrc"
+ln -sf "$DOTFILES/vim/autoload/plug.vim" "$HOME/.vim/autoload/plug.vim"
 
-ln -sf "$PWD/.tmux.conf" "$HOME/.tmux.conf"
+ln -sf "$DOTFILES/.tmux.conf" "$HOME/.tmux.conf"
 
 ansible-playbook --diff -v -K -i ansible/hosts ansible/playbook.yml

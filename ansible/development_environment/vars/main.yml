@@ -8,15 +8,7 @@ repositories:
     {
       src: git@github.com:tfutils/tfenv.git,
       dest: "{{ ansible_env['HOME'] }}/Repos/tools/tfenv",
-    },
-    {
-      src: git@github.com:vim-python/python-syntax.git,
-      dest: "{{ ansible_env['HOME'] }}/.vim/pack/plugins/start/python-syntax",
-    },
-    {
-      src: git@github.com:tomasiser/vim-code-dark.git,
-      dest: "{{ ansible_env['HOME'] }}/.vim/pack/themes/start/codedark",
-    },
+    }
   ]
 docker_pkgs:
   [
@@ -26,6 +18,6 @@ docker_pkgs:
     docker-compose-plugin,
     docker-buildx-plugin,
   ]
-common_pkgs: [vim, htop, tmux, jq]
-os_pkgs: [code]
-virtualisation_pkgs: [virtualbox-7.0, vagrant]
+common_pkgs: [vim, htop, tmux, jq, fzf]
+os_pkgs: [firefox]
+virtualisation_pkgs: [virtualbox-6.1, vagrant]

@@ -1,7 +1,14 @@
+call plug#begin()
+Plug 'tomasiser/vim-code-dark'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+call plug#end()
+
 "================ Keybinds ================"
 nmap <C-l> :r!nb link<CR>
 nmap <C-b> :Lexplore<CR>
-nmap <C-p> :call FzyCommand("find * -type f 2>&1", "git ls-files -co --exclude-standard", ":e")<cr>
+nmap <C-p> :call FzfCommand()<CR>
+nmap <C-f> :Rg<CR>
 "=========================================="
 
 
@@ -49,27 +56,18 @@ syntax on
 "================  Plugins ================"
 " netrw
 let g:netrw_winsize = 20
-
-" vim-python
-let g:python_highlight_all = 1
 "=========================================="
 
 
 "================ Functions ==============="
-function! FzyCommand(choice_command, git_choice_command, vim_command)
-  try
-    let output = system("git rev-parse")
-    if v:shell_error == 0
-      let output = system(a:git_choice_command . " | fzy ")
-    else
-      let output = system(a:choice_command . " | grep -Ev 'venv|.git' | fzy ")
-    endif
-  catch /Vim:Interrupt/
-    " Swallow errors from ^C, allow redraw! below
-  endtry
-  redraw!
-  if v:shell_error == 0 && !empty(output)
-    exec a:vim_command . ' ' . output
+function! FzfCommand()
+  let output = system("git rev-parse")
+  if v:shell_error == 0
+    let command = ':GFiles'
+  else
+    let command = ':Files'
   endif
+  redraw!
+  exec command
 endfunction
 "=========================================="

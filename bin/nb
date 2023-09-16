@@ -51,7 +51,7 @@ new_book () {
 }
 
 select_nb () {
-  nb="$(for nb in $(ls -d */); do echo ${nb%%/}; done | fzy)"
+  nb="$(for nb in $(ls -d */); do echo ${nb%%/}; done | fzf)"
   echo "${nb}" > "${active_file}"
 }
 
@@ -72,7 +72,7 @@ list_notes () {
 }
 
 select_note () {
-  list_notes | fzy
+  list_notes | fzf
 }
 
 list_notes_for_nb () {
@@ -94,7 +94,7 @@ read_note () {
 }
 
 select_note () {
-  list_notes | fzy
+  list_notes | fzf
 }
 
 link_note () {
@@ -104,7 +104,7 @@ link_note () {
 search_notes () {
   notes=$(grep -Rwi --include README.md "$@" **/**/* | sed -e 's/  //g' -e "s/\/README.md:/: /g")
   [[ -z "${notes}" ]] && exit 0
-  less -i $( echo "${notes}" | fzy | awk -F ": " '{print $1"/README.md"}')
+  less -i $( echo "${notes}" | fzf | awk -F ": " '{print $1"/README.md"}')
 }
 
 generate_readme_files () {
