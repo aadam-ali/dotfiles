@@ -52,3 +52,4 @@
     name: "{{ virtualisation_pkgs }}"
     state: present
   when: ansible_facts['virtualization_role'] != 'guest'
+  become: true
