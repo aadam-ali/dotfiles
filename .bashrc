@@ -40,7 +40,6 @@ suffix_path() {
 } && export -f suffix_path
 
 export PYENV_ROOT="$TOOLS/pyenv"
-[[ -d $PYENV_ROOT ]] && eval "$(pyenv init -)"
 
 export TFENV_ROOT="$TOOLS/tfenv"
 

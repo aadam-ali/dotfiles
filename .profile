@@ -7,3 +7,5 @@ fi
 if [[ -f $HOME/.bash_local ]]; then
   . $HOME/.bash_local
 fi
+
+[[ -d $PYENV_ROOT ]] && eval "$(pyenv init -)"
