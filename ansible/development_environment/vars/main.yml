@@ -18,6 +18,6 @@ docker_pkgs:
     docker-compose-plugin,
     docker-buildx-plugin,
   ]
-common_pkgs: [vim, htop, tmux, jq, fzf, ripgrep]
+common_pkgs: [vim, htop, tmux, jq, fzf, fzy, ripgrep]
 os_pkgs: [firefox]
 virtualisation_pkgs: [virtualbox-6.1, vagrant]

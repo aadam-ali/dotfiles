@@ -5,12 +5,10 @@ Plug 'junegunn/fzf.vim'
 call plug#end()
 
 "================ Keybinds ================"
-nmap <C-l> :r!nb link<CR>
 nmap <C-b> :Lexplore<CR>
 nmap <C-p> :call FzfCommand()<CR>
 nmap <C-f> :Rg<CR>
 "=========================================="
-
 
 "=============== Appearance ==============="
 set number
@@ -29,7 +27,6 @@ if (empty($TMUX))
   endif
 endif
 "=========================================="
-
 
 "============= Functionality =============="
 " Tabs
@@ -71,3 +68,23 @@ function! FzfCommand()
   exec command
 endfunction
 "=========================================="
+
+" NOTES
+if $NOTES != ""
+  map <space>no $F(gf
+  map <space>ni :edit $NOTES/README.md<CR>
+  map <space>nn :NewNote
+  map <space>nl :r!notes link<CR>
+
+  command! -nargs=* NewNote call NewNote(<f-args>)
+
+  func! NewNote(book, ...)
+    let l:dname = expand('$NOTES/') . a:book
+    call mkdir(l:dname, "p")
+
+    let l:fname = l:dname . '/' . strftime("%Y%m%d%H%M%S") . '.md'
+    call writefile(["# " . join(a:000, " ")], l:fname)
+
+    exec "edit " . l:fname
+  endfunc
+endif
