@@ -2,7 +2,7 @@
 
 set -e
 
-export OS=$(uname)
+OS=$(uname)
 
 if [[ ${OS} == "Linux" ]] && [[ ! $(which ansible) ]]; then
   sudo apt-get update -y && sudo apt-get upgrade -y
@@ -15,21 +15,21 @@ elif [[ ${OS} == "Darwin" ]] && [[ ! $(which ansible) ]]; then
   brew install -q ansible
 fi
 
-if [[ ! -f $HOME/.ssh/id_rsa ]]; then
-  mkdir -p $HOME/.ssh
-  ssh-keygen -f $HOME/.ssh/id_rsa -N ''
+if [[ ! -f "$HOME/.ssh/id_rsa" ]]; then
+  mkdir -p "$HOME/.ssh"
+  ssh-keygen -f "$HOME/.ssh/id_rsa" -N ''
   echo "========== Add the following key to GitHub (Before Cloning Dotfiles) =========="
-  cat $HOME/.ssh/id_rsa.pub
+  cat "$HOME/.ssh/id_rsa.pub"
   echo "==============================================================================="
-  read -r -p "Press enter to continue ..." key_press </dev/tty
+  read -r -p "Press enter to continue ..." </dev/tty
 fi
 
-if [[ ! -d $HOME/Repos/Aadam-Ali/dotfiles ]]; then
-  mkdir -p $HOME/Repos/Aadam-Ali
-  git clone git@github.com:Aadam-Ali/dotfiles $HOME/Repos/Aadam-Ali/dotfiles
-  cd $HOME/Repos/Aadam-Ali/dotfiles
+if [[ ! -d "$HOME/Repos/Aadam-Ali/dotfiles" ]]; then
+  mkdir -p "$HOME/Repos/Aadam-Ali"
+  git clone git@github.com:Aadam-Ali/dotfiles "$HOME/Repos/Aadam-Ali/dotfiles"
+  cd "$HOME/Repos/Aadam-Ali/dotfiles"
 else
-  cd $HOME/Repos/Aadam-Ali/dotfiles
+  cd "$HOME/Repos/Aadam-Ali/dotfiles"
   git stash -q
   git pull
   git stash pop -q || true
@@ -38,18 +38,18 @@ fi
 ln -sf "$PWD/.profile" "$HOME/.profile"
 
 if [[ ! -f $HOME/.bash_local ]]; then
-    touch $HOME/.bash_local
-    echo "# A file to to enter local environemnt variables and aliases" >> $HOME/.bash_local
+    touch "$HOME/.bash_local"
+    echo "# A file to to enter local environemnt variables and aliases" >> "$HOME/.bash_local"
 fi
 
 ln -sf "$PWD/.bashrc" "$HOME/.bashrc"
-. $HOME/.bashrc
+source "$HOME/.bashrc"
 
 ln -sf "$DOTFILES/.gitconfig" "$HOME/.gitconfig"
 
 ln -nsf "$DOTFILES/bin" "$HOME/Scripts"
 
-[[ ! -d $HOME/.vim/autoload ]] && mkdir -p $HOME/.vim/autoload
+[[ ! -d $HOME/.vim/autoload ]] && mkdir -p "$HOME/.vim/autoload"
 ln -sf "$DOTFILES/vim/.vimrc" "$HOME/.vimrc"
 ln -sf "$DOTFILES/vim/autoload/plug.vim" "$HOME/.vim/autoload/plug.vim"
 

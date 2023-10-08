@@ -6,25 +6,25 @@ template="${config_dir}/git-template"
 
 if [[ ! -d "${config_dir}" ]]; then
   mkdir -p "${config_dir}"
-  > "${coauthors}"
-  > "${template}"
+  true > "${coauthors}"
+  true > "${template}"
 fi
 
-[[ ! -f "${coauthors}" ]] && > "${coauthors}"
-[[ ! -f "${template}" ]] && > "${template}"
-
-command="$1"
+[[ ! -f "${coauthors}" ]] && true > "${coauthors}"
+[[ ! -f "${template}" ]] && true > "${template}"
 
 help () {
-  echo "Usage: coauth <subcommand>"
-  echo
-  echo "  help       Print this help"
-  echo "  add        Add a new coauthor to the coauthors file"
-  echo "  stop       End a pairing session"
-  echo "  list       List all available coauthors"
-  echo "  restart    Restart the pairing session"
-  echo "  show       Shows the current coauthors"
-  echo "  start      Start a pairing session"
+  cat << EOF
+ USAGE:
+
+   coauth help
+   coauth add [tag]
+   coauth list
+   coauth restart
+   coauth show
+   coauth start
+   coauth stop
+EOF
 }
 
 command_not_found () {
@@ -43,7 +43,7 @@ add () {
 }
 
 stop () {
-  > "${template}"
+  true > "${template}"
   git config --global --unset commit.template
   printf "\e[31mPairing mode disabled. Run 'coauth start' to start session.\e[0m\n"
 }
@@ -65,7 +65,7 @@ start () {
 
   echo -e "\n" > "${template}"
   while true; do
-    author="$(cat "${coauthors}" | fzf)"
+    author=$(fzf < "${coauthors}")
 
     if [[ "${author}" ]]; then
         echo "Co-authored-by: ${author}" >> "${template}"

@@ -3,7 +3,7 @@
 cd "${NOTES}" || echo "\$NOTES environment variable not found OR directory doesn not exit"
 
 help() {
- cat << EOF
+  cat << EOF
  USAGE:
 
   note new [book] [title]
