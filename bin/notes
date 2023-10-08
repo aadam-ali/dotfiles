@@ -6,9 +6,9 @@ help() {
   cat << EOF
  USAGE:
 
-  note new [book] [title]
-  note generate-readme-files
-  note search [query]
+  notes  new [book] [title]
+  notes  generate-readme-files
+  notes  search [query]
 EOF
 }
 
