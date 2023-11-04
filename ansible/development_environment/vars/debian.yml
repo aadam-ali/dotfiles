@@ -1,19 +1,19 @@
 ---
 pyenv_deps:
-  - build-essential,
-  - libssl-dev,
-  - zlib1g-dev,
+  - build-essential
+  - libssl-dev
+  - zlib1g-dev
   - libbz2-dev,
-  - libreadline-dev,
-  - libsqlite3-dev,
-  - curl,
-  - libncursesw5-dev,
-  - xz-utils,
-  - tk-dev,
-  - libxml2-dev,
-  - libxmlsec1-dev,
-  - libffi-dev,
-  - liblzma-dev,
+  - libreadline-dev
+  - libsqlite3-dev
+  - curl
+  - libncursesw5-dev
+  - xz-utils
+  - tk-dev
+  - libxml2-dev
+  - libxmlsec1-dev
+  - libffi-dev
+  - liblzma-dev
 
 pkg_repos_keys:
   /usr/share/keyrings/hashicorp.asc: https://apt.releases.hashicorp.com/gpg
@@ -24,6 +24,8 @@ pkg_repos:
   hashicorp: "deb [signed-by=/usr/share/keyrings/hashicorp.asc] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
   vscode: "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/microsoft.asc] https://packages.microsoft.com/repos/code stable main"
   docker: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker.asc] https://download.docker.com/linux/{{ansible_distribution|lower }} {{ ansible_distribution_release }} stable"
+
+os_pkgs: [code]
 
 fonts:
   Iosevka: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/Iosevka.tar.xz
