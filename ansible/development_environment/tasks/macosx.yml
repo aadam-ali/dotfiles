@@ -22,9 +22,3 @@
   community.general.homebrew_cask:
     name: "{{ casks }}"
     state: present
-
-- name: Install Virtualisation Packages
-  community.general.homebrew_cask:
-    name: "{{ virtualisation_pkgs }}"
-    state: present
-  when: ansible_facts['virtualization_role'] != 'guest'

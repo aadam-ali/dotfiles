@@ -1,8 +1,8 @@
 ---
 - name: Pull Repos
   ansible.builtin.git:
-    repo: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+    repo: "https://github.com/{{ item }}"
+    dest: "{{ ansible_env['HOME'] }}/Repos/tools/{{ item | split('/') | last }}"
     depth: 1
     clone: yes
     update: yes

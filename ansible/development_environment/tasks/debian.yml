@@ -1,18 +1,18 @@
 ---
 - name: Retrieve GPG Keys For Package Repositories
   ansible.builtin.get_url:
-    url: "{{ item.url }}"
-    dest: "{{ item.dest }}"
+    url: "{{ item.value }}"
+    dest: "{{ item.key }}"
   become: true
-  loop: "{{ pkg_repos_keys }}"
+  loop: "{{ pkg_repos_keys | dict2items }}"
 
 - name: Add Package Repositories
   ansible.builtin.apt_repository:
-    repo: "{{ item.repo }}"
-    filename: "{{ item.filename }}"
+    repo: "{{ item.value }}"
+    filename: "{{ item.key }}"
     state: present
   become: true
-  loop: "{{ pkg_repos }}"
+  loop: "{{ pkg_repos | dict2items }}"
 
 - name: Update Apt Cache & Packages
   ansible.builtin.apt:
@@ -45,11 +45,4 @@
     name: "{{ ansible_user_id }}"
     groups: docker
     append: true
-  become: true
-
-- name: Install Virtualisation Packages
-  ansible.builtin.apt:
-    name: "{{ virtualisation_pkgs }}"
-    state: present
-  when: ansible_facts['virtualization_role'] != 'guest'
   become: true

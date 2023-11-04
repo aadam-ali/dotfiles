@@ -1,23 +1,11 @@
 ---
-repositories:
-  [
-    {
-      src: git@github.com:pyenv/pyenv.git,
-      dest: "{{ ansible_env['HOME'] }}/Repos/tools/pyenv",
-    },
-    {
-      src: git@github.com:tfutils/tfenv.git,
-      dest: "{{ ansible_env['HOME'] }}/Repos/tools/tfenv",
-    }
-  ]
 docker_pkgs:
-  [
-    docker-ce,
-    docker-ce-cli,
-    containerd.io,
-    docker-compose-plugin,
-    docker-buildx-plugin,
-  ]
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-compose-plugin
+  - docker-buildx-plugin
+
+repositories: [pyenv/pyenv, tfutils/tfenv]
 common_pkgs: [vim, htop, tmux, jq, fzf, fzy, ripgrep]
-os_pkgs: [firefox]
-virtualisation_pkgs: [virtualbox-6.1, vagrant]
+os_pkgs: []
