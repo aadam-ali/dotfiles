@@ -46,3 +46,17 @@
     groups: docker
     append: true
   become: true
+
+- name: Create Font Dirs
+  ansible.builtin.file:
+    path: "{{ ansible_env['HOME'] }}/.fonts/{{ item.key }}"
+    state: directory
+  loop: "{{ fonts | dict2items }}"
+
+- name: Install Fonts
+  ansible.builtin.unarchive:
+    creates: "{{ ansible_env['HOME'] }}/.fonts/{{ item.key }}/README.md"
+    src: "{{ item.value }}"
+    dest: "{{ ansible_env['HOME'] }}/.fonts/{{ item.key }}"
+    remote_src: yes
+  loop: "{{ fonts | dict2items }}"
