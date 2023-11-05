@@ -47,6 +47,7 @@ prefix_path \
   "$HOME/go/bin" \
   "$HOME/.local/bin" \
   "$HOME/bin" \
+  "$PYENV_ROOT/shims" \
   "$PYENV_ROOT/bin" \
   "$TFENV_ROOT/bin" \
   "$HOME/Scripts"
