@@ -28,6 +28,12 @@
     state: present
   become: true
 
+- name: Install Pyenv Dependencies
+  ansible.builtin.apt:
+    name: "{{ pyenv_deps }}"
+    state: present
+  become: true
+
 - name: Install Docker
   ansible.builtin.apt:
     name: "{{ docker_pkgs }}"

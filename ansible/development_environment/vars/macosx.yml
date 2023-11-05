@@ -2,3 +2,4 @@
 docker_pkgs: [colima, docker]
 casks: [aws-vault, visual-studio-code, firefox]
 os_pkgs: [gnu-sed, grep, coreutils]
+pyenv_deps: [openssl, readline, sqlite3, xz, zlib, tcl-tk]
