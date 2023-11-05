@@ -9,3 +9,5 @@ docker_pkgs:
 repositories: [pyenv/pyenv, tfutils/tfenv]
 common_pkgs: [vim, htop, tmux, jq, fzf, fzy, ripgrep]
 os_pkgs: []
+fonts:
+  Iosevka: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/Iosevka.tar.xz

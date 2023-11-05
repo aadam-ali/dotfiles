@@ -27,3 +27,17 @@
   community.general.homebrew_cask:
     name: "{{ casks }}"
     state: present
+
+- name: Create Font Dirs
+  ansible.builtin.file:
+    path: "{{ ansible_env['HOME'] }}/Library/Fonts/{{ item.key }}"
+    state: directory
+  loop: "{{ fonts | dict2items }}"
+
+- name: Install Fonts
+  ansible.builtin.unarchive:
+    creates: "{{ ansible_env['HOME'] }}/Library/Fonts/{{ item.key }}/README.md"
+    src: "{{ item.value }}"
+    dest: "{{ ansible_env['HOME'] }}/Library/Fonts/{{ item.key }}"
+    remote_src: yes
+  loop: "{{ fonts | dict2items }}"
