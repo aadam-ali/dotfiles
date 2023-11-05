@@ -9,6 +9,11 @@
     name: "{{ common_pkgs + os_pkgs }}"
     state: present
 
+- name: Install Pyenv Dependencies
+  community.general.homebrew:
+    name: "{{ pyenv_deps }}"
+    state: present
+
 - name: Install Docker
   community.general.homebrew:
     name: "{{ docker_pkgs }}"
@@ -22,9 +27,3 @@
   community.general.homebrew_cask:
     name: "{{ casks }}"
     state: present
-
-- name: Install Virtualisation Packages
-  community.general.homebrew_cask:
-    name: "{{ virtualisation_pkgs }}"
-    state: present
-  when: ansible_facts['virtualization_role'] != 'guest'

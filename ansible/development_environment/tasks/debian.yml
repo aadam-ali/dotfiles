@@ -1,18 +1,18 @@
 ---
 - name: Retrieve GPG Keys For Package Repositories
   ansible.builtin.get_url:
-    url: "{{ item.url }}"
-    dest: "{{ item.dest }}"
+    url: "{{ item.value }}"
+    dest: "{{ item.key }}"
   become: true
-  loop: "{{ pkg_repos_keys }}"
+  loop: "{{ pkg_repos_keys | dict2items }}"
 
 - name: Add Package Repositories
   ansible.builtin.apt_repository:
-    repo: "{{ item.repo }}"
-    filename: "{{ item.filename }}"
+    repo: "{{ item.value }}"
+    filename: "{{ item.key }}"
     state: present
   become: true
-  loop: "{{ pkg_repos }}"
+  loop: "{{ pkg_repos | dict2items }}"
 
 - name: Update Apt Cache & Packages
   ansible.builtin.apt:
@@ -25,6 +25,12 @@
 - name: Install Standard Packages
   ansible.builtin.apt:
     name: "{{ common_pkgs + os_pkgs }}"
+    state: present
+  become: true
+
+- name: Install Pyenv Dependencies
+  ansible.builtin.apt:
+    name: "{{ pyenv_deps }}"
     state: present
   become: true
 
@@ -47,9 +53,16 @@
     append: true
   become: true
 
-- name: Install Virtualisation Packages
-  ansible.builtin.apt:
-    name: "{{ virtualisation_pkgs }}"
-    state: present
-  when: ansible_facts['virtualization_role'] != 'guest'
-  become: true
+- name: Create Font Dirs
+  ansible.builtin.file:
+    path: "{{ ansible_env['HOME'] }}/.fonts/{{ item.key }}"
+    state: directory
+  loop: "{{ fonts | dict2items }}"
+
+- name: Install Fonts
+  ansible.builtin.unarchive:
+    creates: "{{ ansible_env['HOME'] }}/.fonts/{{ item.key }}/README.md"
+    src: "{{ item.value }}"
+    dest: "{{ ansible_env['HOME'] }}/.fonts/{{ item.key }}"
+    remote_src: yes
+  loop: "{{ fonts | dict2items }}"
