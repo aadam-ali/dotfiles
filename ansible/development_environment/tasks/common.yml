@@ -7,3 +7,17 @@
     clone: yes
     update: yes
   loop: "{{ repositories }}"
+
+- name: Create Font Dirs
+  ansible.builtin.file:
+    path: "{{ font_dir }}/{{ item.key }}"
+    state: directory
+  loop: "{{ fonts | dict2items }}"
+
+- name: Install Fonts
+  ansible.builtin.unarchive:
+    creates: "{{ font_dir }}/{{ item.key }}/README.md"
+    src: "{{ item.value }}"
+    dest: "{{ ansible_env['HOME'] }}/.fonts/{{ item.key }}"
+    remote_src: yes
+  loop: "{{ fonts | dict2items }}"
