@@ -35,24 +35,24 @@ else
   git stash pop -q || true
 fi
 
-ln -sf "$PWD/.profile" "$HOME/.profile"
+ln -sf "$PWD/home/.profile" "$HOME/.profile"
 
 if [[ ! -f $HOME/.bash_local ]]; then
     touch "$HOME/.bash_local"
     echo "# A file to to enter local environemnt variables and aliases" >> "$HOME/.bash_local"
 fi
 
-ln -sf "$PWD/.bashrc" "$HOME/.bashrc"
+ln -sf "$PWD/home/.bashrc" "$HOME/.bashrc"
 source "$HOME/.bashrc"
 
-ln -sf "$DOTFILES/.gitconfig" "$HOME/.gitconfig"
+ln -sf "$DOTFILES/home/.gitconfig" "$HOME/.gitconfig"
 
-ln -nsf "$DOTFILES/bin" "$HOME/Scripts"
+ln -nsf "$DOTFILES/home/bin" "$HOME/Scripts"
 
 [[ ! -d $HOME/.vim/autoload ]] && mkdir -p "$HOME/.vim/autoload"
-ln -sf "$DOTFILES/vim/.vimrc" "$HOME/.vimrc"
-ln -sf "$DOTFILES/vim/autoload/plug.vim" "$HOME/.vim/autoload/plug.vim"
+ln -sf "$DOTFILES/home/vim/.vimrc" "$HOME/.vimrc"
+ln -sf "$DOTFILES/home/vim/autoload/plug.vim" "$HOME/.vim/autoload/plug.vim"
 
-ln -sf "$DOTFILES/.tmux.conf" "$HOME/.tmux.conf"
+ln -sf "$DOTFILES/home/.tmux.conf" "$HOME/.tmux.conf"
 
 ansible-playbook --diff -v -K -i ansible/hosts ansible/playbook.yml

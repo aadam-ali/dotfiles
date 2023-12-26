@@ -10,6 +10,7 @@ export SCRIPTS="${DOTFILES}/scripts"
 export NOTES="${REPOS}/${GH_USER}/notes"
 export HISTSIZE=5000
 export HISTFILESIZE=10000
+export XDG_CONFIG_HOME="${HOME}/.config"
 
 # aliases
 alias ll="ls -lhA"
