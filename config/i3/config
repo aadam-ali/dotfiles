@@ -6,6 +6,8 @@ set $mod Mod4
 # Font for window titles and bar (unless overidden in bar{})
 font pango:Iosevka Nerd Font Bold 11
 
+# Set wallpaper
+exec --no-startup-id ~/.fehbg
 
 # Start XDG autostart .desktop files using dex. See alsoq
 # https://wiki.archlinux.org/index.php/XDG_Autostart
