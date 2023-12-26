@@ -34,7 +34,6 @@ else
   git pull
   git stash pop -q || true
 fi
-cd $DOTFILES
 
 ln -sf "$PWD/home/.profile" "$HOME/.profile"
 
@@ -55,5 +54,9 @@ ln -sf "$DOTFILES/home/vim/.vimrc" "$HOME/.vimrc"
 ln -sf "$DOTFILES/home/vim/autoload/plug.vim" "$HOME/.vim/autoload/plug.vim"
 
 ln -sf "$DOTFILES/home/.tmux.conf" "$HOME/.tmux.conf"
+
+ln -nsf "$DOTFILES/config/alacritty" "$HOME/.config/alacritty"
+ln -nsf "$DOTFILES/config/i3" "$HOME/.config/i3"
+ln -nsf "$DOTFILES/config/rofi" "$HOME/.config/rofi"
 
 ansible-playbook --diff -v -K -i ansible/hosts ansible/playbook.yml
