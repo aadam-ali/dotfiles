@@ -34,6 +34,7 @@ else
   git pull
   git stash pop -q || true
 fi
+cd $DOTFILES
 
 ln -sf "$PWD/home/.profile" "$HOME/.profile"
 
@@ -47,7 +48,7 @@ source "$HOME/.bashrc"
 
 ln -sf "$DOTFILES/home/.gitconfig" "$HOME/.gitconfig"
 
-ln -nsf "$DOTFILES/home/bin" "$HOME/Scripts"
+ln -nsf "$DOTFILES/scripts" "$HOME/Scripts"
 
 [[ ! -d $HOME/.vim/autoload ]] && mkdir -p "$HOME/.vim/autoload"
 ln -sf "$DOTFILES/home/vim/.vimrc" "$HOME/.vimrc"

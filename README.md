@@ -12,9 +12,9 @@ configured for my setup(s).
 
 To set up these dotfiles simple run:
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/Aadam-Ali/dotfiles/main/bin/dot)
+bash <(curl -s https://raw.githubusercontent.com/Aadam-Ali/dotfiles/main/scripts/dot)
 ```
 OR
 ```bash
-bash <(wget -qO- https://raw.githubusercontent.com/Aadam-Ali/dotfiles/main/bin/dot)
+bash <(wget -qO- https://raw.githubusercontent.com/Aadam-Ali/dotfiles/main/scripts/dot)
 ```
