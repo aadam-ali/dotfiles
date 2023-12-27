@@ -91,6 +91,7 @@ prompt () {
 
   branch="$(git branch --show-current 2>/dev/null)"
   changes="$(git status -su 2>/dev/null)"
+  aws_role="${AWS_VAULT:-$AWS_PROFILE}"
 
   [[ "${PWD}" == "${HOME}" ]] && dir="~"
 
@@ -107,13 +108,15 @@ prompt () {
     venv="(${VIRTUAL_ENV##*/}) "
   fi
 
+  [[ "${aws_role}" ]] && aws_role_prompt=" (${aws_role})"
+
   wrap_length=$(( $COLUMNS / 2 ))
 
-  length="${venv}${USER}@$(hostname):${PWD}${branch}$ "
+  length="${venv}${USER}@$(hostname):${PWD}${branch}${aws_role_prompt}$ "
   if [[ ${#length} -lt ${wrap_length} ]]; then
-    PS1="${venv}${bg}\u@\h${e}:${bb}\w${e}${fbranch}\$ "
+    PS1="${venv}${bg}\u@\h${e}:${bb}\w${e}${fbranch}${aws_role_prompt}\$ "
   else
-    PS1="${venv}${bg}\u@\h${e}:${bb}\w${e}${fbranch}\n\$ "
+    PS1="${venv}${bg}\u@\h${e}:${bb}\w${e}${fbranch}${aws_role_prompt}\n\$ "
   fi
 }
 

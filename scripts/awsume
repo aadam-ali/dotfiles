@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+role=$(aws-vault list | tail -n +3 | cut -d' ' -f1 | fzf)
+
+if [[ -n $role ]]; then
+  tmux new-window -S -c "$PWD" -n "$role" "aws-vault exec $role"
+fi
