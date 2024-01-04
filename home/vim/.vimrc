@@ -2,6 +2,7 @@ call plug#begin()
 Plug 'tomasiser/vim-code-dark'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'morhetz/gruvbox'
 call plug#end()
 
 "================ Keybinds ================"
@@ -19,13 +20,10 @@ set t_ut=
 set t_Co=256
 set bg=dark
 
-colorscheme codedark
+colorscheme gruvbox
+let g:gruvbox_contrast_dark = "hard"
 
-if (empty($TMUX))
-  if (has("termguicolors"))
-    set termguicolors
-  endif
-endif
+set termguicolors
 "=========================================="
 
 "============= Functionality =============="
