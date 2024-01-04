@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 options="Lock\nLogout\nRestart\nShutdown\nSleep"
-option=$(echo -e $options | rofi -dmenu)
+option=$(echo -e $options | rofi -i -dmenu)
 
 case "$option" in
   "Shutdown")
@@ -17,6 +17,6 @@ case "$option" in
     systemctl suspend
     ;;
   "Lock")
-    i3lock -n -c 1d1f21
+    i3lock -n -c 1d2021
     ;;
 esac

@@ -1,5 +1,5 @@
 /*
- * Tomorrow Night for Rofi
+ * Gruvbox Hard for Rofi
  * User: Aadam-Ali
  * Based From: Tokyonight colorscheme for rofi by w8ste
  * Based From URL: https://github.com/w8ste/Tokyonight-rofi-theme/blob/43ca93b32d9563bf31e649f48cf0de2e4e3b4bd3/tokyonight.rasi
@@ -7,16 +7,14 @@
 
 // define colors etc.
 * {
-    bg: #1d1f21;
-    hv: #b294bb;
-    primary: #5c6269;
-    ug: #0B2447;
+    background: #1d2021;
+    foreground: #ebdbb2;
+    hover-background: #689d6a;
+    hover-foreground: #000000;
+    accent: #282828;
     font: "Iosevka Nerd Font 16";
-    background-color: @bg;
-    //dark: @bg;
+    background-color: @background;
     border: 0px;
-    kl: #81a2be;
-    black: #000000;
 }
 
 // defines different aspects of the window
@@ -31,7 +29,6 @@ window {
     location: center;
     anchor: center;
     transparency: "screenshot";
-    border-color: @transparent;
     spacing: 0;
     children: [ mainbox ];
 }
@@ -42,15 +39,15 @@ mainbox {
 }
 
 inputbar {
-    color: @kl;
+    color: @foreground;
     padding: 11px;
-    border: 3px 3px 2px 3px;
-    border-color: @primary;
+    border: 3px 3px 3px 3px;
+    border-color: @accent;
 }
 
 message {
     padding: 0;
-    border-color: @primary;
+    border-color: @accent;
     border: 0px 1px 1px 1px;
 }
 
@@ -69,19 +66,18 @@ prompt {
 
 listview {
     layout: vertical;
-    //spacing: 5px;
     padding: 8px;
     lines: 12;
     columns: 1;
     border: 0px 3px 3px 3px;
-    border-color: @primary;
+    border-color: @accent;
     dynamic: false;
 }
 
 element {
     padding: 2px;
     vertical-align: 1;
-    color: @kl;
+    color: @foreground;
     font: inherit;
 }
 
@@ -91,13 +87,13 @@ element-text {
 }
 
 element selected.normal {
-    color: @black;
-    background-color: @hv;
+    color: @hover-foreground;
+    background-color: @hover-background;
 }
 
 element normal active {
-    background-color: @hv;
-    color: @black;
+    background-color: @hover-background;
+    color: @hover-foreground;
 }
 
 element-text, element-icon {
@@ -106,26 +102,26 @@ element-text, element-icon {
 }
 
 element normal urgent {
-    background-color: @primary;
+    background-color: @accent;
 }
 
 element selected active {
-    background: @hv;
-    foreground: @bg;
+    background: @hover-background;
+    foreground: @background;
 }
 
 button {
     padding: 6px;
-    color: @primary;
+    color: @accent;
     horizonatal-align: 0.5;
 
     border: 2px 0px 2px 2px;
-    border-color: @primary;
+    border-color: @accent;
 }
 
 button selected normal {
     border: 2px 0px 2px 2px;
-    border-color: @primary;
+    border-color: @accent;
 }
 
 scrollbar {
