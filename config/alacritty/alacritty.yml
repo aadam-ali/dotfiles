@@ -22,12 +22,6 @@ window:
     x: 3
     y: 3
 
-mouse:
-  hints:
-    launcher:
-      program: xdg-open
-      args: []
-
 shell:
   program: /bin/bash
   args:
