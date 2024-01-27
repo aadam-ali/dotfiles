@@ -82,7 +82,7 @@ if $NOTES != ""
 
     let l:fname = l:dname . '/' . strftime("%Y%m%d%H%M%S") . '.md'
     call writefile(["# " . join(a:000, " ")], l:fname)
-
+    call writefile(["", "Related:", "", "Tags:", "  #" . a:book], l:fname, "a")
     exec "edit " . l:fname
   endfunc
 endif
