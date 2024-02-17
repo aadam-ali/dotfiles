@@ -1,19 +1,19 @@
 font:
   normal:
     family: Iosevka Nerd Font
-    style: Medium
+    style: Regular
 
   italic:
     family: Iosevka Nerd Font
-    style: Medium Italic
+    style: Italic
 
   bold:
     family: Iosevka Nerd Font
-    style: Extrabold
+    style: Bold
 
   bold_italic:
     family: Iosevka Nerd Font
-    style: Extrabold Italic
+    style: Bold Italic
 
   size: 18
 

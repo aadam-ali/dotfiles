@@ -23,7 +23,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork -c 1d1f21
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
-
+exec --no-startup-id redshift-gtk
 # Use pactl to adjust volume in PulseAudio.
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
@@ -153,12 +153,12 @@ client.unfocused        #7C6F64 #7C6F64 #ffffff #7C6F64   #7C6F64
 client.urgent           #CC241D #CC241D #ffffff #CC241D   #CC241D
 client.placeholder      #7C6F64 #7C6F64 #ffffff #7C6F64   #7C6F64
 
-gaps inner 10px
+gaps inner 5px
 
 # open applications in specific workspaces
 assign [class="Alacritty"] 1
-assign [class="Code"] 2
-assign [class="firefox"] 3
+assign [class="firefox"] 2
+assign [class="Code"] 3
 
 # assign a 'default' workspace to secondary monitor
 workspace 10 output DisplayPort-1
