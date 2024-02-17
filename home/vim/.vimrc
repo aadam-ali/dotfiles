@@ -3,6 +3,7 @@ Plug 'tomasiser/vim-code-dark'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'morhetz/gruvbox'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 call plug#end()
 
 "================ Keybinds ================"
@@ -71,18 +72,20 @@ endfunction
 if $NOTES != ""
   map <space>no $F(gf
   map <space>ni :edit $NOTES/README.md<CR>
-  map <space>nn :NewNote
+  map <space>nn :NewNote<CR>
   map <space>nl :r!notes link<CR>
 
   command! -nargs=* NewNote call NewNote(<f-args>)
 
-  func! NewNote(book, ...)
-    let l:dname = expand('$NOTES/') . a:book
-    call mkdir(l:dname, "p")
+  func! NewNote()
+		let book = input('Book> ')
+		let title = input('Title> ')
 
-    let l:fname = l:dname . '/' . strftime("%Y%m%d%H%M%S") . '.md'
-    call writefile(["# " . join(a:000, " ")], l:fname)
-    call writefile(["", "Related:", "", "Tags:", "  #" . a:book], l:fname, "a")
-    exec "edit " . l:fname
+		let note = system("notes new " . book . " '" . title . "'")
+		exec "edit " . note
   endfunc
 endif
+
+augroup pandoc_syntax
+    au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+augroup END

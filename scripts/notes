@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
+set -e
 
-cd "${NOTES}" || echo "\$NOTES environment variable not found OR directory doesn not exit"
+cd "${NOTES}" || echo "${NOTES} environment variable not found OR directory does not exit"
 
 help() {
   cat << EOF
@@ -23,28 +24,54 @@ generate_readme_files() {
   echo >> "${NOTES}/README.md"
 
   for nb in */; do
-    fmtd_nb=$(basename "${nb}")
-    cd "${NOTES}/${nb}" || exit
+    fmtd_nb=$(basename "$nb")
+    nb_dir="${NOTES}/$nb"
+    cd "$nb_dir" || exit
 
-    echo "* [${nb%%/}](${nb%%/}/README.md)" >> "${NOTES}/README.md"
-    echo -e "# ${fmtd_nb}\n" > "README.md"
+    echo "* [$fmtd_nb]($fmtd_nb/README.md)" >> "${NOTES}/README.md"
+    echo -e "---\ntitle: $fmtd_nb\n---\n\n# $fmtd_nb\n" > "$nb_dir/README.md"
 
     for note in *[^A-Z][^a-z].md; do
-      title=$(head -n1 "${note}" | cut -d' ' -f2-)
+      title=$(grep --max-count=1 'title: ' "$note" | sed 's/title: //')
       time="${note//.md/}"
-      echo "* ${time} [${title}](${note})" >> "README.md"
+      echo "* $time [$title]($note)" >> "$nb_dir/README.md"
     done
   done
 }
 
 link_note() {
-  note=$(grep -r '# ' --max-count=1 --exclude="README.md" ./*/*.md | sed 's/\.\///' | fzy)
-  file=$(echo "${note}" | cut -d':' -f1)
-  time=$(echo "${file}" | cut -d'/' -f2 | sed 's/\.md//g')
-  title=$(echo "${note}" | cut -d':' -f2 | sed 's/# //g')
+  note=$(grep -r 'title: ' --max-count=1 --exclude="README.md" ./*/*.md | sed 's/title://' | fzy)
+  file=$(echo "$note" | cut -d':' -f1 | sed 's/\.\///')
+  time=$(echo "$file" | cut -d'/' -f2 | sed 's/\.md//')
+  title=$(cut -d':' -f2- <<< "$note" | sed -e 's/title://' | xargs)
 
-  echo "  * ${time} [${title}](../${file})"
+  echo "  * $time [$title](../$file)"
 }
+
+new_note() {
+  date=$(date +"%Y%m%d%H%M%S")
+  book=$1
+  # shellcheck disable=SC2124
+  title=${@:2}
+
+  [[ -d "${NOTES}/$book" ]] || mkdir -p "$NOTES/$book"
+  cat << EOF > "$NOTES/$book/$date.md"
+---
+title: $title
+---
+
+# $title
+
+Related:
+
+Tags:
+  #$book
+EOF
+
+ generate_readme_files 2>/dev/null || :
+ echo "${NOTES}/$book/$date.md"
+}
+
 
 case "$1" in
   "h" | "help")
@@ -61,7 +88,7 @@ case "$1" in
     ;;
   "n" | "new")
     shift
-    vim "+Note $*"
+    new_note "$@"
     ;;
   "search")
     shift
