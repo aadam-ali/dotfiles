@@ -4,6 +4,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'morhetz/gruvbox'
 Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'hashivim/vim-terraform'
 call plug#end()
 
 "================ Keybinds ================"
@@ -13,7 +14,7 @@ nmap <C-f> :Rg<CR>
 "=========================================="
 
 "=============== Appearance ==============="
-set number
+set relativenumber
 set ruler
 set hlsearch
 
@@ -41,6 +42,8 @@ set tabstop=2
 
 set textwidth=72
 set formatoptions-=t
+
+set backspace=indent,eol,start
 
 " File syntax
 filetype on
