@@ -1,8 +1,8 @@
-# environment variables
+# Environment variables
 export CONFIG="${HOME}/.config"
+export XDG_CONFIG_HOME="${CONFIG}"
 export EDITOR=vi
 export GH_USER="Aadam-Ali"
-export HOSTNAME="$(hostname)"
 export REPOS="${HOME}/Repos"
 export TOOLS="${REPOS}/tools"
 export DOTFILES="${REPOS}/${GH_USER}/dotfiles"
@@ -10,40 +10,36 @@ export SCRIPTS="${DOTFILES}/scripts"
 export NOTES="${REPOS}/${GH_USER}/notes"
 export HISTSIZE=5000
 export HISTFILESIZE=10000
-export XDG_CONFIG_HOME="${HOME}/.config"
 export TERM="xterm-256color"
 
-# aliases
+export PYENV_ROOT="$TOOLS/pyenv"
+export TFENV_ROOT="$TOOLS/tfenv"
+
+# Aliases
 alias ll="ls -lhA"
 alias ls="ls --color=auto"
 alias grep="grep --color=auto"
 alias me="cd ${REPOS}/${GH_USER}"
 alias run="docker run -it --rm"
 
-# path
+# Path
 prefix_path() {
   for dir in $@; do
-    test -d $dir || continue
-    PATH=${PATH/":$dir:"/:}
-    PATH=${PATH/#":$dir"/}
-    PATH=${PATH/%":$dir"/}
-    export PATH="$dir:$PATH"
+    test -d "$dir" || continue
+    if [[ ":$PATH:" != *":$dir:"* ]]; then
+      export PATH="$dir:$PATH"
+    fi
   done
 } && export -f prefix_path
 
 suffix_path() {
   for dir in "$@"; do
-    test -d $dir || continue
-    PATH=${PATH/":$dir:"/:}
-    PATH=${PATH/#":$dir"/}
-    PATH=${PATH/%":$dir"/}
-    export PATH="$PATH:$dir"
+    test -d "$dir" || continue
+    if [[ ":$PATH:" != *":$dir:"* ]]; then
+      export PATH="$PATH:$dir"
+    fi
   done
 } && export -f suffix_path
-
-export PYENV_ROOT="$TOOLS/pyenv"
-
-export TFENV_ROOT="$TOOLS/tfenv"
 
 prefix_path \
   "$HOME/go/bin" \
@@ -52,7 +48,7 @@ prefix_path \
   "$PYENV_ROOT/shims" \
   "$PYENV_ROOT/bin" \
   "$TFENV_ROOT/bin" \
-  "$HOME/Scripts"
+  "$SCRIPTS"
 
 suffix_path \
   /usr/local/opt/coreutils/libexec/gnubin \
@@ -69,7 +65,7 @@ suffix_path \
   /usr/local/games \
   /snap/bin
 
-# enable bash completion in interactive shells
+# Enable bash completion in interactive shells
 if ! shopt -oq posix; then
   if [[ -f "/usr/share/bash-completion/bash_completion" ]]; then
     . /usr/share/bash-completion/bash_completion
@@ -78,23 +74,22 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# prompt
-bl='\[\e[30m\]' r='\[\e[31m\]' g='\[\e[32m\]' \
-y='\[\e[33m\]' b='\[\e[34m\]' p='\[\e[35m\]' \
-c='\[\e[36m\]' w='\[\e[37m\]' e='\[\e[0m\]'
-
-bbl='\[\e[1;30m\]' br='\[\e[1;31m\]' bg='\[\e[1;32m\]' \
-by='\[\e[1;33m\]' bb='\[\e[1;34m\]' bp='\[\e[1;35m\]' \
-bc='\[\e[1;36m\]' bw='\[\e[1;37m\]'
-
 prompt () {
-  local fbranch venv
+  # Colours
+  bl='\[\e[30m\]' r='\[\e[31m\]' g='\[\e[32m\]' \
+  y='\[\e[33m\]' b='\[\e[34m\]' p='\[\e[35m\]' \
+  c='\[\e[36m\]' w='\[\e[37m\]' e='\[\e[0m\]'
+
+  # Bold colours
+  bbl='\[\e[1;30m\]' br='\[\e[1;31m\]' bg='\[\e[1;32m\]' \
+  by='\[\e[1;33m\]' bb='\[\e[1;34m\]' bp='\[\e[1;35m\]' \
+  bc='\[\e[1;36m\]' bw='\[\e[1;37m\]'
+
+  local branch changes aws_role fbranch venv aws_role_prompt wrap_length length
 
   branch="$(git branch --show-current 2>/dev/null)"
   changes="$(git status -su 2>/dev/null)"
   aws_role="${AWS_VAULT:-$AWS_PROFILE}"
-
-  [[ "${PWD}" == "${HOME}" ]] && dir="~"
 
   if [[ "${branch}" ]]; then
     if [[ "${changes}" ]]; then
@@ -105,15 +100,12 @@ prompt () {
     branch="(${branch})"
   fi
 
-  if [[ "${VIRTUAL_ENV}" ]]; then
-    venv="(${VIRTUAL_ENV##*/}) "
-  fi
-
-  [[ "${aws_role}" ]] && aws_role_prompt=" (${aws_role})"
+  [[ -n "${VIRTUAL_ENV}" ]] && venv="(${VIRTUAL_ENV##*/}) "
+  [[ -n "${aws_role}" ]] && aws_role_prompt=" (${aws_role})"
 
   wrap_length=$(( $COLUMNS / 2 ))
-
   length="${venv}${USER}@$(hostname):${PWD}${branch}${aws_role_prompt}$ "
+
   if [[ ${#length} -lt ${wrap_length} ]]; then
     PS1="${venv}${bg}\u@\h${e}:${bb}\w${e}${fbranch}${aws_role_prompt}\$ "
   else

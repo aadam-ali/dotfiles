@@ -14,6 +14,7 @@ nmap <C-f> :Rg<CR>
 "=========================================="
 
 "=============== Appearance ==============="
+set number
 set relativenumber
 set ruler
 set hlsearch
@@ -88,6 +89,8 @@ if $NOTES != ""
 		exec "edit " . note
   endfunc
 endif
+
+let g:pandoc#syntax#conceal#urls = 1
 
 augroup pandoc_syntax
     au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
