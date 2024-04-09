@@ -19,10 +19,12 @@ pkg_repos_keys:
   /usr/share/keyrings/hashicorp.asc: https://apt.releases.hashicorp.com/gpg
   /usr/share/keyrings/microsoft.asc: https://packages.microsoft.com/keys/microsoft.asc
   /usr/share/keyrings/docker.asc: "https://download.docker.com/linux/{{ ansible_distribution|lower|replace('pop!_os', 'ubuntu') }}/gpg"
+  /usr/share/keyrings/i3wm.asc: https://baltocdn.com/i3-window-manager/signing.asc
 
 pkg_repos:
   hashicorp: "deb [signed-by=/usr/share/keyrings/hashicorp.asc] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
   vscode: "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/microsoft.asc] https://packages.microsoft.com/repos/code stable main"
   docker: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker.asc] https://download.docker.com/linux/{{ansible_distribution|lower|replace('pop!_os', 'ubuntu') }} {{ ansible_distribution_release }} stable"
+  i3wm: "deb [signed-by=/usr/share/keyrings/i3wm.asc] https://baltocdn.com/i3-window-manager/i3/i3-autobuild/ all main"
 
 os_pkgs: [code]
