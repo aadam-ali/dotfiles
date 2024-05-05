@@ -18,6 +18,6 @@
   ansible.builtin.unarchive:
     creates: "{{ font_dir }}/{{ item.key }}/README.md"
     src: "{{ item.value }}"
-    dest: "{{ ansible_env['HOME'] }}/.fonts/{{ item.key }}"
+    dest: "{{ font_dir }}/{{ item.key }}"
     remote_src: yes
   loop: "{{ fonts | dict2items }}"
