@@ -7,4 +7,4 @@ configuration {
   kb-mode-previous: "Shift+Left,Control+Shift+Tab,Control+h";
   kb-remove-char-back: "BackSpace";
 }
-@theme "gruvbox_hard.rasi"
+@theme "gruvbox_material_hard.rasi"

@@ -1,8 +1,9 @@
 call plug#begin()
-Plug 'tomasiser/vim-code-dark'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'morhetz/gruvbox'
+Plug 'junegunn/goyo.vim'
+Plug 'sainnhe/gruvbox-material'
+Plug 'vim-airline/vim-airline'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'hashivim/vim-terraform'
 call plug#end()
@@ -23,8 +24,11 @@ set t_ut=
 set t_Co=256
 set bg=dark
 
-colorscheme gruvbox
-let g:gruvbox_contrast_dark = "hard"
+colorscheme gruvbox-material
+let g:gruvbox_material_background = "hard"
+
+let g:airline_symbols = {}
+let g:airline_symbols.colnr = ' '
 
 set termguicolors
 "=========================================="

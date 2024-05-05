@@ -1,7 +1,7 @@
 set $mod Mod4
 
 # Font for window titles and bar (unless overidden in bar{})
-font pango:Iosevka Nerd Font Bold 10
+font pango:Iosevka Nerd Font Heavy 10
 
 # Set wallpaper
 exec --no-startup-id ~/.fehbg
@@ -15,7 +15,7 @@ exec --no-startup-id dex --autostart --environment i3
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork -c 1d1f21
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork -c 1d2021
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -134,12 +134,23 @@ bindsym $mod+Shift+p exec polybar-msg cmd toggle
 # Remove title bars for single windows
 for_window [class="^.*"] border pixel 2
 
-# class                 border  backgr. text    indicator child_border
-client.focused          #98971A #98971A #1D1F21 #D79921   #98971A
-client.focused_inactive #7C6F64 #7C6F64 #FFFFFF #7C6F64   #7C6F64
-client.unfocused        #1D1F21 #1D1F21 #A89984 #7C6F64   #7C6F64
-client.urgent           #CC241D #CC241D #FFFFFF #CC241D   #CC241D
-client.placeholder      #7C6F64 #7C6F64 #FFFFFF #7C6F64   #7C6F64
+set $bg       #1d2021
+set $fg       #d4be98
+set $red      #ea6962
+set $orange   #e78a4e
+set $green    #a9b665
+set $blue     #7daea3
+set $purple   #d3869b
+set $aqua     #89b482
+set $gray     #282828
+
+# class                 border      backgr.     text    indicator   child_border
+client.focused          $green      $green      $bg     $green      $green
+client.focused_inactive $aqua       $aqua       $bg     $aqua       $aqua
+client.unfocused        $gray       $gray       $fg     $gray       $gray
+client.urgent           $red        $red        $bg     $red        $red
+client.placeholder      $bg         $bg         $bg     $bg         $bg
+client.background       $bg
 
 smart_borders on
 gaps inner 5px

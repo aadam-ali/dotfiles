@@ -11,5 +11,6 @@ common_pkgs: [vim, htop, tmux, jq, fzf, fzy, ripgrep]
 os_pkgs: []
 font_dir: "{{ ansible_env['HOME'] }}/.fonts"
 fonts:
-  Iosevka: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/Iosevka.tar.xz
+  Iosevka: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Iosevka.tar.xz
+  UbuntuMono: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/UbuntuMono.tar.xz
 de_pkgs: [i3, rofi, polybar, feh, redshift, redshift-gtk]

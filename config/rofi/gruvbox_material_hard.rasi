@@ -1,5 +1,5 @@
 /*
- * Gruvbox Hard for Rofi
+ * Gruvbox Material Hard for Rofi
  * User: Aadam-Ali
  * Based From: Tokyonight colorscheme for rofi by w8ste
  * Based From URL: https://github.com/w8ste/Tokyonight-rofi-theme/blob/43ca93b32d9563bf31e649f48cf0de2e4e3b4bd3/tokyonight.rasi
@@ -7,13 +7,41 @@
 
 // define colors etc.
 * {
-    background: #1d2021;
-    foreground: #ebdbb2;
-    hover-background: #689d6a;
-    hover-foreground: #000000;
-    accent: #282828;
+    bg-dim: #141617;
+    bg0: #1d2021;
+    bg1: #282828;
+    bg2: #282828;
+    bg3: #3c3836;
+    bg4: #3c3836;
+    bg5: #504945;
+    bg-statusline1: #282828;
+    bg-statusline2: #32302f;
+    bg-statusline3: #504945;
+    bg-diff-green: #32361a;
+    bg-visual-green: #333e34;
+    bg-diff-red: #3c1f1e;
+    bg-visual-red: #442e2d;
+    bg-diff-blue: #0d3138;
+    bg-visual-blue: #2e3b3b;
+    bg-visual-yellow: #473c29;
+    bg-current-word: #32302f;
+    fg0: #d4be98;
+    fg1: #ddc7a1;
+    red: #ea6962;
+    orange: #e78a4e;
+    yellow: #d8a657;
+    green: #a9b665;
+    aqua: #89b482;
+    blue: #7daea3;
+    purple: #d3869b;
+    bg-red: #ea6962;
+    bg-green: #a9b665;
+    bg-yellow: #d8a657;
+    grey0: #7c6f64;
+    grey1: #928374;
+    grey2: #a89984;
     font: "Iosevka Nerd Font 16";
-    background-color: @background;
+    background-color: @bg0;
     border: 0px;
 }
 
@@ -39,15 +67,15 @@ mainbox {
 }
 
 inputbar {
-    color: @foreground;
+    color: @fg0;
     padding: 11px;
     border: 3px 3px 3px 3px;
-    border-color: @accent;
+    border-color: @bg5;
 }
 
 message {
     padding: 0;
-    border-color: @accent;
+    border-color: @bg5;
     border: 0px 1px 1px 1px;
 }
 
@@ -70,14 +98,14 @@ listview {
     lines: 12;
     columns: 1;
     border: 0px 3px 3px 3px;
-    border-color: @accent;
+    border-color: @bg5;
     dynamic: false;
 }
 
 element {
     padding: 2px;
     vertical-align: 1;
-    color: @foreground;
+    color: @fg0;
     font: inherit;
 }
 
@@ -87,13 +115,13 @@ element-text {
 }
 
 element selected.normal {
-    color: @hover-foreground;
-    background-color: @hover-background;
+    color: @fg1;
+    background-color: @bg1;
 }
 
 element normal active {
-    background-color: @hover-background;
-    color: @hover-foreground;
+    background-color: @bg1;
+    color: @fg1;
 }
 
 element-text, element-icon {
@@ -102,12 +130,12 @@ element-text, element-icon {
 }
 
 element normal urgent {
-    background-color: @accent;
+    background-color: @green;
 }
 
 element selected active {
-    background: @hover-background;
-    foreground: @background;
+    background: @fg1;
+    foreground: @bg0;
 }
 
 button {
@@ -116,12 +144,12 @@ button {
     horizonatal-align: 0.5;
 
     border: 2px 0px 2px 2px;
-    border-color: @accent;
+    border-color: @green;
 }
 
 button selected normal {
     border: 2px 0px 2px 2px;
-    border-color: @accent;
+    border-color: @green;
 }
 
 scrollbar {
