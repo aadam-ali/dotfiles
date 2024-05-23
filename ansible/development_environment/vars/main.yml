@@ -1,16 +1,21 @@
 ---
-docker_pkgs:
-  - docker-ce
-  - docker-ce-cli
-  - containerd.io
-  - docker-compose-plugin
-  - docker-buildx-plugin
+cli_pkgs: [vim, htop, tmux, jq, fzf, fzy, ripgrep, ranger, shellcheck]
+de_pkgs: []
+gui_pkgs: []
+docker_pkgs: []
+os_pkgs: []
+python_build_deps: []
 
 repositories: [pyenv/pyenv, tfutils/tfenv]
-common_pkgs: [vim, htop, tmux, jq, fzf, fzy, ripgrep]
-os_pkgs: []
-font_dir: "{{ ansible_env['HOME'] }}/.fonts"
+
+font_dir: ""
 fonts:
   Iosevka: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Iosevka.tar.xz
   UbuntuMono: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/UbuntuMono.tar.xz
-de_pkgs: [i3, rofi, polybar, feh, redshift, redshift-gtk]
+
+# MacOS Specific Vars
+homebrew_casks: []
+
+# Linux Specific Vars
+pkg_repos_signing_keys: {}
+pkg_repos: {}

@@ -4,14 +4,19 @@
     update_homebrew: true
     upgrade_all: true
 
-- name: Install Standard Packages
+- name: Install CLI Packages
   community.general.homebrew:
-    name: "{{ common_pkgs + os_pkgs }}"
+    name: "{{ cli_pkgs }}"
     state: present
 
-- name: Install Pyenv Dependencies
+- name: Install OS Specific Packages
   community.general.homebrew:
-    name: "{{ pyenv_deps }}"
+    name: "{{ os_pkgs }}"
+    state: present
+
+- name: Install Python Build Dependencies
+  community.general.homebrew:
+    name: "{{ python_build_deps }}"
     state: present
 
 - name: Install Docker
@@ -23,7 +28,15 @@
   community.general.homebrew_cask:
     upgrade_all: true
 
-- name: Install Casks
+- name: Install General Casks
   community.general.homebrew_cask:
-    name: "{{ casks }}"
+    name: "{{ homebrew_casks }}"
     state: present
+
+- name: Install GUI Applications
+  community.general.homebrew_cask:
+    name: "{{ gui_pkgs }}"
+
+- name: Install Desktop Environment Packages
+  community.general.homebrew_cask:
+    name: "{{ de_pkgs }}"

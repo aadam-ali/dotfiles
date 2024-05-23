@@ -1,6 +1,11 @@
 ---
+de_pkgs: [amethyst]
+gui_pkgs: [visual-studio-code, firefox, libreoffice]
 docker_pkgs: [colima]
-casks: [aws-vault, docker, visual-studio-code, firefox, amethyst]
 os_pkgs: [gnu-sed, gnu-tar, grep, coreutils]
-pyenv_deps: [openssl, readline, sqlite3, xz, zlib, tcl-tk]
+python_build_deps: [openssl, readline, sqlite3, xz, zlib, tcl-tk]
+
 font_dir: "{{ ansible_env['HOME'] }}/Library/Fonts"
+
+# MacOS Specific Vars
+homebrew_casks: [aws-vault, docker]
