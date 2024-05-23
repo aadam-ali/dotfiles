@@ -1,7 +1,11 @@
 ---
-- name: Include distro specific variables (Debian)
+- name: Include Debian-based distro variables
   include_vars: "debian.yml"
   when: ansible_facts['os_family']|lower == 'debian'
+
+- name: Include Ubuntu-based distro variables
+  include_vars: "ubuntu.yml"
+  when: ansible_facts['distribution']|lower in ['ubuntu', 'pop!_os']
 
 - name: Include OS specific variables (MacOS)
   include_vars: "macosx.yml"

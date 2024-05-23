@@ -1,66 +1,97 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
 OS=$(uname)
+DOTFILES="$HOME/Repos/Aadam-Ali/dotfiles"
+DOTFILES_VENV="$DOTFILES/.venv"
 
-if [[ ${OS} == "Linux" ]] && [[ ! $(which ansible) ]]; then
+function prepare_linux() {
   sudo apt-get update -y && sudo apt-get upgrade -y
-  sudo apt-get install -y software-properties-common git python3-pip
-  pip install ansible || sudo apt-get install -y ansible
-elif [[ ${OS} == "Darwin" ]] && [[ ! $(which ansible) ]]; then
+  sudo apt-get install -y software-properties-common git python3-pip python3-venv
+}
+
+function prepare_macos() {
   if [[ ! $(which brew) ]]; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
-  brew install -q ansible
+  brew install python@3.12
+}
+
+function install_ansible() {
+  if [[ ! -d "$DOTFILES_VENV" ]]; then
+    python3 -m venv "$DOTFILES_VENV"
+  fi
+
+  if [[ ! -f "$DOTFILES_VENV/bin/ansible" ]]; then
+    "$DOTFILES_VENV"/bin/pip install ansible==9.6.0
+  fi
+}
+
+function create_ssh_key() {
+  if [[ ! -f "$HOME/.ssh/id_ed25519" ]]; then
+    mkdir -p "$HOME/.ssh"
+    ssh-keygen -t ed25519 -f "$HOME/.ssh/id_ed25519" -N ''
+
+    echo "========== Add the following key to GitHub (Before Cloning Dotfiles) =========="
+    cat "$HOME/.ssh/id_ed25519.pub"
+    echo "==============================================================================="
+
+    read -r -p "Press enter to continue ..." </dev/tty
+  fi
+}
+
+function pull_dotfiles_repo() {
+  if [[ ! -d "$DOTFILES" ]]; then
+    mkdir -p "$HOME/Repos/Aadam-Ali"
+    git clone git@github.com:Aadam-Ali/dotfiles "$DOTFILES"
+    cd "$DOTFILES"
+  else
+    cd "$DOTFILES"
+    git stash -q
+    git pull
+    git stash pop -q || true
+  fi
+}
+
+function symlink_dotfiles() {
+  [[ ! -f $HOME/.bash_local ]] && touch "$HOME/.bash_local"
+
+  ln -sf "$PWD/home/.profile" "$HOME/.profile"
+  ln -sf "$PWD/home/.bashrc" "$HOME/.bashrc"
+  # shellcheck disable=SC1091
+  source "$HOME/.bashrc"
+
+  [[ ! -d $HOME/.vim/autoload ]] && mkdir -p "$HOME/.vim/autoload"
+  ln -sf "$DOTFILES/home/vim/.vimrc" "$HOME/.vimrc"
+  ln -sf "$DOTFILES/home/vim/autoload/plug.vim" "$HOME/.vim/autoload/plug.vim"
+
+  ln -nsf "$DOTFILES/config/tmux" "$HOME/.config/tmux"
+  ln -nsf "$DOTFILES/config/git" "$HOME/.config/git"
+  ln -nsf "$DOTFILES/config/alacritty" "$HOME/.config/alacritty"
+
+  if [[ ${OS} == "Linux" ]]; then
+    ln -sf "$DOTFILES/home/.xinitrc" "$HOME/.xinitrc"
+    ln -nsf "$DOTFILES/config/i3" "$HOME/.config/i3"
+    ln -nsf "$DOTFILES/config/rofi" "$HOME/.config/rofi"
+    ln -nsf "$DOTFILES/config/i3status" "$HOME/.config/i3status"
+    ln -nsf "$DOTFILES/config/polybar" "$HOME/.config/polybar"
+  fi
+}
+
+function run_ansible_playbook() {
+  "$DOTFILES_VENV"/bin/ansible-playbook --diff -v -K -i ansible/hosts ansible/playbook.yml
+}
+
+
+if [[ ${OS} == "Linux" ]]; then
+  prepare_linux
+elif [[ ${OS} == "Darwin" ]]; then
+  prepare_macos
 fi
 
-if [[ ! -f "$HOME/.ssh/id_rsa" ]]; then
-  mkdir -p "$HOME/.ssh"
-  ssh-keygen -f "$HOME/.ssh/id_rsa" -N ''
-  echo "========== Add the following key to GitHub (Before Cloning Dotfiles) =========="
-  cat "$HOME/.ssh/id_rsa.pub"
-  echo "==============================================================================="
-  read -r -p "Press enter to continue ..." </dev/tty
-fi
-
-if [[ ! -d "$HOME/Repos/Aadam-Ali/dotfiles" ]]; then
-  mkdir -p "$HOME/Repos/Aadam-Ali"
-  git clone git@github.com:Aadam-Ali/dotfiles "$HOME/Repos/Aadam-Ali/dotfiles"
-  cd "$HOME/Repos/Aadam-Ali/dotfiles"
-else
-  cd "$HOME/Repos/Aadam-Ali/dotfiles"
-  git stash -q
-  git pull
-  git stash pop -q || true
-fi
-
-ln -sf "$PWD/home/.profile" "$HOME/.profile"
-
-if [[ ! -f $HOME/.bash_local ]]; then
-    touch "$HOME/.bash_local"
-    echo "# A file to to enter local environemnt variables and aliases" >> "$HOME/.bash_local"
-fi
-
-ln -sf "$PWD/home/.bashrc" "$HOME/.bashrc"
-source "$HOME/.bashrc"
-
-ln -sf "$DOTFILES/home/.gitconfig" "$HOME/.gitconfig"
-
-ln -nsf "$DOTFILES/scripts" "$HOME/Scripts"
-
-[[ ! -d $HOME/.vim/autoload ]] && mkdir -p "$HOME/.vim/autoload"
-ln -sf "$DOTFILES/home/vim/.vimrc" "$HOME/.vimrc"
-ln -sf "$DOTFILES/home/vim/autoload/plug.vim" "$HOME/.vim/autoload/plug.vim"
-
-ln -sf "$DOTFILES/home/.tmux.conf" "$HOME/.tmux.conf"
-
-[[ ${OS} == "Linux" ]] && ln -sf "$DOTFILES/home/.xinitrc" "$HOME/.xinitrc"
-
-ln -nsf "$DOTFILES/config/alacritty" "$HOME/.config/alacritty"
-ln -nsf "$DOTFILES/config/i3" "$HOME/.config/i3"
-ln -nsf "$DOTFILES/config/rofi" "$HOME/.config/rofi"
-ln -nsf "$DOTFILES/config/i3status" "$HOME/.config/i3status"
-ln -nsf "$DOTFILES/config/polybar" "$HOME/.config/polybar"
-
-ansible-playbook --diff -v -K -i ansible/hosts ansible/playbook.yml
+install_ansible
+create_ssh_key
+pull_dotfiles_repo
+symlink_dotfiles
+run_ansible_playbook

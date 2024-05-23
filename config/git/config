@@ -4,8 +4,14 @@
 	rebase = true
 [core]
 	editor = vim
+	excludesfile = /home/aadam/.config/git/gitignore
 [init]
 	defaultBranch = main
 [user]
 	name = Aadam Ali
 	email = 57071686+Aadam-Ali@users.noreply.github.com
+	signingkey = /home/aadam/.ssh/id_ed25519.pub
+[commit]
+	gpgsign = true
+[gpg]
+	format = ssh

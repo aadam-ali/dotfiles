@@ -4,7 +4,7 @@
     url: "{{ item.value }}"
     dest: "{{ item.key }}"
   become: true
-  loop: "{{ pkg_repos_keys | dict2items }}"
+  loop: "{{ pkg_repos_signing_keys | dict2items }}"
 
 - name: Add Package Repositories
   ansible.builtin.apt_repository:
@@ -22,15 +22,21 @@
     update_cache: true
   become: true
 
-- name: Install Standard Packages
+- name: Install CLI Packages
   ansible.builtin.apt:
-    name: "{{ common_pkgs + os_pkgs }}"
+    name: "{{ cli_pkgs }}"
     state: present
   become: true
 
-- name: Install Pyenv Dependencies
+- name: Install Distro Specific Packages
   ansible.builtin.apt:
-    name: "{{ pyenv_deps }}"
+    name: "{{ os_pkgs }}"
+    state: present
+  become: true
+
+- name: Install Python Build Dependencies
+  ansible.builtin.apt:
+    name: "{{ python_build_deps }}"
     state: present
   become: true
 
@@ -52,6 +58,17 @@
     groups: docker
     append: true
   become: true
+
+- name: Add Flathub Flatpak Repository
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+
+- name: Install Flatpaks (gui_pkgs)
+  community.general.flatpak:
+    name: "{{ gui_pkgs }}"
+    state: latest
 
 - name: Install Desktop Environment Packages
   ansible.builtin.apt:
