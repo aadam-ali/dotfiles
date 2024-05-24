@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "${SB}" || echo "'SB' environment variable not found OR directory does not exit"
+
+function help() {
+  cat << EOF
+ USAGE:
+
+  sb  new [book] [title]
+  sb  search [query]
+EOF
+}
+
+function command_not_found() {
+  echo "sb: unexpected command '$1'"
+  echo "Try 'sb help' for more information"
+  exit 1
+}
+
+function link_note() {
+  note=$(rg --files --no-ignore | rg ".md$" | fzy)
+  file=$(basename "$note")
+  title=${file/.md/}
+
+  echo "  * [[$title]]"
+}
+
+function new_note() {
+  date=$(date +"%Y%m%d%H%M%S")
+  book="inbox"
+  # shellcheck disable=SC2124
+  title="$@"
+  filename=$(convert_title_to_kebab_case "$title")
+
+  [[ -z "$title" ]] && exit
+  [[ -d "${SB}/$book" ]] || mkdir -p "$NOTES/$book"
+
+  cat << EOF > "$SB/$book/$filename.md"
+---
+id: $date
+tags: []
+---
+
+# $title
+
+Related:
+
+EOF
+
+ echo "${SB}/$book/$filename.md"
+}
+
+function convert_title_to_kebab_case() {
+  lowercase_title="$(echo "$1" | tr '[:upper:]' '[:lower:]')"
+  lowercase_title_without_parens="$(echo "$lowercase_title" | sed 's/[][():/`]//g')"
+  kebab_case_title="$(echo "$lowercase_title_without_parens" | tr -s ' ' '-')"
+
+  echo "$kebab_case_title"
+}
+
+
+function lookup_note_path() {
+  note="$(echo "$@" | sed 's/\* //' | tr -d '[] ')"
+  notes_path="$(rg --files --no-ignore | rg "$note.md")" || true
+  abs_path="$SB/$notes_path"
+
+  [[ -z "$notes_path" ]] && abs_path=$(new_note "$note")
+
+  echo "$abs_path"
+}
+
+cmd="${1:-}"
+case "$cmd" in
+  "h" | "help")
+    help
+    ;;
+  "")
+    vim "+e ${SB}/inbox"
+    ;;
+  "l" | "link")
+    link_note
+    ;;
+  "n" | "new")
+    shift
+    new_note "$@"
+    ;;
+  "s" | "search")
+    shift
+    vim "+Rg $*"
+    ;;
+  "path")
+    shift
+    lookup_note_path "$@"
+    ;;
+  *)
+    command_not_found "$@"
+    ;;
+esac

@@ -7,7 +7,7 @@ export REPOS="${HOME}/Repos"
 export TOOLS="${REPOS}/tools"
 export DOTFILES="${REPOS}/${GH_USER}/dotfiles"
 export SCRIPTS="${DOTFILES}/scripts"
-export NOTES="${REPOS}/${GH_USER}/notes"
+export SB="${REPOS}/${GH_USER}/second-brain"
 export HISTSIZE=5000
 export HISTFILESIZE=10000
 export TERM="xterm-256color"
@@ -42,6 +42,7 @@ suffix_path() {
 } && export -f suffix_path
 
 prefix_path \
+  "/usr/local/go/bin" \
   "$HOME/go/bin" \
   "$HOME/.local/bin" \
   "$HOME/bin" \

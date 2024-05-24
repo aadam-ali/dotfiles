@@ -15,5 +15,5 @@ Use at your own discretion.
 | [clone](./clone)             | Clone repos following a common directory pattern            |
 | [coauth](./coauth)           | Set coauthors to use in commit messages (only for GitHub)   |
 | [dot](./dot)                 | Set up and update environment configuration                 |
-| [notes](./notes)             | My notes manager (loosely based on Zettelkasten)            |
+| [sb](./sb)                   | My second brain cli                                         |
 | [tmux-window](./tmux-window) | Opens a repository in a new tmux window                     |

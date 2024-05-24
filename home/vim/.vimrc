@@ -6,10 +6,12 @@ Plug 'sainnhe/gruvbox-material'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'hashivim/vim-terraform'
+Plug 'fatih/vim-go'
+Plug 'preservim/nerdtree'
 call plug#end()
 
 "================ Keybinds ================"
-nmap <C-b> :Lexplore<CR>
+nmap <C-b> :NERDTreeToggle<CR>
 nmap <C-p> :call FzfCommand()<CR>
 nmap <C-f> :Rg<CR>
 "=========================================="
@@ -26,6 +28,7 @@ set bg=dark
 
 colorscheme gruvbox-material
 let g:gruvbox_material_background = "hard"
+let g:gruvbox_material_enable_bold = 1
 
 let g:airline_symbols = {}
 let g:airline_symbols.colnr = ' '
@@ -49,7 +52,6 @@ set textwidth=72
 set formatoptions-=t
 
 set backspace=indent,eol,start
-
 " File syntax
 filetype on
 filetype plugin on
@@ -78,19 +80,25 @@ endfunction
 
 " NOTES
 if $NOTES != ""
-  map <space>no $F(gf
+  map <space>no :OpenNote<CR>
   map <space>ni :edit $NOTES/README.md<CR>
   map <space>nn :NewNote<CR>
-  map <space>nl :r!notes link<CR>
+  map <space>nl :r!sb link<CR>
 
   command! -nargs=* NewNote call NewNote(<f-args>)
+  command! -nargs=* OpenNote call OpenNote(<f-args>)
 
   func! NewNote()
-		let book = input('Book> ')
 		let title = input('Title> ')
 
-		let note = system("notes new " . book . " '" . title . "'")
+		let note = system("sb new '" . title . "'")
 		exec "edit " . note
+  endfunc
+
+  func! OpenNote()
+    let line=getline('.')
+    let path = system("sb path " . "'" . line . "'")
+    exec "edit " . path
   endfunc
 endif
 
