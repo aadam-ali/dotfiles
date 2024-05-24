@@ -2,7 +2,7 @@
 pkg_repos_signing_keys:
   /usr/share/keyrings/hashicorp.asc: https://apt.releases.hashicorp.com/gpg
   /usr/share/keyrings/microsoft.asc: https://packages.microsoft.com/keys/microsoft.asc
-  /usr/share/keyrings/docker.asc: "https://download.docker.com/linux/ubuntu/gpg"
+  /usr/share/keyrings/docker.asc: https://download.docker.com/linux/ubuntu/gpg
   /usr/share/keyrings/i3wm.asc: https://baltocdn.com/i3-window-manager/signing.asc
 
 pkg_repos:

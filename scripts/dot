@@ -90,8 +90,8 @@ elif [[ ${OS} == "Darwin" ]]; then
   prepare_macos
 fi
 
-install_ansible
 create_ssh_key
 pull_dotfiles_repo
 symlink_dotfiles
+install_ansible
 run_ansible_playbook
