@@ -78,8 +78,8 @@ function! FzfCommand()
 endfunction
 "=========================================="
 
-" NOTES
-if $NOTES != ""
+" Second Brain
+if $SB != ""
   map <space>no :OpenNote<CR>
   map <space>ni :edit $NOTES/README.md<CR>
   map <space>nn :NewNote<CR>
