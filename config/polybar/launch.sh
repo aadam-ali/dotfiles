@@ -1,6 +1,6 @@
 #!/bin/bash
 
-killall -q polybar
+killall -q polybar && exit 0
 
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 

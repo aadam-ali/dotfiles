@@ -10,9 +10,8 @@ repositories: [pyenv/pyenv, tfutils/tfenv]
 
 font_dir: ""
 fonts:
-  Iosevka: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Iosevka.tar.xz
   UbuntuMono: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/UbuntuMono.tar.xz
-  Meslo: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Meslo.tar.xz
+  VictorMono: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/VictorMono.tar.xz
 
 # MacOS Specific Vars
 homebrew_casks: []

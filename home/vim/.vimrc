@@ -1,43 +1,47 @@
+"""""""""""
+" PLUGINS "
+"""""""""""
+
 call plug#begin()
+Plug 'fatih/vim-go'
+Plug 'hashivim/vim-terraform'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
+Plug 'preservim/nerdtree'
 Plug 'sainnhe/gruvbox-material'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'hashivim/vim-terraform'
-Plug 'fatih/vim-go'
-Plug 'preservim/nerdtree'
 call plug#end()
 
-"================ Keybinds ================"
-nmap <C-b> :NERDTreeToggle<CR>
-nmap <C-p> :call FzfCommand()<CR>
-nmap <C-f> :Rg<CR>
-"=========================================="
 
-"=============== Appearance ==============="
-set number
-set relativenumber
-set ruler
-set hlsearch
-
-set t_ut=
-set t_Co=256
-set bg=dark
+""""""""""""""
+" APPEARANCE "
+""""""""""""""
 
 colorscheme gruvbox-material
 let g:gruvbox_material_background = "hard"
 let g:gruvbox_material_enable_bold = 1
 
+set t_ut=
+set t_Co=256
+set bg=dark
+
 let g:airline_symbols = {}
 let g:airline_symbols.colnr = ' '
 
 set termguicolors
-"=========================================="
 
-"============= Functionality =============="
-" Tabs
+set number
+set relativenumber
+
+
+"""""""""""""
+" BEHAVIOUR "
+"""""""""""""
+
+set hlsearch
+
 set expandtab
 set smarttab
 
@@ -52,20 +56,37 @@ set textwidth=72
 set formatoptions-=t
 
 set backspace=indent,eol,start
-" File syntax
+
 filetype on
 filetype plugin on
 syntax on
-"=========================================="
 
-
-"================  Plugins ================"
-" netrw
+" Netrw
 let g:netrw_winsize = 20
-"=========================================="
+
+" Pandoc
+let g:pandoc#syntax#conceal#urls = 1
+
+augroup pandoc_syntax
+    au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+augroup END
+
+" Enable Transparency
+hi Normal guibg=NONE ctermbg=NONE
+
+""""""""""""
+" KEYBINDS "
+""""""""""""
+
+nmap <C-b> :NERDTreeToggle<CR>
+nmap <C-p> :call FzfCommand()<CR>
+nmap <C-f> :Rg<CR>
 
 
-"================ Functions ==============="
+""""""""""""
+" FUNCTION "
+""""""""""""
+
 function! FzfCommand()
   let output = system("git rev-parse")
   if v:shell_error == 0
@@ -76,9 +97,12 @@ function! FzfCommand()
   redraw!
   exec command
 endfunction
-"=========================================="
 
-" Second Brain
+
+""""""""""""""""
+" SECOND BRAIN "
+""""""""""""""""
+
 if $SB != ""
   map <space>no :OpenNote<CR>
   map <space>ni :edit $NOTES/README.md<CR>
@@ -101,9 +125,3 @@ if $SB != ""
     exec "edit " . path
   endfunc
 endif
-
-let g:pandoc#syntax#conceal#urls = 1
-
-augroup pandoc_syntax
-    au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
-augroup END

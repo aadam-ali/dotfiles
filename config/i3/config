@@ -1,71 +1,10 @@
+#############
+# VARIABLES #
+#############
+
 set $mod Mod4
-
-# Font for window titles and bar (unless overidden in bar{})
-font pango:Iosevka Nerd Font Heavy 10
-
-# Set wallpaper
-exec --no-startup-id ~/.fehbg
-
-# Start XDG autostart .desktop files using dex. See alsoq
-# https://wiki.archlinux.org/index.php/XDG_Autostart
-exec --no-startup-id dex --autostart --environment i3
-
-# The combination of xss-lock, nm-applet and pactl is a popular choice, so
-# they are included here as an example. Modify as you see fit.
-
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork -c 1d2021
-
-# NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
-# And other system tray applications
-exec --no-startup-id nm-applet
-exec --no-startup-id redshift-gtk
-
-# Use pactl to adjust volume in PulseAudio.
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-
-# Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# Kill focused window / application
-bindsym $mod+q kill
-
-# Move focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
-
-# Move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
-
-# Change split direction
-bindsym $mod+Ctrl+h split h
-bindsym $mod+Ctrl+v split v
-
-# Make focused window fullscreen
-bindsym $mod+f fullscreen toggle
-
-# Change window layout (tabbed, toggle split)
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
-
-# Toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
-
-# Change focus between tiling / floating windows
-bindsym $mod+Control+space focus mode_toggle
-
-
-# Define names for default workspaces for which we configure key bindings later on
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
@@ -75,98 +14,149 @@ set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
-set $ws10 "10"
+set $ws10 "0"
 
-# Switch workspace
-bindsym $mod+1 workspace number $ws1
-bindsym $mod+2 workspace number $ws2
-bindsym $mod+3 workspace number $ws3
-bindsym $mod+4 workspace number $ws4
-bindsym $mod+5 workspace number $ws5
-bindsym $mod+6 workspace number $ws6
-bindsym $mod+7 workspace number $ws7
-bindsym $mod+8 workspace number $ws8
-bindsym $mod+9 workspace number $ws9
-bindsym $mod+0 workspace number $ws10
+set $fg #d4be98
+set $bg #1d2021
+set $bga #373b41
+set $bl #7daea3
 
-# Move window to workspace
-bindsym $mod+Shift+1 move container to workspace number $ws1
-bindsym $mod+Shift+2 move container to workspace number $ws2
-bindsym $mod+Shift+3 move container to workspace number $ws3
-bindsym $mod+Shift+4 move container to workspace number $ws4
-bindsym $mod+Shift+5 move container to workspace number $ws5
-bindsym $mod+Shift+6 move container to workspace number $ws6
-bindsym $mod+Shift+7 move container to workspace number $ws7
-bindsym $mod+Shift+8 move container to workspace number $ws8
-bindsym $mod+Shift+9 move container to workspace number $ws9
-bindsym $mod+Shift+0 move container to workspace number $ws10
 
-# reload the configuration file
+##############
+# APPEARANCE #
+##############
+
+font pango:VictorMono Nerd Font Bold 10
+
+gaps inner 5px
+
+for_window [class="^.*"] border pixel 2
+title_align center
+
+# Remove Borders for Single Window
+hide_edge_borders smart
+
+#		             border   bg       fg      indicator child_border
+client.focused   $bga     $bg      $bl     $bg       $bl
+
+
+#############
+# BEHAVIOUR #
+#############
+
+# Assign Workspace to Secondary Display
+workspace $ws10 output DisplayPort-1
+
+# Assign Windows to Workspaces
+assign [class="Alacritty"] 1
+assign [class="firefox"] 2
+assign [class="Code"] 3
+assign [class="obsidian"] 3
+
+
+#############
+# AUTOSTART #
+#############
+
+# System Tray
+exec --no-startup-id nm-applet
+exec --no-startup-id redshift-gtk
+
+exec --no-startup-id "$HOME/.config/polybar/launch.sh"
+exec --no-startup-id picom --config ~/.config/picom/picom.conf -b
+exec_always --no-startup-id "$HOME/.fehbg"
+
+
+#############
+#  KEYBINDS #
+#############
+
+# Reload Config File
 bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+
+# Restart i3
 bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
+# Change Split Direction
+bindsym $mod+Ctrl+h split h
+bindsym $mod+Ctrl+v split v
+
+# Change Window Layout
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Make Window Fullscreen
+bindsym $mod+f fullscreen toggle
+
+# Change Focused Window
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Move Focused Window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Change Focus Between Tiling and Floating
+bindsym $mod+Ctrl+space focus mode_toggle
+
+# Resize Windows
 bindsym $mod+r mode "resize"
-mode "resize" {
 
-  # Resize with Vim motions
+mode "resize" {
   bindsym h resize shrink width 10 px or 10 ppt
   bindsym j resize grow height 10 px or 10 ppt
   bindsym k resize shrink height 10 px or 10 ppt
   bindsym l resize grow width 10 px or 10 ppt
 
-  bindsym Left resize shrink width 10 px or 10 ppt
-  bindsym Down resize grow height 10 px or 10 ppt
-  bindsym Up resize shrink height 10 px or 10 ppt
-  bindsym Right resize grow width 10 px or 10 ppt
-
-  # Return to normal mode
   bindsym Return mode "default"
   bindsym Escape mode "default"
   bindsym $mod+r mode "default"
 }
 
-exec_always --no-startup-id "$HOME/.config/polybar/launch.sh"
-bindsym $mod+Shift+p exec polybar-msg cmd toggle
+# Switch Workspace
+bindsym Mod4+1 workspace $ws1
+bindsym Mod4+2 workspace $ws2
+bindsym Mod4+3 workspace $ws3
+bindsym Mod4+4 workspace $ws4
+bindsym Mod4+5 workspace $ws5
+bindsym Mod4+6 workspace $ws6
+bindsym Mod4+7 workspace $ws7
+bindsym Mod4+8 workspace $ws8
+bindsym Mod4+9 workspace $ws9
+bindsym Mod4+0 workspace $ws10
 
-# Remove title bars for single windows
-for_window [class="^.*"] border pixel 2
+# Move Focused Window to Workspace and Follow It
+bindsym Mod4+Shift+1 move container to workspace $ws1, workspace $ws1
+bindsym Mod4+Shift+2 move container to workspace $ws2, workspace $ws2
+bindsym Mod4+Shift+3 move container to workspace $ws3, workspace $ws3
+bindsym Mod4+Shift+4 move container to workspace $ws4, workspace $ws4
+bindsym Mod4+Shift+5 move container to workspace $ws5, workspace $ws5
+bindsym Mod4+Shift+6 move container to workspace $ws6, workspace $ws6
+bindsym Mod4+Shift+7 move container to workspace $ws7, workspace $ws7
+bindsym Mod4+Shift+8 move container to workspace $ws8, workspace $ws8
+bindsym Mod4+Shift+9 move container to workspace $ws9, workspace $ws9
+bindsym Mod4+Shift+0 move container to workspace $ws10, workspace $ws10
 
-set $bg       #1d2021
-set $fg       #d4be98
-set $red      #ea6962
-set $orange   #e78a4e
-set $green    #a9b665
-set $blue     #7daea3
-set $purple   #d3869b
-set $aqua     #89b482
-set $gray     #282828
+# Change Volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
-# class                 border      backgr.     text    indicator   child_border
-client.focused          $green      $green      $bg     $green      $green
-client.focused_inactive $aqua       $aqua       $bg     $aqua       $aqua
-client.unfocused        $gray       $gray       $fg     $gray       $gray
-client.urgent           $red        $red        $bg     $red        $red
-client.placeholder      $bg         $bg         $bg     $bg         $bg
-client.background       $bg
+# Kill Focused Window / Application
+bindsym $mod+q kill
 
-smart_borders on
-gaps inner 5px
+# Power Menu
+bindsym $mod+Shift+q exec "$HOME/.config/rofi/powermenu.sh"
 
-# Power menu
-bindsym $mod+shift+q exec "/home/aadam/.config/rofi/powermenu.sh"
+# Toggle Polybar
+bindsym $mod+Shift+p exec "$HOME/.config/polybar/launch.sh"
 
-# Application keybinds
-bindsym $mod+Return exec alacritty
+# Launch Applications
 bindsym $mod+space exec --no-startup-id rofi -modi drun -show drun
-bindsym $mod+b exec firefox
-
-# Open applications in specific workspaces
-assign [class="Alacritty"] 1
-assign [class="firefox"] 2
-assign [class="Code"] 3
-
-# Assign a 'default' workspace to secondary monitor
-workspace 10 output DisplayPort-1
+bindsym $mod+Return exec alacritty, workspace $ws1
+bindsym $mod+b exec firefox, workspace $ws2

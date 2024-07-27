@@ -19,7 +19,7 @@ python_build_deps:
   - libffi-dev
   - liblzma-dev
 
-font_dir: "{{ ansible_env['HOME'] }}/.fonts"
+font_dir: "{{ ansible_env['HOME'] }}/.local/share/fonts"
 
 # Linux Specific Vars
 pkg_repos_signing_keys:
