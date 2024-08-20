@@ -20,7 +20,7 @@ call plug#end()
 """"""""""""""
 
 colorscheme gruvbox-material
-let g:gruvbox_material_background = "hard"
+let g:gruvbox_material_background = "medium"
 let g:gruvbox_material_enable_bold = 1
 
 set t_ut=
@@ -72,7 +72,7 @@ augroup pandoc_syntax
 augroup END
 
 " Enable Transparency
-hi Normal guibg=NONE ctermbg=NONE
+" hi Normal guibg=NONE ctermbg=NONE
 
 """"""""""""
 " KEYBINDS "

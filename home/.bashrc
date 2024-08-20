@@ -21,6 +21,7 @@ alias ls="ls --color=auto"
 alias grep="grep --color=auto"
 alias me="cd ${REPOS}/${GH_USER}"
 alias run="docker run -it --rm"
+alias vi="vim"
 
 # Path
 prefix_path() {
@@ -79,12 +80,12 @@ prompt () {
   # Colours
   bl='\[\e[30m\]' r='\[\e[31m\]' g='\[\e[32m\]' \
   y='\[\e[33m\]' b='\[\e[34m\]' p='\[\e[35m\]' \
-  c='\[\e[36m\]' w='\[\e[37m\]' e='\[\e[0m\]'
+  c='\[\e[36m\]' w='\[\e[37m\]' e='\[\e[0m\]' fg='\[\e[39m\]'
 
   # Bold colours
   bbl='\[\e[1;30m\]' br='\[\e[1;31m\]' bg='\[\e[1;32m\]' \
   by='\[\e[1;33m\]' bb='\[\e[1;34m\]' bp='\[\e[1;35m\]' \
-  bc='\[\e[1;36m\]' bw='\[\e[1;37m\]'
+  bc='\[\e[1;36m\]' bw='\[\e[1;37m\]' bfg='\[\e[1;39m\]'
 
   local branch changes aws_role fbranch venv aws_role_prompt wrap_length length
 
@@ -94,23 +95,23 @@ prompt () {
 
   if [[ "${branch}" ]]; then
     if [[ "${changes}" ]]; then
-      fbranch="(${r}${branch}${e})"
+      fbranch="${br}${branch}${e}"
     else
-      fbranch="(${g}${branch}${e})"
+      fbranch="${bg}${branch}${e}"
     fi
-    branch="(${branch})"
+    branch="${branch}"
   fi
 
-  [[ -n "${VIRTUAL_ENV}" ]] && venv="(${VIRTUAL_ENV##*/}) "
-  [[ -n "${aws_role}" ]] && aws_role_prompt=" (${aws_role})"
+  [[ -n "${VIRTUAL_ENV}" ]] && venv="${fg}(${VIRTUAL_ENV##*/})${e} "
+  [[ -n "${aws_role}" ]] && aws_role_prompt="${fg} (${aws_role})${e}"
 
   wrap_length=$(( $COLUMNS / 2 ))
-  length="${venv}${USER}@$(hostname):${PWD}${branch}${aws_role_prompt}$ "
+  length="${venv}${aws_role}${PWD/$HOME/\~}@${branch} ~> "
 
   if [[ ${#length} -lt ${wrap_length} ]]; then
-    PS1="${venv}${bg}\u@\h${e}:${bb}\w${e}${fbranch}${aws_role_prompt}\$ "
+    PS1="${venv}${bb}\w${e}@${fbranch}${aws_role_prompt} ${bfg}~>${e} "
   else
-    PS1="${venv}${bg}\u@\h${e}:${bb}\w${e}${fbranch}${aws_role_prompt}\n\$ "
+    PS1="${venv}${bb}\w${e}@${fbranch}${aws_role_prompt}\n${bfg}~>${e} "
   fi
 }
 

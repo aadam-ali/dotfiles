@@ -1,28 +1,8 @@
-[colors.primary]
-background = '#1d2021'
-foreground = '#d4be98'
+import = [
+    "~/.config/alacritty/gruvbox-material-dark.toml"
+]
 
-# Normal colors
-[colors.normal]
-black   = '#32302f'
-red     = '#ea6962'
-green   = '#a9b665'
-yellow  = '#d8a657'
-blue    = '#7daea3'
-magenta = '#d3869b'
-cyan    = '#89b482'
-white   = '#d4be98'
-
-# Bright colors (same as normal colors)
-[colors.bright]
-black   = '#32302f'
-red     = '#ea6962'
-green   = '#a9b665'
-yellow  = '#d8a657'
-blue    = '#7daea3'
-magenta = '#d3869b'
-cyan    = '#89b482'
-white   = '#d4be98'
+live_config_reload = true
 
 [font]
 size = 18
@@ -44,8 +24,8 @@ family = "UbuntuMono Nerd Font"
 style = "Regular"
 
 [shell]
-args = ["-c", "source ~/.bashrc && tmux -2 new-session -A -s main"]
-program = "/bin/bash"
+args = ["bash", "-c", "source ~/.profile && tmux -2 new-session -A -s main"]
+program = "/usr/bin/env"
 
 [window.padding]
 x = 3
