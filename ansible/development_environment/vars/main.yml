@@ -10,6 +10,7 @@ repositories: [pyenv/pyenv, tfutils/tfenv]
 
 font_dir: ""
 fonts:
+  D2Coding: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/D2Coding.tar.xz
   UbuntuMono: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/UbuntuMono.tar.xz
   VictorMono: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/VictorMono.tar.xz
 
