@@ -1,3 +1,8 @@
+if [[ -f /etc/profile ]]; then
+  PATH=""
+  source /etc/profile
+fi
+
 # source .bashrc (sets prompt / env vars / aliases / other bash config)
 if [[ -f "$HOME/.bashrc" ]]; then
   . "$HOME/.bashrc"
