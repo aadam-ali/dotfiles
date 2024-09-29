@@ -1,11 +1,13 @@
 ---
 de_pkgs: [amethyst]
-gui_pkgs: [visual-studio-code, firefox, libreoffice]
+gui_pkgs: [visual-studio-code, firefox, libreoffice, obsidian]
 docker_pkgs: [colima]
-os_pkgs: [gnu-sed, gnu-tar, grep, coreutils]
+os_pkgs: [gnu-sed, gnu-tar, grep, coreutils, bash, kubectl, helm]
 python_build_deps: [openssl, readline, sqlite3, xz, zlib, tcl-tk]
 
 font_dir: "{{ ansible_env['HOME'] }}/Library/Fonts"
+
+sb_url: "https://github.com/Aadam-Ali/second-brain-cli/releases/download/0.1.0/sb-0.1.0-darwin-arm64.tar.gz"
 
 # MacOS Specific Vars
 homebrew_casks: [aws-vault, docker]

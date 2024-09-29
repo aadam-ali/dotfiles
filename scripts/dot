@@ -5,6 +5,7 @@ set -euo pipefail
 OS=$(uname)
 DOTFILES="$HOME/Repos/Aadam-Ali/dotfiles"
 DOTFILES_VENV="$DOTFILES/.venv"
+CONFIG_DIR="$HOME/.config"
 
 function prepare_linux() {
   sudo apt-get update -y && sudo apt-get upgrade -y
@@ -89,6 +90,8 @@ if [[ ${OS} == "Linux" ]]; then
 elif [[ ${OS} == "Darwin" ]]; then
   prepare_macos
 fi
+
+[[ ! -d "$CONFIG_DIR" ]] && mkdir "$CONFIG_DIR"
 
 create_ssh_key
 pull_dotfiles_repo

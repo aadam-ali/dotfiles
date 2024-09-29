@@ -95,9 +95,9 @@ prompt () {
 
   if [[ "${branch}" ]]; then
     if [[ "${changes}" ]]; then
-      fbranch="${br}${branch}${e}"
+      fbranch="${br}@${branch}${e}"
     else
-      fbranch="${bg}${branch}${e}"
+      fbranch="${bg}@${branch}${e}"
     fi
     branch="${branch}"
   fi
@@ -106,12 +106,12 @@ prompt () {
   [[ -n "${aws_role}" ]] && aws_role_prompt="${fg} (${aws_role})${e}"
 
   wrap_length=$(( $COLUMNS / 2 ))
-  length="${venv}${aws_role}${PWD/$HOME/\~}@${branch} ~> "
+  length="${venv}${aws_role}${PWD/$HOME/\~}${branch} ~> "
 
   if [[ ${#length} -lt ${wrap_length} ]]; then
-    PS1="${venv}${bb}\w${e}@${fbranch}${aws_role_prompt} ${bfg}~>${e} "
+    PS1="${venv}${bb}\w${e}${fbranch}${aws_role_prompt} ${bfg}~>${e} "
   else
-    PS1="${venv}${bb}\w${e}@${fbranch}${aws_role_prompt}\n${bfg}~>${e} "
+    PS1="${venv}${bb}\w${e}${fbranch}${aws_role_prompt}\n${bfg}~>${e} "
   fi
 }
 
