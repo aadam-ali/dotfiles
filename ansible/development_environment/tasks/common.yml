@@ -21,3 +21,10 @@
     dest: "{{ font_dir }}/{{ item.key }}"
     remote_src: yes
   loop: "{{ fonts | dict2items }}"
+
+- name: Install Second Brain CLI
+  ansible.builtin.unarchive:
+    creates: "{{ ansible_env['HOME'] }}/.local/bin/sb"
+    src: "{{ sb_url }}"
+    dest: "{{ ansible_env['HOME'] }}/.local/bin"
+    remote_src: yes
