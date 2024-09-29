@@ -1,8 +1,8 @@
 ---
 de_pkgs: [amethyst]
-gui_pkgs: [visual-studio-code, firefox, libreoffice]
+gui_pkgs: [visual-studio-code, firefox, libreoffice, obsidian]
 docker_pkgs: [colima]
-os_pkgs: [gnu-sed, gnu-tar, grep, coreutils]
+os_pkgs: [gnu-sed, gnu-tar, grep, coreutils, bash, kubectl, helm]
 python_build_deps: [openssl, readline, sqlite3, xz, zlib, tcl-tk]
 
 font_dir: "{{ ansible_env['HOME'] }}/Library/Fonts"

@@ -36,7 +36,9 @@
 - name: Install GUI Applications
   community.general.homebrew_cask:
     name: "{{ gui_pkgs }}"
+    state: present
 
 - name: Install Desktop Environment Packages
   community.general.homebrew_cask:
     name: "{{ de_pkgs }}"
+    state: present
