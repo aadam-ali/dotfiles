@@ -3,6 +3,7 @@
 """""""""""
 
 call plug#begin()
+Plug 'Aadam-Ali/sb.vim'
 Plug 'fatih/vim-go'
 Plug 'hashivim/vim-terraform'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -27,8 +28,18 @@ set t_ut=
 set t_Co=256
 set bg=dark
 
-let g:airline_symbols = {}
-let g:airline_symbols.colnr = ' '
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+let g:airline_powerline_fonts = 0
+
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.maxlinenr = ''
 
 set termguicolors
 
@@ -74,6 +85,7 @@ augroup END
 " Enable Transparency
 " hi Normal guibg=NONE ctermbg=NONE
 
+
 """"""""""""
 " KEYBINDS "
 """"""""""""
@@ -102,26 +114,8 @@ endfunction
 """"""""""""""""
 " SECOND BRAIN "
 """"""""""""""""
-
-if $SB != ""
-  map <space>no :OpenNote<CR>
-  map <space>ni :edit $NOTES/README.md<CR>
-  map <space>nn :NewNote<CR>
-  map <space>nl :r!sb link<CR>
-
-  command! -nargs=* NewNote call NewNote(<f-args>)
-  command! -nargs=* OpenNote call OpenNote(<f-args>)
-
-  func! NewNote()
-		let title = input('Title> ')
-
-		let note = system("sb new '" . title . "'")
-		exec "edit " . note
-  endfunc
-
-  func! OpenNote()
-    let line=getline('.')
-    let path = system("sb path " . "'" . line . "'")
-    exec "edit " . path
-  endfunc
-endif
+map <space>si :edit $SB<CR>
+map <space>sl :SBLinkNote<CR>
+map <space>sn :SBNewNote<CR>
+map <space>so :SBOpenNote<CR>
+map <space>sp :SBNewPrivateNote<CR>
