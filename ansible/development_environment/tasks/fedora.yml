@@ -1,0 +1,83 @@
+---
+- name: Update DNF Cache & Packages
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+    update_cache: true
+  become: true
+
+- name: Remove Orphaned Packages
+  ansible.builtin.dnf:
+    autoremove: true
+  become: true
+
+- name: Install DNF Config Manager
+  ansible.builtin.dnf:
+    name: dnf-plugins-core
+    state: latest
+  become: true
+
+- name: Add Package Repositories
+  ansible.builtin.command:
+    cmd: "sudo dnf-3 config-manager --add-repo {{ item.value }}"
+  become: true
+  loop: "{{ pkg_repos | dict2items }}"
+
+- name: Install CLI Packages
+  ansible.builtin.dnf:
+    name: "{{ cli_pkgs }}"
+    state: present
+  become: true
+
+- name: Install Distro Specific Packages
+  ansible.builtin.dnf:
+    name: "{{ os_pkgs }}"
+    state: present
+  become: true
+
+- name: Install Python Build Dependencies
+  ansible.builtin.dnf:
+    name: "{{ python_build_deps }}"
+    state: present
+  become: true
+
+- name: Install Docker
+  ansible.builtin.dnf:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+  become: true
+
+- name: Enable Docker
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+    enabled: true
+  become: true
+
+- name: "Add '{{ ansible_user_id }}' To Docker Group"
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: true
+  become: true
+
+- name: Install Desktop Environment Packages
+  ansible.builtin.dnf:
+    name: "{{ de_pkgs }}"
+  become: true
+
+- name: Add Flathub Flatpak Repository
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+  become: true
+
+- name: Install GUI Apps
+  community.general.flatpak:
+    name: "{{ gui_pkgs }}"
+    state: latest
