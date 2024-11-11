@@ -1,3 +1,4 @@
+[general]
 import = [
     "~/.config/alacritty/gruvbox-material-dark.toml"
 ]
@@ -23,7 +24,7 @@ style = "Italic"
 family = "D2CodingLigature Nerd Font Mono"
 style = "Regular"
 
-[shell]
+[terminal.shell]
 args = ["bash", "-c", "source ~/.profile && tmux -2 new-session -A -s main"]
 program = "/usr/bin/env"
 

@@ -1,0 +1,106 @@
+* {
+  font-family: 'VictorMono Nerd Font Propo';
+  font-weight: 700;
+  font-size: 13px;
+}
+
+window#waybar {
+  background-color: alpha(#242424, 0.9);
+  transition-property: background-color;
+  transition-duration: 0.5s;
+  color: #ffffff;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+button {
+  border: none;
+  border-radius: 0;
+}
+
+#workspaces button {
+  padding: 0 5px;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+#workspaces button:hover {
+  background-color: alpha(#000000, 0.2);
+}
+
+#workspaces button.focused {
+  background-color: alpha(#0860f2, 0.9);
+}
+
+#workspaces button.urgent {
+  background-color: alpha(#ff605c, 0.9);
+}
+
+#mode {
+  background-color: alpha(#ff605c, 0.9);
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#scratchpad,
+#power-profiles-daemon,
+#mpd {
+  padding: 0 5px;
+  background-color: transparent;
+}
+
+#window,
+#workspaces {
+  margin: 0 4px;
+}
+
+/* Set all module backgrounds to grey background-color: #808080; */
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+  margin-left: 0;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+  margin-right: 0;
+}
+
+#network.disconnected {
+  background-color: alpha(#ff605c, 0.9);
+}
+
+#pulseaudio.muted {
+  background-color: alpha(#ff605c, 0.9);
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+  background-color: alpha(#ff605c, 0.9);
+}
+
+#idle_inhibitor.activated {
+  background-color: alpha(#0860f2, 0.9);
+}
+
+#scratchpad.empty {
+  background-color: transparent;
+}

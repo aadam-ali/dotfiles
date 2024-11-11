@@ -5,6 +5,10 @@
   include_tasks: debian.yml
   when: ansible_facts['os_family']|lower == 'debian'
 
+- name: Setup Fedora
+  include_tasks: fedora.yml
+  when: ansible_facts['distribution']|lower == 'fedora'
+
 - name: Setup MacOS
   include_tasks: macosx.yml
   when: ansible_facts['distribution']|lower == 'macosx'

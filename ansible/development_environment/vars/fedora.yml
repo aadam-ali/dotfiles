@@ -1,0 +1,27 @@
+---
+pkg_repos:
+  docker: https://download.docker.com/linux/fedora/docker-ce.repo
+
+font_dir: "{{ ansible_env['HOME'] }}/.local/share/fonts"
+
+de_pkgs: [sway, rofi-wayland, waybar, alacritty, pavucontrol, network-manager-applet, thunar]
+gui_pkgs: [md.obsidian.Obsidian, org.libreoffice.LibreOffice]
+os_pkgs: [flatpak]
+
+python_build_deps:
+  - make
+  - gcc
+  - patch
+  - zlib-devel
+  - bzip2
+  - bzip2-devel
+  - readline-devel
+  - sqlite
+  - sqlite-devel
+  - openssl-devel
+  - tk-devel
+  - libffi-devel
+  - xz-devel
+  - libuuid-devel
+  - gdbm-libs
+  - libnsl2

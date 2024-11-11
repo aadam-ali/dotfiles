@@ -11,8 +11,7 @@ export SB="${REPOS}/${GH_USER}/second-brain"
 export HISTSIZE=5000
 export HISTFILESIZE=10000
 
-export PYENV_ROOT="$TOOLS/pyenv"
-export TFENV_ROOT="$TOOLS/tfenv"
+export ASDF_DATA_DIR="${TOOLS}/asdf"
 
 # Aliases
 alias ll="ls -lhA"
@@ -46,9 +45,6 @@ prefix_path \
   "$HOME/go/bin" \
   "$HOME/.local/bin" \
   "$HOME/bin" \
-  "$PYENV_ROOT/shims" \
-  "$PYENV_ROOT/bin" \
-  "$TFENV_ROOT/bin" \
   "$SCRIPTS"
 
 suffix_path \
@@ -115,3 +111,5 @@ prompt () {
 }
 
 export PROMPT_COMMAND="prompt"
+
+source "$ASDF_DATA_DIR/asdf.sh"
