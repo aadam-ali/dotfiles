@@ -1,5 +1,5 @@
 if [[ -f /etc/profile ]]; then
-  PATH=""
+  PATH="/usr/local/bin:/usr/bin:/bin"
   source /etc/profile
 fi
 

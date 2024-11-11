@@ -10,7 +10,6 @@ export SCRIPTS="${DOTFILES}/scripts"
 export SB="${REPOS}/${GH_USER}/second-brain"
 export HISTSIZE=5000
 export HISTFILESIZE=10000
-export TERM="xterm-256color"
 
 export PYENV_ROOT="$TOOLS/pyenv"
 export TFENV_ROOT="$TOOLS/tfenv"
