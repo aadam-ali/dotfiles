@@ -1,135 +1,99 @@
-/*
- * Gruvbox Material Dark Hard for Rofi
- * User: Aadam-Ali
- * Based From: Tokyonight colorscheme for rofi by w8ste
- * Based From URL: https://github.com/w8ste/Tokyonight-rofi-theme/blob/43ca93b32d9563bf31e649f48cf0de2e4e3b4bd3/tokyonight.rasi
-*/
+/* MACOS SPOTLIGHT LIKE DARK THEME FOR ROFI  */
+/* Author: Newman Sanchez (https://github.com/newmanls) */
 
-// define colors etc.
 * {
-    background: #1d2021;
-    background-alt: #373b41;
-    foreground: #d4be98;
-    primary: #a9b665;
-    secondary: #7daea3;
-    alert: #d8a657;
-    disabled: #ea6962;
-    font: "Roboto 16";
-    background-color: @background;
-    border: 0px;
+    font:   "VictorMono Nerd Font Propo Semibold 14";
+
+    bg0:    #242424E6;
+    bg1:    #7E7E7E80;
+    bg2:    #0860f2E6;
+
+    fg0:    #DEDEDE;
+    fg1:    #FFFFFF;
+    fg2:    #DEDEDE80;
+
+    background-color:   transparent;
+    text-color:         @fg0;
+
+    margin:     0;
+    padding:    0;
+    spacing:    0;
 }
 
-// defines different aspects of the window
 window {
-    width: 700;
-    /*since line wont work with height, i comment it out
-    if you rather control the size via height
-    just comment it out */
-    //height: 500;
+    background-color:   @bg0;
 
-    orientation: horizontal;
-    location: center;
-    anchor: center;
-    transparency: "screenshot";
-    spacing: 0;
-    children: [ mainbox ];
-}
-
-mainbox {
-    spacing: 0;
-    children: [ inputbar, message, listview ];
+    location:       center;
+    width:          640;
+    border-radius:  8;
 }
 
 inputbar {
-    color: @foreground;
-    padding: 11px;
-    border: 2px 2px 2px 2px;
-    border-color: @background-alt;
+    font:       "VictorMono Nerd Font Propo Semibold 20";
+    padding:    12px;
+    spacing:    12px;
+    children:   [ icon-search, entry ];
 }
 
-message {
-    padding: 0;
-    border-color: @background-alt;
-    border: 0px 1px 1px 1px;
+icon-search {
+    expand:     false;
+    filename:   "search";
+    size: 28px;
 }
 
-entry, prompt, case-indicator {
-    text-font: inherit;
-    text-color: inherit;
+icon-search, entry, element-icon, element-text {
+    vertical-align: 0.5;
 }
 
 entry {
-    cursor: pointer;
+    font:   inherit;
+
+    placeholder         : "Search";
+    placeholder-color   : @fg2;
 }
 
-prompt {
-    margin: 0px 5px 0px 0px;
+message {
+    border:             2px 0 0;
+    border-color:       @bg1;
+    background-color:   @bg1;
+}
+
+textbox {
+    padding:    8px 24px;
 }
 
 listview {
-    layout: vertical;
-    padding: 8px;
-    lines: 12;
-    columns: 1;
-    border: 0px 2px 2px 2px;
-    border-color: @background-alt;
-    dynamic: false;
+    lines:      10;
+    columns:    1;
+
+    fixed-height:   false;
+    border:         1px 0 0;
+    border-color:   @bg1;
 }
 
 element {
-    padding: 2px;
-    vertical-align: 1;
-    color: @foreground;
-    font: inherit;
-}
-
-element-text {
-    background-color: inherit;
-    text-color: inherit;
-}
-
-element selected.normal {
-    color: @foreground;
-    background-color: @background-alt;
+    padding:            8px 16px;
+    spacing:            16px;
+    background-color:   transparent;
 }
 
 element normal active {
-    background-color: @background;
-    color: @foreground;
+    text-color: @bg2;
 }
 
-element-text, element-icon {
-    background-color: inherit;
-    text-color: inherit;
+element alternate active {
+    text-color: @bg2;
+}
+
+element selected normal, element selected active {
+    background-color:   @bg2;
+    text-color:         @fg1;
 }
 
 element-icon {
-    margin: 0px 6px 0px 0px;
+    size:   1em;
 }
 
-element normal urgent {
-    background-color: @primary;
-}
-
-element selected active {
-    background: @foreground;
-    foreground: @background;
-}
-
-button {
-    padding: 6px;
-    color: @secondary;
-    horizontal-align: 0.5;
-
-    border: 2px 0px 2px 2px;
-    border-color: @background-alt;
-}
-
-button selected normal {
-    border: 2px 0px 2px 2px;
-    border-color: @background-alt;
-}
-
-scrollbar {
-    enabled: true;
+element-text {
+    text-color: inherit;
 }
