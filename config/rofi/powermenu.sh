@@ -8,7 +8,7 @@ case "$option" in
     systemctl poweroff
     ;;
   "Logout")
-    i3-msg exit
+    swaymsg exit
     ;;
   "Restart")
     systemctl reboot
@@ -17,6 +17,6 @@ case "$option" in
     systemctl suspend
     ;;
   "Lock")
-    i3lock -n -c 1d2021
+    swaylock -n -c 242424
     ;;
 esac
