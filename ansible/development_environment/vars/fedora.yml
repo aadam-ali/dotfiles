@@ -4,9 +4,9 @@ pkg_repos:
 
 font_dir: "{{ ansible_env['HOME'] }}/.local/share/fonts"
 
-de_pkgs: [sway, rofi-wayland, waybar, alacritty, pavucontrol, network-manager-applet, thunar]
+de_pkgs: [sway, rofi-wayland, waybar, alacritty, pavucontrol, network-manager-applet, thunar, wl-clipboard, grimshot, wlsunset]
 gui_pkgs: [md.obsidian.Obsidian, org.libreoffice.LibreOffice]
-os_pkgs: [flatpak]
+os_pkgs: [flatpak, '@virtualization']
 
 python_build_deps:
   - make

@@ -112,4 +112,4 @@ prompt () {
 
 export PROMPT_COMMAND="prompt"
 
-source "$ASDF_DATA_DIR/asdf.sh"
+source "$ASDF_DATA_DIR/asdf.sh" || true
