@@ -72,6 +72,7 @@ function symlink_dotfiles() {
   [[ ! -d $HOME/.vim/autoload ]] && mkdir -p "$HOME/.vim/autoload"
   ln -sf "$DOTFILES/home/vim/.vimrc" "$HOME/.vimrc"
   ln -sf "$DOTFILES/home/vim/autoload/plug.vim" "$HOME/.vim/autoload/plug.vim"
+  ln -nsf "$DOTFILES/config/nvim" "$HOME/.config/nvim"
 
   ln -nsf "$DOTFILES/config/tmux" "$HOME/.config/tmux"
   ln -nsf "$DOTFILES/config/git" "$HOME/.config/git"
@@ -91,7 +92,6 @@ function symlink_dotfiles() {
 function run_ansible_playbook() {
   "$DOTFILES_VENV"/bin/ansible-playbook --diff -v -K -i ansible/hosts ansible/playbook.yml
 }
-
 
 if [[ ${OS} == "Linux" ]]; then
   prepare_linux
