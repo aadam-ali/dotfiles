@@ -75,6 +75,10 @@ input * {
   xkb_variant "mac"
 }
 
+input 1133:16505:Logitech_G_Pro {
+  accel_profile "flat"
+  pointer_accel 0.5
+}
 ### Idle configuration
 #
 # Example configuration:
