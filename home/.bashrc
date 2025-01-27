@@ -2,7 +2,7 @@
 export CONFIG="${HOME}/.config"
 export XDG_CONFIG_HOME="${CONFIG}"
 export EDITOR=vi
-export GH_USER="Aadam-Ali"
+export GH_USER="aadam-ali"
 export REPOS="${HOME}/Repos"
 export TOOLS="${REPOS}/tools"
 export DOTFILES="${REPOS}/${GH_USER}/dotfiles"
@@ -19,7 +19,12 @@ alias ls="ls --color=auto"
 alias grep="grep --color=auto"
 alias me="cd ${REPOS}/${GH_USER}"
 alias run="docker run -it --rm"
-alias vi="vim"
+alias k="kubectl"
+if [[ -x "$(command -v nvim)" ]]; then
+  alias vi="nvim"
+else
+  alias vi="vim"
+fi
 
 # Path
 prefix_path() {
@@ -71,16 +76,16 @@ if ! shopt -oq posix; then
   fi
 fi
 
-prompt () {
+prompt() {
   # Colours
   bl='\[\e[30m\]' r='\[\e[31m\]' g='\[\e[32m\]' \
-  y='\[\e[33m\]' b='\[\e[34m\]' p='\[\e[35m\]' \
-  c='\[\e[36m\]' w='\[\e[37m\]' e='\[\e[0m\]' fg='\[\e[39m\]'
+    y='\[\e[33m\]' b='\[\e[34m\]' p='\[\e[35m\]' \
+    c='\[\e[36m\]' w='\[\e[37m\]' e='\[\e[0m\]' fg='\[\e[39m\]'
 
   # Bold colours
   bbl='\[\e[1;30m\]' br='\[\e[1;31m\]' bg='\[\e[1;32m\]' \
-  by='\[\e[1;33m\]' bb='\[\e[1;34m\]' bp='\[\e[1;35m\]' \
-  bc='\[\e[1;36m\]' bw='\[\e[1;37m\]' bfg='\[\e[1;39m\]'
+    by='\[\e[1;33m\]' bb='\[\e[1;34m\]' bp='\[\e[1;35m\]' \
+    bc='\[\e[1;36m\]' bw='\[\e[1;37m\]' bfg='\[\e[1;39m\]'
 
   local branch changes aws_role fbranch venv aws_role_prompt wrap_length length
 
@@ -100,7 +105,7 @@ prompt () {
   [[ -n "${VIRTUAL_ENV}" ]] && venv="${fg}(${VIRTUAL_ENV##*/})${e} "
   [[ -n "${aws_role}" ]] && aws_role_prompt="${fg} (${aws_role})${e}"
 
-  wrap_length=$(( $COLUMNS / 2 ))
+  wrap_length=$(($COLUMNS / 2))
   length="${venv}${aws_role}${PWD/$HOME/\~}${branch} ~> "
 
   if [[ ${#length} -lt ${wrap_length} ]]; then

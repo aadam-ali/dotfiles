@@ -6,22 +6,22 @@ import = [
 live_config_reload = true
 
 [font]
-size = 18
+size = 15
 
 [font.bold]
-family = "D2CodingLigature Nerd Font Mono"
+family = "UbuntuMono Nerd Font Mono"
 style = "Bold"
 
 [font.bold_italic]
-family = "D2CodingLigature Nerd Font Mono"
+family = "UbuntuMono Nerd Font Mono"
 style = "Bold Italic"
 
 [font.italic]
-family = "D2CodingLigature Nerd Font Mono"
+family = "UbuntuMono Nerd Font Mono"
 style = "Italic"
 
 [font.normal]
-family = "D2CodingLigature Nerd Font Mono"
+family = "UbuntuMono Nerd Font Mono"
 style = "Regular"
 
 [terminal.shell]
