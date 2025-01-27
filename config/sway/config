@@ -56,14 +56,14 @@ output Virtual-1 {
 output DP-1 {
   mode 1920x1080@144Hz
   position 0 0
-  bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_2048x1536.png fill
+  bg /usr/share/backgrounds/gnome/drool-l.svg fill
 }
 
 output DP-2 {
   mode 1920x1080@144Hz
   transform 270
   position -1080 -420
-  bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_2048x1536_Portrait.png fill
+  bg /usr/share/backgrounds/gnome/drool-l.svg fill
 }
 
 ############
@@ -112,6 +112,7 @@ exec swayidle -w \
 
 # Systray
 exec nm-applet
+exec blueman-applet
 
 exec wlsunset -S 08:30 -s 20:30
 

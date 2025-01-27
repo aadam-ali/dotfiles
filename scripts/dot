@@ -4,7 +4,7 @@ set -euo pipefail
 
 OS=$(uname)
 DIST=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
-DOTFILES="$HOME/Repos/Aadam-Ali/dotfiles"
+DOTFILES="$HOME/Repos/aadam-ali/dotfiles"
 DOTFILES_VENV="$DOTFILES/.venv"
 CONFIG_DIR="$HOME/.config"
 
@@ -31,7 +31,7 @@ function install_ansible() {
   fi
 
   if [[ ! -f "$DOTFILES_VENV/bin/ansible" ]]; then
-    "$DOTFILES_VENV"/bin/pip install ansible==9.6.0
+    "$DOTFILES_VENV"/bin/pip install ansible==9.6.1
   fi
 }
 
@@ -50,8 +50,8 @@ function create_ssh_key() {
 
 function pull_dotfiles_repo() {
   if [[ ! -d "$DOTFILES" ]]; then
-    mkdir -p "$HOME/Repos/Aadam-Ali"
-    git clone git@github.com:Aadam-Ali/dotfiles "$DOTFILES"
+    mkdir -p "$HOME/Repos/aadam-ali"
+    git clone git@github.com:aadam-ali/dotfiles "$DOTFILES"
     cd "$DOTFILES"
   else
     cd "$DOTFILES"

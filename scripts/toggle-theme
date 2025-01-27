@@ -36,14 +36,14 @@ if [[ "${CURRENT_THEME}" =~ "prefer-light" ]]; then
   sed -i "s/$LIGHT/$DARK/g" "$ALACRITTY_CONF"
   sed -i "s/set bg=\([a-z]*\)/set bg=dark/g" "$VIM_CONF"
   sed -i "s/gruvbox_material_background = \"\([a-z]*\)\"/gruvbox_material_background = \"medium\"/g" "$VIM_CONF"
-  sed -i "s/\"workbench.colorTheme\": \"Gruvbox Material Light\"/\"workbench.colorTheme\": \"Gruvbox Material Dark\"/g" "$VSCODE_CONF"
+  sed -i "s/\"workbench.colorTheme\": \"Gruvbox Material Light\"/\"workbench.colorTheme\": \"Gruvbox Material Dark\"/g" "$VSCODE_CONF" || true
 else
   $CHANGE_THEME "prefer-light"
 
   sed -i "s/$DARK/$LIGHT/g" "$ALACRITTY_CONF"
   sed -i "s/set bg=\([a-z]*\)/set bg=light/g" "$VIM_CONF"
   sed -i "s/gruvbox_material_background = \"\([a-z]*\)\"/gruvbox_material_background = \"soft\"/g" "$VIM_CONF"
-  sed -i "s/\"workbench.colorTheme\": \"Gruvbox Material Dark\"/\"workbench.colorTheme\": \"Gruvbox Material Light\"/g" "$VSCODE_CONF"
+  sed -i "s/\"workbench.colorTheme\": \"Gruvbox Material Dark\"/\"workbench.colorTheme\": \"Gruvbox Material Light\"/g" "$VSCODE_CONF" "" || true
 fi
 
 sed -i -e 's/a89984/7c6f64/g' -e t -e 's/7c6f64/a89984/g' "$TMUX_CONF"
