@@ -48,10 +48,10 @@ suffix_path() {
 } && export -f suffix_path
 
 prefix_path \
-  /usr/local/opt/coreutils/libexec/gnubin \
-  /usr/local/opt/gnu-sed/libexec/gnubin \
-  /usr/local/opt/grep/libexec/gnubin \
-  /usr/local/opt/gnu-tar/libexec/gnubin \
+  /opt/homebrew/opt/coreutils/libexec/gnubin \
+  /opt/homebrew/opt/gnu-sed/libexec/gnubin \
+  /opt/homebrew/opt/grep/libexec/gnubin \
+  /opt/homebrew/opt/gnu-tar/libexec/gnubin \
   "/usr/local/go/bin" \
   "$HOME/go/bin" \
   "$ASDF_DATA_DIR/shims" \
