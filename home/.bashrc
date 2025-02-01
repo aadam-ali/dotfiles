@@ -48,6 +48,10 @@ suffix_path() {
 } && export -f suffix_path
 
 prefix_path \
+  /usr/local/opt/coreutils/libexec/gnubin \
+  /usr/local/opt/gnu-sed/libexec/gnubin \
+  /usr/local/opt/grep/libexec/gnubin \
+  /usr/local/opt/gnu-tar/libexec/gnubin \
   "/usr/local/go/bin" \
   "$HOME/go/bin" \
   "$ASDF_DATA_DIR/shims" \
@@ -56,10 +60,6 @@ prefix_path \
   "$SCRIPTS"
 
 suffix_path \
-  /usr/local/opt/coreutils/libexec/gnubin \
-  /usr/local/opt/gnu-sed/libexec/gnubin \
-  /usr/local/opt/grep/libexec/gnubin \
-  /usr/local/opt/gnu-tar/libexec/gnubin \
   /usr/local/bin \
   /usr/local/sbin \
   /usr/bin \
@@ -108,7 +108,7 @@ prompt() {
   [[ -n "${VIRTUAL_ENV}" ]] && venv="${fg}(${VIRTUAL_ENV##*/})${e} "
   [[ -n "${aws_role}" ]] && aws_role_prompt="${fg} (${aws_role})${e}"
 
-  wrap_length=$(($COLUMNS / 2))
+  wrap_length=$(($COLUMNS / 3))
   length="${venv}${aws_role}${PWD/$HOME/\~}${branch} ~> "
 
   if [[ ${#length} -lt ${wrap_length} ]]; then
