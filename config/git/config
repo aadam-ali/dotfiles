@@ -9,7 +9,7 @@
 	defaultBranch = main
 [user]
 	name = Aadam Ali
-	email = 57071686+Aadam-Ali@users.noreply.github.com
+	email = 57071686+aadam-ali@users.noreply.github.com
 	signingkey = /home/aadam/.ssh/id_ed25519.pub
 [commit]
 	gpgsign = true

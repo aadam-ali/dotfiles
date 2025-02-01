@@ -10,9 +10,9 @@ configured for my setup(s) i.e. references to my username.
 
 To set up these dotfiles simple run:
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/Aadam-Ali/dotfiles/main/scripts/dot)
+bash <(curl -s https://raw.githubusercontent.com/aadam-Ali/dotfiles/main/scripts/dot)
 ```
 OR
 ```bash
-bash <(wget -qO- https://raw.githubusercontent.com/Aadam-Ali/dotfiles/main/scripts/dot)
+bash <(wget -qO- https://raw.githubusercontent.com/aadam-Ali/dotfiles/main/scripts/dot)
 ```
