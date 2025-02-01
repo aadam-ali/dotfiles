@@ -3,7 +3,7 @@
 set -euo pipefail
 
 OS=$(uname)
-DIST=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
+DIST=$(grep '^ID=' /etc/os-release | cut -d'=' -f2 || true)
 DOTFILES="$HOME/Repos/aadam-ali/dotfiles"
 DOTFILES_VENV="$DOTFILES/.venv"
 CONFIG_DIR="$HOME/.config"

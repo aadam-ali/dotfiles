@@ -6,7 +6,7 @@ docker_pkgs: []
 os_pkgs: []
 python_build_deps: []
 
-repositories: [asdf-vm/asdf]
+repositories: []
 
 font_dir: "{{ ansible_env['HOME'] }}/.local/share/fonts"
 fonts:
@@ -14,7 +14,8 @@ fonts:
   UbuntuMono: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/UbuntuMono.tar.xz
   VictorMono: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/VictorMono.tar.xz
 
-sb_url: "https://github.com/Aadam-Ali/second-brain-cli/releases/download/0.20/sb-0.2.0-linux-amd64.tar.gz"
+sb_url: "https://github.com/aadam-ali/second-brain-cli/releases/download/0.3.1/sb-0.3.1-linux-amd64.tar.gz"
+asdf_url: "https://github.com/asdf-vm/asdf/releases/download/v0.16.0/asdf-v0.16.0-linux-amd64.tar.gz"
 
 # MacOS Specific Vars
 homebrew_casks: []
