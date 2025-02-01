@@ -22,8 +22,10 @@ alias run="docker run -it --rm"
 alias k="kubectl"
 if [[ -x "$(command -v nvim)" ]]; then
   alias vi="nvim"
+  alias code="nvim"
 else
   alias vi="vim"
+  alias code="vim"
 fi
 
 # Path
@@ -48,6 +50,7 @@ suffix_path() {
 prefix_path \
   "/usr/local/go/bin" \
   "$HOME/go/bin" \
+  "$ASDF_DATA_DIR/shims" \
   "$HOME/.local/bin" \
   "$HOME/bin" \
   "$SCRIPTS"
@@ -116,5 +119,3 @@ prompt() {
 }
 
 export PROMPT_COMMAND="prompt"
-
-source "$ASDF_DATA_DIR/asdf.sh" || true
