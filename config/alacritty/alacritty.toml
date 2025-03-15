@@ -6,35 +6,21 @@ import = [
 live_config_reload = true
 
 [font]
-size = 15
+size = 14
 
-[font.bold]
-family = "UbuntuMono Nerd Font Mono"
-style = "Bold"
-
-[font.bold_italic]
-family = "UbuntuMono Nerd Font Mono"
-style = "Bold Italic"
-
-[font.italic]
-family = "UbuntuMono Nerd Font Mono"
-style = "Italic"
-
-[font.normal]
-family = "UbuntuMono Nerd Font Mono"
-style = "Regular"
+normal      = {family = "DejaVuSansM Nerd Font Mono", style = "Regular"}
+italic      = {family = "DejaVuSansM Nerd Font Mono", style = "Oblique"}
+bold        = {family = "DejaVuSansM Nerd Font Mono", style = "Bold"}
+bold_italic = {family = "DejaVuSansM Nerd Font Mono", style = "Bold Oblique"}
 
 [terminal.shell]
-args = ["bash", "-c", "source ~/.profile && tmux -2 new-session -A -s main"]
+args    = ["bash", "-c", "source ~/.profile && tmux -2 new-session -A -s main"]
 program = "/usr/bin/env"
 
 [env]
 TERM = "xterm-256color"
 
-[window.padding]
-x = 3
-y = 3
-
 [window]
-decorations = "none"
+padding       = {x = 4, y = 4}
+decorations   = "none"
 option_as_alt = "OnlyLeft"

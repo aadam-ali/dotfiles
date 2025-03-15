@@ -41,6 +41,8 @@ title_align center
 # Remove borders for single window
 hide_edge_borders smart
 
+font pango:DejaVuSansM Nerd Font Bold 8
+
 #############
 #  OUTPUTS  #
 #############
