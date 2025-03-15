@@ -10,9 +10,8 @@ repositories: []
 
 font_dir: "{{ ansible_env['HOME'] }}/.local/share/fonts"
 fonts:
-  D2Coding: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/D2Coding.tar.xz
   UbuntuMono: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/UbuntuMono.tar.xz
-  VictorMono: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/VictorMono.tar.xz
+  DejaVuSansMono: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/DejaVuSansMono.tar.xz
 
 sb_url: "https://github.com/aadam-ali/second-brain-cli/releases/download/0.3.1/sb-0.3.1-linux-amd64.tar.gz"
 asdf_url: "https://github.com/asdf-vm/asdf/releases/download/v0.16.0/asdf-v0.16.0-linux-amd64.tar.gz"

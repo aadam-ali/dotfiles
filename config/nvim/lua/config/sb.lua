@@ -9,6 +9,10 @@ end
 
 local function new_note_interactive()
   local title = vim.fn.input("Title")
+  if not title or string.len(title) == 0 then
+    return nil
+  end
+
   local note = vim.fn.system(string.format("sb new -n '%s'", title))
 
   open_file(note)

@@ -2,7 +2,7 @@
 /* Author: Newman Sanchez (https://github.com/newmanls) */
 
 * {
-    font:   "VictorMono Nerd Font Propo Semibold 14";
+    font:   "DejaVuSansM Nerd Font Propo 14";
 
     bg0:    #242424E6;
     bg1:    #7E7E7E80;
@@ -29,7 +29,7 @@ window {
 }
 
 inputbar {
-    font:       "VictorMono Nerd Font Propo Semibold 20";
+    font:       "DejaVuSansM Nerd Font Propo Semibold 20";
     padding:    12px;
     spacing:    12px;
     children:   [ icon-search, entry ];
