@@ -10,6 +10,7 @@ LIGHT="gruvbox-material-light"
 ALACRITTY_CONF="$XDG_CONFIG_HOME/alacritty/alacritty.toml"
 TMUX_CONF="$XDG_CONFIG_HOME/tmux/tmux.conf"
 VIM_CONF="$HOME/.vimrc"
+NVIM_CONF="$XDG_CONFIG_HOME/nvim/lua/plugins/colorscheme.lua"
 
 if [[ ${OS} == "Linux" ]]; then
   CURRENT_THEME="$(gsettings get org.gnome.desktop.interface color-scheme)"
@@ -20,6 +21,33 @@ elif [[ ${OS} == "Darwin" ]]; then
   CHANGE_THEME="defaults write com.apple.Accessibility ColorScheme"
   VSCODE_CONF="$HOME/Library/Application Support/Code/User/settings.json"
 fi
+
+sed_vim_mode() {
+  sed -i "s/set bg=\([a-z]*\)/set bg=${1}/g" "$VIM_CONF"
+}
+
+sed_vim_nvim_bg() {
+  query="s/gruvbox_material_background = \"\([a-z]*\)\"/gruvbox_material_background = \"$1\"/g"
+
+  sed -i "$query" "$VIM_CONF"
+  sed -i "$query" "$NVIM_CONF"
+}
+
+sed_nvim_mode() {
+  sed -i "s/vim\.opt\.background = \"\([a-z]*\)\"/vim\.opt\.background = \"${1}\"/g" "$NVIM_CONF"
+}
+
+sed_vscode_theme() {
+  sed -i "s/\"workbench.colorTheme\": \"\([A-Za-z ]*\)\"/\"workbench.colorTheme\": \"$1\"/g" "$VSCODE_CONF"
+}
+
+sed_theme() {
+  current=$1
+  desired=$2
+  file=$3
+
+  sed -i "s/$current/$desired/g" "$file"
+}
 
 # Taken from https://shapeshed.com/vim-tmux-alacritty-theme-switcher
 switch_vim_theme() {
@@ -33,20 +61,27 @@ switch_vim_theme() {
 if [[ "${CURRENT_THEME}" =~ "prefer-light" ]]; then
   $CHANGE_THEME "prefer-dark"
 
-  sed -i "s/$LIGHT/$DARK/g" "$ALACRITTY_CONF"
-  sed -i "s/set bg=\([a-z]*\)/set bg=dark/g" "$VIM_CONF"
-  sed -i "s/gruvbox_material_background = \"\([a-z]*\)\"/gruvbox_material_background = \"medium\"/g" "$VIM_CONF"
-  sed -i "s/\"workbench.colorTheme\": \"Gruvbox Material Light\"/\"workbench.colorTheme\": \"Gruvbox Material Dark\"/g" "$VSCODE_CONF" || true
+  sed_theme $LIGHT $DARK "$ALACRITTY_CONF"
+  sed_theme $LIGHT $DARK "$TMUX_CONF"
+
+  sed_vim_mode dark
+  sed_nvim_mode dark
+  sed_vim_nvim_bg hard
+
+  [[ -f $VSCODE_CONF ]] && sed_vscode_theme "Gruvbox Material Dark" || true
 else
   $CHANGE_THEME "prefer-light"
 
-  sed -i "s/$DARK/$LIGHT/g" "$ALACRITTY_CONF"
-  sed -i "s/set bg=\([a-z]*\)/set bg=light/g" "$VIM_CONF"
-  sed -i "s/gruvbox_material_background = \"\([a-z]*\)\"/gruvbox_material_background = \"soft\"/g" "$VIM_CONF"
-  sed -i "s/\"workbench.colorTheme\": \"Gruvbox Material Dark\"/\"workbench.colorTheme\": \"Gruvbox Material Light\"/g" "$VSCODE_CONF" "" || true
+  sed_theme $DARK $LIGHT "$ALACRITTY_CONF"
+  sed_theme $DARK $LIGHT "$TMUX_CONF"
+
+  sed_vim_mode light
+  sed_nvim_mode light
+  sed_vim_nvim_bg soft
+
+  [[ -f $VSCODE_CONF ]] && sed_vscode_theme "Gruvbox Material Light" || true
 fi
 
-sed -i -e 's/a89984/7c6f64/g' -e t -e 's/7c6f64/a89984/g' "$TMUX_CONF"
 tmux source "$TMUX_CONF"
 
 switch_vim_theme
