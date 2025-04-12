@@ -65,21 +65,13 @@ local function link_note()
   })
 end
 
-local function time_now()
-  time = os.date("%H:%M")
-  time_fmtd = string.format("**%s**", time)
-  vim.api.nvim_put({ time_fmtd }, "c", true, true)
-end
-
 -- Register the commands as user commands
 vim.api.nvim_create_user_command("SBNewNote", new_note_interactive, {})
 vim.api.nvim_create_user_command("SBOpenNote", open_note, {})
 vim.api.nvim_create_user_command("SBDailyNote", open_daily_note, {})
 vim.api.nvim_create_user_command("SBLinkNote", link_note, {})
-vim.api.nvim_create_user_command("SBTime", time_now, {})
 
 -- Register new note keybind
 -- Open and Link keybinds in autoload.lua (should only open when in markdown files)
-vim.keymap.set("n", "<space>zn", ":SBNewNote<CR>", { desc = "Create a note" })
-vim.keymap.set("n", "<space>zd", ":SBDailyNote<CR>", { desc = "Open daily note" })
-vim.keymap.set("n", "<space>zt", ":SBTime<CR>", { desc = "Put current time" })
+vim.keymap.set("n", "<space>zn", ":SBNewNote<CR>", { desc = "Create New Note" })
+vim.keymap.set("n", "<space>zd", ":SBDailyNote<CR>", { desc = "Open Daily Note" })

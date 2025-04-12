@@ -21,7 +21,7 @@ call plug#end()
 """"""""""""""
 
 colorscheme gruvbox-material
-let g:gruvbox_material_background = "medium"
+let g:gruvbox_material_background = "hard"
 let g:gruvbox_material_enable_bold = 1
 
 set t_ut=
