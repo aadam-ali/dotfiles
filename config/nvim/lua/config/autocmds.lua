@@ -7,14 +7,17 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
+-- https://github.com/folke/zen-mode.nvim/issues/51#issuecomment-2030028351
+vim.cmd("autocmd VimEnter *.md :ZenMode")
+
+vim.api.nvim_create_autocmd({ "VimEnter", "BufReadPost" }, {
   pattern = "*.md",
   callback = function()
     vim.opt.number = false
     vim.opt.relativenumber = false
     vim.opt.textwidth = 72
 
-    require("zen-mode").toggle()
+    require("zen-mode").open()
   end,
 })
 

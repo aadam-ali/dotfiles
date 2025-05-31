@@ -14,6 +14,6 @@ Use at your own discretion.
 | [awsume](./awsume)           | Create tmux window that assumes an AWS role using aws-vault |
 | [clone](./clone)             | Clone repos following a common directory pattern            |
 | [coauth](./coauth)           | Set coauthors to use in commit messages (only for GitHub)   |
-| [dot](./dot)                 | Set up and update environment configuration                 |
+| [updot](./updot)                 | Set up and update environment configuration                 |
 | [sb](./sb)                   | My second brain cli                                         |
 | [tmux-window](./tmux-window) | Opens a repository in a new tmux window                     |

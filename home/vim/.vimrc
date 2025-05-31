@@ -2,50 +2,50 @@
 " PLUGINS "
 """""""""""
 
-call plug#begin()
-Plug 'Aadam-Ali/sb.vim'
-Plug 'fatih/vim-go'
-Plug 'hashivim/vim-terraform'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/goyo.vim'
-Plug 'preservim/nerdtree'
-Plug 'sainnhe/gruvbox-material'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-pandoc/vim-pandoc-syntax'
-call plug#end()
+if !has('nvim')
+  call plug#begin()
+  Plug 'Aadam-Ali/sb.vim'
+  Plug 'fatih/vim-go'
+  Plug 'hashivim/vim-terraform'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/goyo.vim'
+  Plug 'preservim/nerdtree'
+  Plug 'sainnhe/gruvbox-material'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-pandoc/vim-pandoc-syntax'
+  call plug#end()
 
 
 """"""""""""""
 " APPEARANCE "
 """"""""""""""
+  set t_ut=
+  set t_Co=256
+
+  if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+  endif
+
+  let g:airline_powerline_fonts = 0
+
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.maxlinenr = ''
+
+  set termguicolors
+
+  set number
+  set relativenumber
+endif
 
 colorscheme gruvbox-material
 let g:gruvbox_material_background = "hard"
 let g:gruvbox_material_enable_bold = 1
-
-set t_ut=
-set t_Co=256
 set bg=dark
-
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-let g:airline_powerline_fonts = 0
-
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.maxlinenr = ''
-
-set termguicolors
-
-set number
-set relativenumber
-
 
 """""""""""""
 " BEHAVIOUR "
