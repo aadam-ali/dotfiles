@@ -1,6 +1,6 @@
 [general]
 import = [
-    "~/.config/alacritty/themes/gruvbox-material-dark.toml"
+    "~/.config/alacritty/themes/terafox.toml"
 ]
 
 live_config_reload = true

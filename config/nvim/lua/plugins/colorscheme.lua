@@ -1,17 +1,14 @@
 return {
   {
-    "sainnhe/gruvbox-material",
-    lazy = false,
-    priority = 1000,
+    "EdenEast/nightfox.nvim",
     config = function()
       vim.opt.background = "dark"
-      vim.g.gruvbox_material_background = "hard"
     end,
   },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox-material",
+      colorscheme = "terafox",
     },
   },
 }
