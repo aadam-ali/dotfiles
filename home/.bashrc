@@ -90,17 +90,20 @@ prompt() {
     by='\[\e[1;33m\]' bb='\[\e[1;34m\]' bp='\[\e[1;35m\]' \
     bc='\[\e[1;36m\]' bw='\[\e[1;37m\]' bfg='\[\e[1;39m\]'
 
-  local branch changes aws_role fbranch venv aws_role_prompt wrap_length length
+  local branch changes aws_role fbranch venv aws_role_prompt wrap_length length dir
 
   branch="$(git branch --show-current 2>/dev/null)"
   changes="$(git status -su 2>/dev/null)"
   aws_role="${AWS_VAULT:-$AWS_PROFILE}"
+  dir='${PWD/$HOME/\~}'
 
   if [[ "${branch}" ]]; then
+    dir=".../$(basename $(git rev-parse --show-toplevel))/$(git rev-parse --show-prefix)"
+    dir="${dir%/}"
     if [[ "${changes}" ]]; then
-      fbranch="${br}@${branch}${e}"
+      fbranch="(${br}${branch}${e})"
     else
-      fbranch="${bg}@${branch}${e}"
+      fbranch="(${bg}${branch}${e})"
     fi
     branch="${branch}"
   fi
@@ -109,12 +112,12 @@ prompt() {
   [[ -n "${aws_role}" ]] && aws_role_prompt="${fg} (${aws_role})${e}"
 
   wrap_length=$(($COLUMNS / 3))
-  length="${venv}${aws_role}${PWD/$HOME/\~}${branch} ~> "
+  length="${venv}${aws_role}${dir}${branch} ~> "
 
   if [[ ${#length} -lt ${wrap_length} ]]; then
-    PS1="${venv}${bb}\w${e}${fbranch}${aws_role_prompt} ${bfg}~>${e} "
+    PS1="${venv}${bb}${dir}${e}${fbranch}${aws_role_prompt} ${bfg}~>${e} "
   else
-    PS1="${venv}${bb}\w${e}${fbranch}${aws_role_prompt}\n${bfg}~>${e} "
+    PS1="${venv}${bb}${dir}${e}${fbranch}${aws_role_prompt}\n${bfg}~>${e} "
   fi
 }
 

@@ -3,7 +3,7 @@
 [pull]
 	rebase = true
 [core]
-	editor = vim
+	editor = nvim
 	excludesfile = /home/aadam/.config/git/gitignore
 [init]
 	defaultBranch = main
