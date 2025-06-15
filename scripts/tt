@@ -1,0 +1,63 @@
+#!/bin/bash
+
+set -euo pipefail
+
+OS=$(uname)
+
+CHOICE=${1:-}
+DARK_THEMES=("nightfox duskfox nordfox terafox carbonfox")
+LIGHT_THEMES=("dayfox dawnfox")
+CURRENT_THEME=$(<$DOTFILES/.colorscheme)
+
+ALACRITTY_CONF="$XDG_CONFIG_HOME/alacritty/alacritty.toml"
+TMUX_CONF="$XDG_CONFIG_HOME/tmux/tmux.conf"
+VIM_CONF="$HOME/.vimrc"
+NVIM_CONF="$XDG_CONFIG_HOME/nvim/lua/plugins/colorscheme.lua"
+
+if [[ "$CHOICE" =~ ^(d|da|dar|dark)$ ]]; then
+  DESIRED_MODE="dark"
+elif [[ "$CHOICE" =~ ^(l|li|lig|ligh|light)$ ]]; then
+  DESIRED_MODE="light"
+else
+  DESIRED_MODE=$(echo -e "dark\nlight" | fzf)
+fi
+
+if [[ "$DESIRED_MODE" == "dark" ]]; then
+  DESIRED_THEME=$(echo $DARK_THEMES | tr ' ' '\n' | sort | fzf)
+else
+  DESIRED_THEME=$(echo $LIGHT_THEMES | tr ' ' '\n' | sort | fzf)
+fi
+
+sed_vim_colorscheme() {
+  sed -i "s/set bg=\([a-z]*\)/set bg=${1}/g" "$VIM_CONF"
+  sed -i "s/colorscheme \([a-z]*\)/colorscheme ${2}/g" "$VIM_CONF"
+}
+
+sed_nvim_colorscheme() {
+  sed -i "s/vim\.opt\.background = \"\([a-z]*\)\"/vim\.opt\.background = \"${1}\"/g" "$NVIM_CONF"
+  sed -i "s/colorscheme = \"\([a-z]*\)\"/colorscheme = \"${2}\"/g" "$NVIM_CONF"
+}
+
+sed_theme() {
+  current=$1
+  desired=$2
+  file=$3
+
+  sed -i "s/$current/$desired/g" "$file"
+}
+
+# Taken from https://shapeshed.com/vim-tmux-alacritty-theme-switcher
+switch_vim_theme() {
+  tmux list-panes -a -F '#{pane_id} #{pane_current_command}' |
+    grep vim | # this captures vim and nvim
+    cut -d ' ' -f 1 |
+    xargs -I PANE tmux send-keys -t PANE ESCAPE \
+      ":so ~/.vimrc" ENTER
+}
+
+sed_theme $CURRENT_THEME $DESIRED_THEME "$ALACRITTY_CONF"
+sed_vim_colorscheme $DESIRED_MODE $DESIRED_THEME
+sed_nvim_colorscheme $DESIRED_MODE $DESIRED_THEME
+switch_vim_theme
+
+echo $DESIRED_THEME >$DOTFILES/.colorscheme

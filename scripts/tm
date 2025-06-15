@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+OS=$(uname)
+
+if [[ ${OS} == "Linux" ]]; then
+  CURRENT_THEME="$(gsettings get org.gnome.desktop.interface color-scheme)"
+  CHANGE_THEME="gsettings set org.gnome.desktop.interface color-scheme"
+elif [[ ${OS} == "Darwin" ]]; then
+  CURRENT_THEME="$(defaults read com.apple.Accessibility ColorScheme)"
+  CHANGE_THEME="defaults write com.apple.Accessibility ColorScheme"
+fi
+
+if [[ "${CURRENT_THEME}" =~ "prefer-light" ]]; then
+  $CHANGE_THEME "prefer-dark"
+else
+  $CHANGE_THEME "prefer-light"
+fi
