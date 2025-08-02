@@ -8,13 +8,13 @@ live_config_reload = true
 [font]
 size = 14
 
-normal      = {family = "DejaVuSansM Nerd Font Mono", style = "Regular"}
-italic      = {family = "DejaVuSansM Nerd Font Mono", style = "Oblique"}
-bold        = {family = "DejaVuSansM Nerd Font Mono", style = "Bold"}
-bold_italic = {family = "DejaVuSansM Nerd Font Mono", style = "Bold Oblique"}
+normal      = {family = "MesloLGM Nerd Font Mono", style = "Regular"}
+italic      = {family = "MesloLGM Nerd Font Mono", style = "Oblique"}
+bold        = {family = "MesloLGM Nerd Font Mono", style = "Bold"}
+bold_italic = {family = "MesloLGM Nerd Font Mono", style = "Bold Oblique"}
 
 [terminal.shell]
-args    = ["bash", "-c", "source ~/.profile && tmux -2 new-session -A -s main"]
+args    = ["bash", "-c", "source ~/.bash_profile && tmux -2 new-session -A -s main"]
 program = "/usr/bin/env"
 
 [env]

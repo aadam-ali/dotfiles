@@ -41,7 +41,12 @@ title_align center
 # Remove borders for single window
 hide_edge_borders smart
 
-font pango:DejaVuSansM Nerd Font Bold 8
+font pango: MesloLGS Nerd Font Mono Bold 10px
+
+set $gnome-schema org.gnome.desktop.interface
+exec_always {
+    gsettings set $gnome-schema font-name 'SF Pro 10.5'
+}
 
 #############
 #  OUTPUTS  #
@@ -116,7 +121,7 @@ exec swayidle -w \
 exec nm-applet
 exec blueman-applet
 
-exec wlsunset -S 08:30 -s 20:30
+exec_always wlsunset -S 08:30 -s 20:30
 
 ##############
 #  KEYBINDS  #
@@ -207,6 +212,9 @@ bindsym $mod+Return exec --no-startup-id $term, workspace $ws1
 bindsym $mod+b exec --no-startup-id firefox, workspace $ws2
 bindsym $mod+Shift+s exec grimshot save area
 bindsym $mod+Shift+p exec grimshot save output
+
+for_window [app_id="firefox" title="^Picture-in-Picture$"] \
+  floating enable, sticky enable, border none
 
 #########
 #  BAR  #

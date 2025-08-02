@@ -98,8 +98,6 @@ prompt() {
   dir='${PWD/$HOME/\~}'
 
   if [[ "${branch}" ]]; then
-    dir=".../$(basename $(git rev-parse --show-toplevel))/$(git rev-parse --show-prefix)"
-    dir="${dir%/}"
     if [[ "${changes}" ]]; then
       fbranch="(${br}${branch}${e})"
     else

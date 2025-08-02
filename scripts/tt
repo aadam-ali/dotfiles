@@ -31,11 +31,13 @@ fi
 sed_vim_colorscheme() {
   sed -i "s/set bg=\([a-z]*\)/set bg=${1}/g" "$VIM_CONF"
   sed -i "s/colorscheme \([a-z]*\)/colorscheme ${2}/g" "$VIM_CONF"
+  echo "Updated $VIM_CONF: Changed $CURRENT_THEME to $2"
 }
 
 sed_nvim_colorscheme() {
   sed -i "s/vim\.opt\.background = \"\([a-z]*\)\"/vim\.opt\.background = \"${1}\"/g" "$NVIM_CONF"
   sed -i "s/colorscheme = \"\([a-z]*\)\"/colorscheme = \"${2}\"/g" "$NVIM_CONF"
+  echo "Updated $NVIM_CONF: Changed $CURRENT_THEME to $2"
 }
 
 sed_theme() {
@@ -44,6 +46,7 @@ sed_theme() {
   file=$3
 
   sed -i "s/$current/$desired/g" "$file"
+  echo "Updated $3: Changed $1 to $2"
 }
 
 # Taken from https://shapeshed.com/vim-tmux-alacritty-theme-switcher
@@ -53,11 +56,13 @@ switch_vim_theme() {
     cut -d ' ' -f 1 |
     xargs -I PANE tmux send-keys -t PANE ESCAPE \
       ":so ~/.vimrc" ENTER
+  echo "Refreshed all Vim & NeoVim sessions"
 }
 
 sed_theme $CURRENT_THEME $DESIRED_THEME "$ALACRITTY_CONF"
 sed_vim_colorscheme $DESIRED_MODE $DESIRED_THEME
 sed_nvim_colorscheme $DESIRED_MODE $DESIRED_THEME
-switch_vim_theme
+switch_vim_theme || continue
 
 echo $DESIRED_THEME >$DOTFILES/.colorscheme
+echo "Updated $DOTFILES/.colorscheme: Changed $CURRENT_THEME to $DESIRED_THEME"
