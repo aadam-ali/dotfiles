@@ -46,22 +46,24 @@ local function open_daily_note()
 end
 
 local function link_note()
-  require("telescope.builtin").find_files({
-    find_command = { "rg", "--files", "--type", "markdown" },
-    cwd = os.getenv("SB"),
+  local fzf = require("fzf-lua")
 
-    attach_mappings = function(prompt_bufnr, map)
-      local actions = require("telescope.actions")
-      map("i", "<CR>", function()
-        local selected = require("telescope.actions.state").get_selected_entry()
-        local path = selected.path
-        actions.close(prompt_bufnr)
+  local rg_cmd = "rg --files --type markdown"
+  local cwd = os.getenv("SB")
 
-        local link = string.format("[[%s]]", path:match("^.+/(.+).md$"))
-        vim.api.nvim_put({ link }, "c", true, true)
-      end)
-      return true
-    end,
+  fzf.fzf_exec(rg_cmd, {
+    cwd = cwd,
+    prompt = "Notes> ",
+    actions = {
+      -- Map <CR> to custom function
+      ["default"] = function(selected)
+        local file = selected[1]
+        if file then
+          local link = string.format("[[%s]]", file:match("^.+/(.+).md$"))
+          vim.api.nvim_put({ link }, "c", true, true)
+        end
+      end,
+    },
   })
 end
 
@@ -73,5 +75,7 @@ vim.api.nvim_create_user_command("SBLinkNote", link_note, {})
 
 -- Register new note keybind
 -- Open and Link keybinds in autoload.lua (should only open when in markdown files)
-vim.keymap.set("n", "<space>zn", ":SBNewNote<CR>", { desc = "Create New Note" })
-vim.keymap.set("n", "<space>zd", ":SBDailyNote<CR>", { desc = "Open Daily Note" })
+vim.keymap.set("n", "<space>nn", ":SBNewNote<CR>", { desc = "Create New Note" })
+vim.keymap.set("n", "<space>nd", ":SBDailyNote<CR>", { desc = "Open Daily Note" })
+vim.keymap.set("n", "<space>no", ":SBOpenNote<CR>", { desc = "Open Note From Link" })
+vim.keymap.set("n", "<space>nl", ":SBLinkNote<CR>", { desc = "Insert Link to Note" })

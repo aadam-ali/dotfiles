@@ -13,5 +13,12 @@
 	signingkey = /home/aadam/.ssh/id_ed25519.pub
 [commit]
 	gpgsign = true
+	verbose = true
 [gpg]
 	format = ssh
+[branch]
+	sort = -committerdate
+[column]
+	ui = auto
+[tag]
+	sort = -version:refname

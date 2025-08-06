@@ -1,3 +1,27 @@
--- Options are automatically loaded before lazy.nvim startup
--- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
--- Add any additional options here
+-- Map leader key to space
+vim.g.mapleader = " "
+
+-- Enables relative line numbers
+vim.opt.number = true
+vim.opt.relativenumber = true
+
+-- Allow undoing after closing and reopening file
+vim.opt.undofile = true
+
+-- Convert tabs to spaces
+vim.opt.expandtab = true
+
+-- Auto indent base on previous lines, and indent based on syntax
+vim.opt.autoindent = true
+vim.opt.smartindent = true
+
+-- Set indentation two 2 characters
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.tabstop = 2
+
+-- Enable search highlighting
+vim.opt.hlsearch = true
+
+-- Use system clipboard
+vim.opt.clipboard = "unnamedplus"

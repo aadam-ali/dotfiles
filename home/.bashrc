@@ -21,12 +21,23 @@ alias me="cd ${REPOS}/${GH_USER}"
 alias run="docker run -it --rm"
 alias k="kubectl"
 if [[ -x "$(command -v nvim)" ]]; then
+  export EDITOR=nvim
   alias vi="nvim"
   alias code="nvim"
 else
+  export EDITOR=vi
   alias vi="vim"
   alias code="vim"
 fi
+alias ll="ls -lhA"
+alias ls="ls --color=auto"
+alias grep="grep --color=auto"
+alias me="cd ${REPOS}/${GH_USER}"
+alias run="docker run -it --rm"
+alias k="kubectl"
+alias 2.="cd ../.."
+alias 3.="cd ../../.."
+alias 4.="cd ../../../.."
 
 # Path
 prefix_path() {

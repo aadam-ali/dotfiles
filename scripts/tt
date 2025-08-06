@@ -36,7 +36,7 @@ sed_vim_colorscheme() {
 
 sed_nvim_colorscheme() {
   sed -i "s/vim\.opt\.background = \"\([a-z]*\)\"/vim\.opt\.background = \"${1}\"/g" "$NVIM_CONF"
-  sed -i "s/colorscheme = \"\([a-z]*\)\"/colorscheme = \"${2}\"/g" "$NVIM_CONF"
+  sed -i "s/colorscheme \([a-z]*\)/colorscheme ${2}/g" "$NVIM_CONF"
   echo "Updated $NVIM_CONF: Changed $CURRENT_THEME to $2"
 }
 
