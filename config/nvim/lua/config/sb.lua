@@ -14,14 +14,24 @@ local function new_note_interactive()
   end
 
   local note = vim.fn.system(string.format("sb new -n '%s'", title))
+  local exit_code = vim.v.shell_error
 
-  open_file(note)
+  if exit_code ~= 0 then
+    vim.notify(note, vim.log.levels.ERROR)
+  else
+    open_file(note)
+  end
 end
 
 local function new_note_non_interactive(title)
   local note = vim.fn.system(string.format("sb new -n '%s'", title))
+  local exit_code = vim.v.shell_error
 
-  open_file(note)
+  if exit_code == 0 then
+    open_file(note)
+  else
+    vim.notify(note, vim.log.levels.ERROR)
+  end
 end
 
 local function open_note()
@@ -30,8 +40,9 @@ local function open_note()
 
   if title then
     local path = vim.fn.system(string.format("sb path '%s'", title)):gsub("\n", "")
+    local exit_code = vim.v.shell_error
 
-    if path ~= "" then
+    if exit_code == 0 then
       open_file(path)
     else
       new_note_non_interactive(title)
@@ -40,7 +51,7 @@ local function open_note()
 end
 
 local function open_daily_note()
-  local path = vim.fn.system("sb daily -n"):gsub("Note already exists:", "")
+  local path = vim.fn.system("sb daily -n")
 
   open_file(path)
 end
@@ -54,13 +65,22 @@ local function link_note()
   fzf.fzf_exec(rg_cmd, {
     cwd = cwd,
     prompt = "Notes> ",
+    previewer = "cat",
     actions = {
       -- Map <CR> to custom function
       ["default"] = function(selected)
         local file = selected[1]
         if file then
-          local link = string.format("[[%s]]", file:match("^.+/(.+).md$"))
-          vim.api.nvim_put({ link }, "c", true, true)
+          local absolute_path = string.format("%s/%s", cwd, file)
+          local link_cmd = string.format("sb link %s %s", vim.fn.expand("%"), absolute_path)
+          local link = vim.fn.system(link_cmd)
+          local exit_code = vim.v.shell_error
+
+          if exit_code == 0 then
+            vim.api.nvim_put({ link }, "c", true, true)
+          else
+            vim.notify(link, vim.log.levels.ERROR)
+          end
         end
       end,
     },
