@@ -21,7 +21,7 @@ return {
         local fzf = require("fzf-lua")
         local is_git = vim.fn.system("git rev-parse --is-inside-work-tree"):match("true")
 
-        if is_git then
+        if is_git and vim.fn.getcwd() ~= os.getenv("SB") then
           fzf.git_files()
         else
           fzf.files()
@@ -35,7 +35,7 @@ return {
         local fzf = require("fzf-lua")
         local is_git = vim.fn.system("git rev-parse --is-inside-work-tree"):match("true")
 
-        if is_git then
+        if is_git and vim.fn.getcwd() ~= os.getenv("SB") then
           fzf.git_files()
         else
           fzf.files()
