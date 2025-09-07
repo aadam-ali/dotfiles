@@ -7,13 +7,18 @@ local function open_file(file_path)
   vim.api.nvim_set_current_buf(buffer_number)
 end
 
-local function new_note_interactive()
+local function new_note(dated)
   local title = vim.fn.input("Title")
   if not title or string.len(title) == 0 then
     return nil
   end
 
-  local note = vim.fn.system(string.format("sb new -n '%s'", title))
+  local cmd_flags = "-n"
+  if dated then
+    cmd_flags = "-n -d"
+  end
+
+  local note = vim.fn.system(string.format("sb new %s '%s'", cmd_flags, title))
   local exit_code = vim.v.shell_error
 
   if exit_code ~= 0 then
@@ -21,6 +26,14 @@ local function new_note_interactive()
   else
     open_file(note)
   end
+end
+
+local function new_note_interactive()
+  new_note(false)
+end
+
+local function new_dated_note_interactive()
+  new_note(true)
 end
 
 local function new_note_non_interactive(title)
@@ -114,9 +127,9 @@ local function wiki_link_note()
   link_note(true)
 end
 
-
 -- Register the commands as user commands
 vim.api.nvim_create_user_command("SBNewNote", new_note_interactive, {})
+vim.api.nvim_create_user_command("SBNewDatedNote", new_dated_note_interactive, {})
 vim.api.nvim_create_user_command("SBOpenNoteMarkdownLink", open_note_from_markdown_link, {})
 vim.api.nvim_create_user_command("SBOpenNoteWikiLink", open_note_from_wiki_link, {})
 vim.api.nvim_create_user_command("SBDailyNote", open_daily_note, {})
@@ -126,6 +139,7 @@ vim.api.nvim_create_user_command("SBWikiLinkNote", wiki_link_note, {})
 -- Register new note keybind
 -- Open and Link keybinds in autoload.lua (should only open when in markdown files)
 vim.keymap.set("n", "<space>nn", ":SBNewNote<CR>", { desc = "Create New Note" })
+vim.keymap.set("n", "<space>nN", ":SBNewDatedNote<CR>", { desc = "Create New Note With Date in Filename" })
 vim.keymap.set("n", "<space>nd", "G:SBDailyNote<CR>", { desc = "Insert Daily Note Entry" })
 vim.keymap.set("n", "<space>no", ":SBOpenNoteMarkdownLink<CR>", { desc = "Open Note From Markdown Link" })
 vim.keymap.set("n", "<space>nO", ":SBOpenNoteWikiLink<CR>", { desc = "Open Note From Wiki Link" })
