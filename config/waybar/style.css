@@ -1,18 +1,16 @@
+@import "colours.css";
+
 * {
-  font-family: 'MesloLGM Nerd Font Propo';
-  font-weight: 900;
+  font-family: 'MesloLGS Nerd Font Propo';
+  font-weight: bold;
   font-size: 12px;
 }
 
 window#waybar {
-  background-color: alpha(#242424, 0.9);
   transition-property: background-color;
   transition-duration: 0.5s;
-  color: #ffffff;
-}
-
-window#waybar.hidden {
-  opacity: 0.2;
+  background-color: @bg1;
+  color: @fg1;
 }
 
 button {
@@ -23,26 +21,29 @@ button {
 #workspaces button {
   padding: 0 5px;
   background-color: transparent;
-  color: #ffffff;
+  color: @fg3;
 }
 
 #workspaces button:hover {
   box-shadow: inherit;
   text-shadow: inherit;
-  background: alpha(#ff9d0a, 0.9);
-  border: none;
+  background: inherit;
+  color: @fg2;
 }
 
 #workspaces button.focused {
-  background-color: alpha(#0860f2, 0.9);
+  color: @fg1;
+  background-color: @focus;
+  font-size: 12px;
 }
 
 #workspaces button.urgent {
-  background-color: alpha(#ff605c, 0.9);
+  background-color: @alert;
+  color: @fg2;
 }
 
 #mode {
-  background-color: alpha(#ff605c, 0.9);
+  background-color: @alert;
 }
 
 #clock,
@@ -63,7 +64,6 @@ button {
 #power-profiles-daemon,
 #mpd {
   padding: 0 5px;
-  background-color: transparent;
 }
 
 #window,
@@ -84,11 +84,11 @@ button {
 }
 
 #network.disconnected {
-  background-color: alpha(#ff605c, 0.9);
+  background-color: @alert;
 }
 
 #pulseaudio.muted {
-  background-color: alpha(#ff605c, 0.9);
+  background-color: @alert;
 }
 
 #tray>.passive {
@@ -97,13 +97,9 @@ button {
 
 #tray>.needs-attention {
   -gtk-icon-effect: highlight;
-  background-color: alpha(#ff605c, 0.9);
+  background-color: @alert;
 }
 
 #idle_inhibitor.activated {
-  background-color: alpha(#0860f2, 0.9);
-}
-
-#scratchpad.empty {
-  background-color: transparent;
+  background-color: @focus;
 }

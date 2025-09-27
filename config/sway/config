@@ -35,18 +35,26 @@ set $menu rofi -modi drun -show drun
 
 gaps inner 5
 
-for_window [app_id="^.*"] border pixel 2
+for_window [app_id="^.*"] border pixel 3
 title_align center
 
-# Remove borders for single window
-hide_edge_borders smart
+# Remove borders for single window (in split or tabbed mode)
+hide_edge_borders --i3 smart
 
-font pango: MesloLGS Nerd Font Mono Bold 10px
+font pango: MesloLGS Nerd Font Mono Bold 11px
 
 set $gnome-schema org.gnome.desktop.interface
 exec_always {
     gsettings set $gnome-schema font-name 'SF Pro 10.5'
 }
+
+client.focused #2b96d9 #2b96d9 #ffffff #2b96d9 #2b96d9
+client.unfocused #232323 #232323 #9f9f9f #232323 #232323
+client.focused_inactive #515151 #515151 #dfdfdf #515151 #515151
+client.urgent #bc2637 #bc2637 #ffffff #bc2637 #bc2637
+client.placeholder #161616 #161616 #161616 #161616 #161616
+
+workspace_layout tabbed
 
 #############
 #  OUTPUTS  #
@@ -63,14 +71,14 @@ output Virtual-1 {
 output DP-1 {
   mode 1920x1080@144Hz
   position 0 0
-  bg /usr/share/backgrounds/gnome/drool-l.svg fill
+  bg /usr/share/backgrounds/gnome/blobs-d.svg fill
 }
 
 output DP-2 {
   mode 1920x1080@144Hz
   transform 270
   position -1080 -420
-  bg /usr/share/backgrounds/gnome/drool-l.svg fill
+  bg /usr/share/backgrounds/gnome/blobs-d.svg fill
 }
 
 ############
@@ -161,14 +169,19 @@ bindsym $mod+r mode "resize"
 
 mode "resize" {
     bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
+    bindsym $down resize shrink height 10px
+    bindsym $up resize grow height 10px
     bindsym $right resize grow width 10px
 
     # Return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
+
+bindsym $mod+Shift+Control+$left resize shrink width 10px
+bindsym $mod+Shift+Control+$right resize grow width 10px
+bindsym $mod+Shift+Control+$up resize grow height 10px
+bindsym $mod+Shift+Control+$down resize shrink height 10px
 
 # Switch workspace
 bindsym $mod+1 workspace number $ws1
@@ -210,8 +223,10 @@ bindsym $mod+Shift+q exec "$HOME/.config/rofi/powermenu.sh"
 bindsym $mod+space exec $menu
 bindsym $mod+Return exec --no-startup-id $term, workspace $ws1
 bindsym $mod+b exec --no-startup-id firefox, workspace $ws2
-bindsym $mod+Shift+s exec grimshot save area
-bindsym $mod+Shift+p exec grimshot save output
+
+set $screenshot_dest $HOME/Pictures/screenshot-$(date +"%Y%m%d-%H%M%S").png
+bindsym $mod+Shift+s exec grimshot copy area $screenshot_dest && wl-paste -n > $screenshot_dest
+bindsym $mod+Shift+p exec grimshot copy output $screenshot_dest && wl-paste -n > $screenshot_dest
 
 for_window [app_id="firefox" title="^Picture-in-Picture$"] \
   floating enable, sticky enable, border none

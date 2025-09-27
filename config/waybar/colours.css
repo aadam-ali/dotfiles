@@ -1,0 +1,10 @@
+@define-color bg1 #161616;
+@define-color bg2 #232323;
+@define-color bg3 #515151;
+
+@define-color fg1 #ffffff;
+@define-color fg2 #dfdfdf;
+@define-color fg3 #9f9f9f;
+
+@define-color focus #2b96d9;
+@define-color alert #bc2637;

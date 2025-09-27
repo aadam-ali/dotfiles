@@ -1,2 +1,2 @@
 [local]
-localhost
+localhost ansible_connection=local ansible_python_interpreter=/home/aadam/Repos/aadam-ali/dotfiles/.venv/bin/python3

@@ -11,7 +11,7 @@ CONFIG_DIR="$HOME/.config"
 function prepare_linux() {
   if [[ "${DIST}" == "fedora" ]]; then
     sudo dnf update -y
-    sudo dnf install git -y
+    sudo dnf install git python3-libdnf5 -y
   else
     sudo apt-get update -y && sudo apt-get upgrade -y
     sudo apt-get install -y software-properties-common git python3-pip python3-venv
@@ -79,11 +79,7 @@ function symlink_dotfiles() {
   ln -nsf "$DOTFILES/config/alacritty" "$HOME/.config/alacritty"
 
   if [[ ${OS} == "Linux" ]]; then
-    ln -sf "$DOTFILES/home/.xinitrc" "$HOME/.xinitrc"
-    ln -nsf "$DOTFILES/config/i3" "$HOME/.config/i3"
     ln -nsf "$DOTFILES/config/rofi" "$HOME/.config/rofi"
-    ln -nsf "$DOTFILES/config/i3status" "$HOME/.config/i3status"
-    ln -nsf "$DOTFILES/config/polybar" "$HOME/.config/polybar"
     ln -nsf "$DOTFILES/config/waybar" "$HOME/.config/waybar"
     ln -nsf "$DOTFILES/config/sway" "$HOME/.config/sway"
   fi
