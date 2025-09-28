@@ -1,6 +1,6 @@
 [general]
 import = [
-    "~/.config/alacritty/themes/terafox.toml"
+    "~/.config/alacritty/themes/carbonfox.toml"
 ]
 
 live_config_reload = true

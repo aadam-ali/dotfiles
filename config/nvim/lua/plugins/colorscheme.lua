@@ -12,6 +12,6 @@ return {
     })
 
     vim.opt.background = "dark"
-    vim.cmd("colorscheme terafox")
+    vim.cmd("colorscheme carbonfox")
   end,
 }
