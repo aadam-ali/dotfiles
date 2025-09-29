@@ -13,7 +13,7 @@ return {
       hijack_netrw_behavior = "open_current", -- open in fullscreen when passing in a directory
       filtered_items = {
         hide_dotfiles = false,
-        hide_gitignored = vim.fn.getcwd() ~= os.getenv("SB"),
+        hide_gitignored = not string.find(vim.fn.getcwd(), os.getenv("SB"), 1, true),
         hide_by_name = {
           ".git",
         },

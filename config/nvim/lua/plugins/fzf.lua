@@ -21,10 +21,10 @@ return {
         local fzf = require("fzf-lua")
         local is_git = vim.fn.system("git rev-parse --is-inside-work-tree"):match("true")
 
-        if is_git and vim.fn.getcwd() ~= os.getenv("SB") then
+        if is_git and not string.find(vim.fn.getcwd(), os.getenv("SB"), 1, true) then
           fzf.git_files()
         else
-          fzf.files()
+          fzf.files({cwd = os.getenv("SB"), rg_opts = "--files --no-ignore --glob '!.git/*'" })
         end
       end,
       desc = "Find Files (project dir)",
@@ -35,10 +35,12 @@ return {
         local fzf = require("fzf-lua")
         local is_git = vim.fn.system("git rev-parse --is-inside-work-tree"):match("true")
 
-        if is_git and vim.fn.getcwd() ~= os.getenv("SB") then
+        vim.notify(vim.fn.getcwd() == os.getenv("SB"))
+
+        if is_git and not string.find(vim.fn.getcwd(), os.getenv("SB"), 1, true) then
           fzf.git_files()
         else
-          fzf.files()
+          fzf.files({cwd = os.getenv("SB"), rg_opts = "--files --no-ignore --glob '!.git/*'" })
         end
       end,
       desc = "[F]ind [F]iles (project dir)",
