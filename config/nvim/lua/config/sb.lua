@@ -127,21 +127,29 @@ local function wiki_link_note()
   link_note(true)
 end
 
+local function insert_time()
+  local time_str = os.date("%H:%M")
+
+  vim.api.nvim_put({ time_str }, "c", true, true)
+end
+
 -- Register the commands as user commands
-vim.api.nvim_create_user_command("SBNewNote", new_note_interactive, {})
-vim.api.nvim_create_user_command("SBNewDatedNote", new_dated_note_interactive, {})
-vim.api.nvim_create_user_command("SBOpenNoteMarkdownLink", open_note_from_markdown_link, {})
-vim.api.nvim_create_user_command("SBOpenNoteWikiLink", open_note_from_wiki_link, {})
 vim.api.nvim_create_user_command("SBDailyNote", open_daily_note, {})
 vim.api.nvim_create_user_command("SBMarkdownLinkNote", markdown_link_note, {})
+vim.api.nvim_create_user_command("SBNewDatedNote", new_dated_note_interactive, {})
+vim.api.nvim_create_user_command("SBNewNote", new_note_interactive, {})
+vim.api.nvim_create_user_command("SBOpenNoteMarkdownLink", open_note_from_markdown_link, {})
+vim.api.nvim_create_user_command("SBOpenNoteWikiLink", open_note_from_wiki_link, {})
+vim.api.nvim_create_user_command("SBTime", insert_time, {})
 vim.api.nvim_create_user_command("SBWikiLinkNote", wiki_link_note, {})
 
 -- Register new note keybind
 -- Open and Link keybinds in autoload.lua (should only open when in markdown files)
-vim.keymap.set("n", "<space>nn", ":SBNewNote<CR>", { desc = "Create New Note" })
-vim.keymap.set("n", "<space>nN", ":SBNewDatedNote<CR>", { desc = "Create New Note With Date in Filename" })
-vim.keymap.set("n", "<space>nd", "G:SBDailyNote<CR>", { desc = "Insert Daily Note Entry" })
-vim.keymap.set("n", "<space>no", ":SBOpenNoteMarkdownLink<CR>", { desc = "Open Note From Markdown Link" })
-vim.keymap.set("n", "<space>nO", ":SBOpenNoteWikiLink<CR>", { desc = "Open Note From Wiki Link" })
-vim.keymap.set("n", "<space>nl", ":SBMarkdownLinkNote<CR>", { desc = "Insert Markdown Link to Note" })
 vim.keymap.set("n", "<space>nL", ":SBWikiLinkNote<CR>", { desc = "Insert Wiki Link to Note" })
+vim.keymap.set("n", "<space>nN", ":SBNewDatedNote<CR>", { desc = "Create New Note With Date in Filename" })
+vim.keymap.set("n", "<space>nO", ":SBOpenNoteWikiLink<CR>", { desc = "Open Note From Wiki Link" })
+vim.keymap.set("n", "<space>nd", "G:SBDailyNote<CR>", { desc = "Insert Daily Note Entry" })
+vim.keymap.set("n", "<space>nl", ":SBMarkdownLinkNote<CR>", { desc = "Insert Markdown Link to Note" })
+vim.keymap.set("n", "<space>nn", ":SBNewNote<CR>", { desc = "Create New Note" })
+vim.keymap.set("n", "<space>no", ":SBOpenNoteMarkdownLink<CR>", { desc = "Open Note From Markdown Link" })
+vim.keymap.set("n", "<space>nt", ":SBTime<CR>", { desc = "Insert Current Time Under Cursor" })

@@ -1,3 +1,18 @@
+local H = {}
+
+H.find_files = function()
+  local fzf = require("fzf-lua")
+  local is_git = vim.fn.system("git rev-parse --is-inside-work-tree"):match("true")
+
+  if string.find(vim.fn.getcwd(), os.getenv("SB"), 1, true) then
+    fzf.files({ cwd = os.getenv("SB"), rg_opts = "--files --no-ignore --glob '!.git/*'" })
+  elseif is_git then
+    fzf.git_files()
+  else
+    fzf.files({ rg_opts = "--files --no-ignore --glob '!*/.git/*' --glob '!*/.venv/*'" })
+  end
+end
+
 return {
   "ibhagwan/fzf-lua",
   -- optional for icon support
@@ -18,28 +33,14 @@ return {
     {
       "<leader><space>",
       function()
-        local fzf = require("fzf-lua")
-        local is_git = vim.fn.system("git rev-parse --is-inside-work-tree"):match("true")
-
-        if is_git and vim.fn.getcwd() ~= os.getenv("SB") then
-          fzf.git_files()
-        else
-          fzf.files()
-        end
+        H.find_files()
       end,
       desc = "Find Files (project dir)",
     },
     {
       "<leader>ff",
       function()
-        local fzf = require("fzf-lua")
-        local is_git = vim.fn.system("git rev-parse --is-inside-work-tree"):match("true")
-
-        if is_git and vim.fn.getcwd() ~= os.getenv("SB") then
-          fzf.git_files()
-        else
-          fzf.files()
-        end
+        H.find_files()
       end,
       desc = "[F]ind [F]iles (project dir)",
     },
@@ -67,7 +68,7 @@ return {
     {
       "<leader>fg",
       function()
-        require("fzf-lua").live_grep()
+        require("fzf-lua").live_grep({rg_opts = "--no-ignore " .. require("fzf-lua").defaults.grep.rg_opts})
       end,
       desc = "[F]ind [G]rep",
     },
