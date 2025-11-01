@@ -4,8 +4,11 @@ H.find_files = function()
   local fzf = require("fzf-lua")
   local is_git = vim.fn.system("git rev-parse --is-inside-work-tree"):match("true")
 
-  if string.find(vim.fn.getcwd(), os.getenv("SB"), 1, true) then
-    fzf.files({ cwd = os.getenv("SB"), rg_opts = "--files --no-ignore --glob '!.git/*'" })
+  cwd = vim.fn.getcwd():gsub("/$", "")
+  sb = os.getenv("SB"):gsub("/$", "")
+
+  if cwd == sb or cwd:sub(1, #sb + 1) == sb .. "/" then
+    fzf.files({ cwd = sb, rg_opts = "--files --no-ignore --glob '!.git/*'" })
   elseif is_git then
     fzf.git_files()
   else
@@ -68,7 +71,7 @@ return {
     {
       "<leader>fg",
       function()
-        require("fzf-lua").live_grep({rg_opts = "--no-ignore " .. require("fzf-lua").defaults.grep.rg_opts})
+        require("fzf-lua").live_grep({ rg_opts = "--no-ignore " .. require("fzf-lua").defaults.grep.rg_opts })
       end,
       desc = "[F]ind [G]rep",
     },

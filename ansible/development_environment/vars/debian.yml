@@ -1,6 +1,6 @@
 ---
-de_pkgs: [i3, rofi, polybar, feh, redshift, redshift-gtk]
-gui_pkgs: [md.obsidian.Obsidian, org.libreoffice.LibreOffice]
+de_pkgs: [sway, rofi, waybar, redshift, wlsunset, alacritty, pavucontrol, thunar, wl-clipboard, grimshot]
+gui_pkgs: [md.obsidian.Obsidian, org.onlyoffice.desktopeditors, grim-shot]
 docker_pkgs: [docker-ce, docker-ce-cli, containerd.io, docker-compose-plugin, docker-buildx-plugin]
 os_pkgs: [flatpak]
 python_build_deps:
@@ -24,12 +24,8 @@ font_dir: "{{ ansible_env['HOME'] }}/.local/share/fonts"
 # Linux Specific Vars
 pkg_repos_signing_keys:
   /usr/share/keyrings/hashicorp.asc: https://apt.releases.hashicorp.com/gpg
-  /usr/share/keyrings/microsoft.asc: https://packages.microsoft.com/keys/microsoft.asc
   /usr/share/keyrings/docker.asc: "https://download.docker.com/linux/{{ ansible_distribution|lower }}/gpg"
-  /usr/share/keyrings/i3wm.asc: https://baltocdn.com/i3-window-manager/signing.asc
 
 pkg_repos:
   hashicorp: "deb [signed-by=/usr/share/keyrings/hashicorp.asc] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
-  vscode: "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/microsoft.asc] https://packages.microsoft.com/repos/code stable main"
   docker: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker.asc] https://download.docker.com/linux/{{ansible_distribution|lower }} {{ ansible_distribution_release }} stable"
-  i3wm: "deb [signed-by=/usr/share/keyrings/i3wm.asc] https://baltocdn.com/i3-window-manager/i3/i3-autobuild/ all main"

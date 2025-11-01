@@ -1,7 +1,6 @@
 # Environment variables
 export CONFIG="${HOME}/.config"
 export XDG_CONFIG_HOME="${CONFIG}"
-export EDITOR=vi
 export GH_USER="aadam-ali"
 export REPOS="${HOME}/Repos"
 export TOOLS="${REPOS}/tools"
@@ -10,16 +9,9 @@ export SCRIPTS="${DOTFILES}/scripts"
 export SB="${REPOS}/${GH_USER}/second-brain"
 export HISTSIZE=5000
 export HISTFILESIZE=10000
-
 export ASDF_DATA_DIR="${TOOLS}/asdf"
 
 # Aliases
-alias ll="ls -lhA"
-alias ls="ls --color=auto"
-alias grep="grep --color=auto"
-alias me="cd ${REPOS}/${GH_USER}"
-alias run="docker run -it --rm"
-alias k="kubectl"
 if [[ -x "$(command -v nvim)" ]]; then
   export EDITOR=nvim
   alias vi="nvim"
