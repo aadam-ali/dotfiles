@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+brightness=$1
+
+if ((brightness >= 0 && brightness <= 100)); then
+  sudo ddcutil setvcp 10 "$brightness" --display 1
+  sudo ddcutil setvcp 10 "$brightness" --display 2
+fi

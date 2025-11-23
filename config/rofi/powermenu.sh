@@ -17,6 +17,6 @@ case "$option" in
     systemctl suspend
     ;;
   "Lock")
-    swaylock -n -c 242424
+    swaylock
     ;;
 esac

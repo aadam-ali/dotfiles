@@ -8,11 +8,10 @@
         "sway/mode",
         "sway/scratchpad"
     ],
-    "modules-center": [],
+    "modules-center": ["clock"],
     "modules-right": [
         "pulseaudio",
         "network",
-        "clock",
         "idle_inhibitor",
         "tray"
     ],
@@ -57,22 +56,23 @@
         "spacing": 10
     },
     "clock": {
-        "format": "[{:%H:%M %d-%m-%Y}]",
+        "format": "[ {:%H:%M} ]",
+        "format-alt": "[ {:%H:%M %d-%m-%Y} ]",
         "tooltip-format": "<tt>{calendar}</tt>"
     },
     "network": {
-        "format-wifi": "[{essid} ({signalStrength}%) ]",
-        "format-ethernet": "[{ifname} ]",
-        "format-linked": "[{ifname} (No IP) ]",
-        "format-disconnected": "[Disconnected ]",
-        "format-alt": "[{ifname}: {ipaddr}/{cidr}]",
+        "format-wifi": "[ {essid} ({signalStrength}%)  ]",
+        "format-ethernet": "[ {ifname}  ]",
+        "format-linked": "[ {ifname} (No IP)  ]",
+        "format-disconnected": "[ Disconnected  ]",
+        "format-alt": "[ {ifname}: {ipaddr}/{cidr} ]",
         "tooltip-format": "{ifname} via {gwaddr}"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "[{volume}% {icon} {format_source}]",
-        "format-muted": "[ {format_source}]",
-        "format-source": "{volume}% ",
+        "format": "[ {volume}% {icon}  {format_source} ]",
+        "format-muted": "[  {format_source} ]",
+        "format-source": " {volume}%",
         "format-source-muted": "",
         "format-icons": {
             "headphone": "",

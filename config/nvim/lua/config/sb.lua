@@ -7,14 +7,14 @@ local function open_file(file_path)
   vim.api.nvim_set_current_buf(buffer_number)
 end
 
-local function new_note(dated)
+local function new_note(no_date)
   local title = vim.fn.input("Title")
   if not title or string.len(title) == 0 then
     return nil
   end
 
   local cmd_flags = "-n"
-  if dated then
+  if no_date then
     cmd_flags = "-n -d"
   end
 
@@ -29,11 +29,11 @@ local function new_note(dated)
 end
 
 local function new_note_interactive()
-  new_note(false)
+  new_note(true)
 end
 
 local function new_dated_note_interactive()
-  new_note(true)
+  new_note(false)
 end
 
 local function new_note_non_interactive(title)
@@ -146,10 +146,11 @@ vim.api.nvim_create_user_command("SBWikiLinkNote", wiki_link_note, {})
 -- Register new note keybind
 -- Open and Link keybinds in autoload.lua (should only open when in markdown files)
 vim.keymap.set("n", "<space>nL", ":SBWikiLinkNote<CR>", { desc = "Insert Wiki Link to Note" })
-vim.keymap.set("n", "<space>nN", ":SBNewDatedNote<CR>", { desc = "Create New Note With Date in Filename" })
+vim.keymap.set("n", "<space>nn", ":SBNewDatedNote<CR>", { desc = "Create New Note With Date in Filename" })
 vim.keymap.set("n", "<space>nO", ":SBOpenNoteWikiLink<CR>", { desc = "Open Note From Wiki Link" })
 vim.keymap.set("n", "<space>nd", "G:SBDailyNote<CR>", { desc = "Insert Daily Note Entry" })
 vim.keymap.set("n", "<space>nl", ":SBMarkdownLinkNote<CR>", { desc = "Insert Markdown Link to Note" })
-vim.keymap.set("n", "<space>nn", ":SBNewNote<CR>", { desc = "Create New Note" })
+vim.keymap.set("n", "<space>nN", ":SBNewNote<CR>", { desc = "Create New Note" })
 vim.keymap.set("n", "<space>no", ":SBOpenNoteMarkdownLink<CR>", { desc = "Open Note From Markdown Link" })
 vim.keymap.set("n", "<space>nt", ":SBTime<CR>", { desc = "Insert Current Time Under Cursor" })
+vim.keymap.set("n", "<space>nz", ":Goyo<CR>", { desc = "Start Focus Mode" })

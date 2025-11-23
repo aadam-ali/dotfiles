@@ -1,14 +1,9 @@
--- https://github.com/folke/zen-mode.nvim/issues/51#issuecomment-2030028351
-vim.cmd("autocmd VimEnter *.md :ZenMode")
-
 vim.api.nvim_create_autocmd({ "VimEnter", "BufReadPost" }, {
   pattern = "*.md",
   callback = function()
     vim.opt.number = false
     vim.opt.relativenumber = false
     vim.opt.textwidth = 72
-
-    require("zen-mode").open()
   end,
 })
 
@@ -19,4 +14,20 @@ vim.api.nvim_create_autocmd("VimEnter", {
       require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
     end
   end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+    desc = "Hide lualine on goyo enter",
+    pattern = "GoyoEnter",
+    callback = function()
+        require("lualine").hide()
+    end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+    desc = "Show lualine after goyo exit",
+    pattern = "GoyoLeave",
+    callback = function()
+        require("lualine").hide({ unhide = true })
+    end,
 })
