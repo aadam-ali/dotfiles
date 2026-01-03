@@ -33,7 +33,7 @@ alias 4.="cd ../../../.."
 
 # Path
 prefix_path() {
-  for dir in $@; do
+  for dir in "$@"; do
     test -d "$dir" || continue
     if [[ ":$PATH:" != *":$dir:"* ]]; then
       export PATH="$dir:$PATH"
@@ -106,13 +106,12 @@ prompt() {
     else
       fbranch="(${bg}${branch}${e})"
     fi
-    branch="${branch}"
   fi
 
   [[ -n "${VIRTUAL_ENV}" ]] && venv="${fg}(${VIRTUAL_ENV##*/})${e} "
   [[ -n "${aws_role}" ]] && aws_role_prompt="${fg} (${aws_role})${e}"
 
-  wrap_length=$(($COLUMNS / 3))
+  wrap_length=$((COLUMNS / 3))
   length="${venv}${aws_role}${dir}${branch} ~> "
 
   if [[ ${#length} -lt ${wrap_length} ]]; then
