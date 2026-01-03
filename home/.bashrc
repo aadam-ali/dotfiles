@@ -98,7 +98,7 @@ prompt() {
   branch="$(git branch --show-current 2>/dev/null)"
   changes="$(git status -su 2>/dev/null)"
   aws_role="${AWS_VAULT:-$AWS_PROFILE}"
-  dir='${PWD/$HOME/\~}'
+  dir="${PWD/$HOME/\~}"
 
   if [[ "${branch}" ]]; then
     if [[ "${changes}" ]]; then
