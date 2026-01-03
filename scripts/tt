@@ -2,15 +2,9 @@
 
 set -euo pipefail
 
-OS=$(uname)
-
-CHOICE=${1:-}
-DARK_THEMES=("nightfox duskfox nordfox terafox carbonfox")
-LIGHT_THEMES=("dayfox dawnfox")
-CURRENT_THEME=$(<$DOTFILES/.colorscheme)
+CHOICE="${1:-}"
 
 ALACRITTY_CONF="$XDG_CONFIG_HOME/alacritty/alacritty.toml"
-TMUX_CONF="$XDG_CONFIG_HOME/tmux/tmux.conf"
 VIM_CONF="$HOME/.vimrc"
 NVIM_CONF="$XDG_CONFIG_HOME/nvim/lua/plugins/colorscheme.lua"
 
@@ -22,47 +16,29 @@ else
   DESIRED_MODE=$(echo -e "dark\nlight" | fzf)
 fi
 
-if [[ "$DESIRED_MODE" == "dark" ]]; then
-  DESIRED_THEME=$(echo $DARK_THEMES | tr ' ' '\n' | sort | fzf)
-else
-  DESIRED_THEME=$(echo $LIGHT_THEMES | tr ' ' '\n' | sort | fzf)
-fi
-
 sed_vim_colorscheme() {
   sed -i "s/set bg=\([a-z]*\)/set bg=${1}/g" "$VIM_CONF"
-  sed -i "s/colorscheme \([a-z]*\)/colorscheme ${2}/g" "$VIM_CONF"
-  echo "Updated $VIM_CONF: Changed $CURRENT_THEME to $2"
 }
 
 sed_nvim_colorscheme() {
   sed -i "s/vim\.opt\.background = \"\([a-z]*\)\"/vim\.opt\.background = \"${1}\"/g" "$NVIM_CONF"
-  sed -i "s/colorscheme \([a-z]*\)/colorscheme ${2}/g" "$NVIM_CONF"
-  echo "Updated $NVIM_CONF: Changed $CURRENT_THEME to $2"
 }
 
-sed_theme() {
-  current=$1
-  desired=$2
-  file=$3
-
-  sed -i "s/$current/$desired/g" "$file"
-  echo "Updated $3: Changed $1 to $2"
+sed_alacritty_colorscheme() {
+  sed -i "s#\(themes/\).*\(\.toml\)#\1${1}\2#" "$ALACRITTY_CONF"
 }
 
-# Taken from https://shapeshed.com/vim-tmux-alacritty-theme-switcher
+# Modified from https://shapeshed.com/vim-tmux-alacritty-theme-switcher
 switch_vim_theme() {
   tmux list-panes -a -F '#{pane_id} #{pane_current_command}' |
     grep vim | # this captures vim and nvim
     cut -d ' ' -f 1 |
     xargs -I PANE tmux send-keys -t PANE ESCAPE \
-      ":so ~/.vimrc" ENTER
+      ":set background=${1}" ENTER
   echo "Refreshed all Vim & NeoVim sessions"
 }
 
-sed_theme $CURRENT_THEME $DESIRED_THEME "$ALACRITTY_CONF"
-sed_vim_colorscheme $DESIRED_MODE $DESIRED_THEME
-sed_nvim_colorscheme $DESIRED_MODE $DESIRED_THEME
-switch_vim_theme || continue
-
-echo $DESIRED_THEME >$DOTFILES/.colorscheme
-echo "Updated $DOTFILES/.colorscheme: Changed $CURRENT_THEME to $DESIRED_THEME"
+sed_alacritty_colorscheme "$DESIRED_MODE"
+sed_vim_colorscheme "$DESIRED_MODE"
+sed_nvim_colorscheme "$DESIRED_MODE"
+switch_vim_theme "$DESIRED_MODE" || true

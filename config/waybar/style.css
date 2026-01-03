@@ -1,7 +1,7 @@
 @import "colours.css";
 
 * {
-  font-family: 'MesloLGS Nerd Font Propo';
+  font-family: 'Hack Nerd Font Propo';
   font-weight: bold;
   font-size: 12px;
 }
@@ -21,7 +21,7 @@ button {
 #workspaces button {
   padding: 0 5px;
   background-color: transparent;
-  color: @fg3;
+  color: @fg2;
 }
 
 #workspaces button:hover {
@@ -32,14 +32,14 @@ button {
 }
 
 #workspaces button.focused {
-  color: @fg1;
+  color: @bg1;
   background-color: @focus;
   font-size: 12px;
 }
 
 #workspaces button.urgent {
   background-color: @alert;
-  color: @fg2;
+  color: @bg1;
 }
 
 #mode {

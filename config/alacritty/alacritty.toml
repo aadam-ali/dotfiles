@@ -1,17 +1,18 @@
 [general]
 import = [
-    "~/.config/alacritty/themes/carbonfox.toml"
+    "~/.config/alacritty/themes/dark.toml"
 ]
 
 live_config_reload = true
 
 [font]
-size = 14
+# Divide value by 0.75 for actual font size
+size = 14.25
 
-normal      = {family = "MesloLGM Nerd Font Mono", style = "Regular"}
-italic      = {family = "MesloLGM Nerd Font Mono", style = "Italic"}
-bold        = {family = "MesloLGM Nerd Font Mono", style = "Bold"}
-bold_italic = {family = "MesloLGM Nerd Font Mono", style = "Italic"}
+normal      = {family = "Hack Nerd Font Mono", style = "Regular"}
+italic      = {family = "Hack Nerd Font Mono", style = "Italic"}
+bold        = {family = "Hack Nerd Font Mono", style = "Bold"}
+bold_italic = {family = "Hack Nerd Font Mono", style = "Bold Italic"}
 
 [terminal.shell]
 args    = ["bash", "-c", "source ~/.bash_profile && tmux -2 new-session -A -s main"]

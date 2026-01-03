@@ -1,17 +1,8 @@
 return {
-  "EdenEast/nightfox.nvim",
+  "sainnhe/gruvbox-material",
   config = function()
-    require("nightfox").setup({
-      options = {
-        styles = {
-          comments = "italic", -- Optional
-          keywords = "bold", -- ✅ Bold keywords
-          types = "italic,bold", -- Optional
-        },
-      },
-    })
-
+    vim.g.gruvbox_material_enable_italic = true
     vim.opt.background = "dark"
-    vim.cmd("colorscheme carbonfox")
+    vim.cmd("colorscheme gruvbox-material")
   end,
 }

@@ -11,7 +11,7 @@ if !has('nvim')
   Plug 'junegunn/fzf.vim'
   Plug 'junegunn/goyo.vim'
   Plug 'preservim/nerdtree'
-  Plug 'EdenEast/nightfox.nvim'
+  Plug 'sainnhe/gruvbox-material'
   Plug 'vim-airline/vim-airline'
   Plug 'vim-pandoc/vim-pandoc-syntax'
   call plug#end()
@@ -42,7 +42,7 @@ if !has('nvim')
   set relativenumber
 endif
 
-colorscheme carbonfox
+colorscheme gruvbox-material
 set bg=dark
 
 """""""""""""

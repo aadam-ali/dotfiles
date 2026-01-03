@@ -1,16 +1,15 @@
 * {
-    font:   "MesloLGL Nerd Font Mono Bold 12";
+    font:   "Hack Nerd Font Mono Bold 14";
 
-    bg1: #161616;
-    bg2: #232323;
-    bg3: #515151;
+    bg1: #282828;
+    bg2: #1d2021;
+    bg3: #504945;
 
-    fg1: #ffffff;
-    fg2: #dfdfdf;
-    fg3: #9f9f9f;
+    fg1: #d4be98;
+    fg2: #a89984;
 
-    focus: #2b96d9;
-    alert: #bc2637;
+    focus: #a9b665;
+    alert: #ea6962;
 
     background-color:   transparent;
     text-color:         @fg1;
@@ -23,13 +22,13 @@
 window {
     background-color:   @bg1;
     border:             3px;
-    border-color:       @bg2;
+    border-color:       @focus;
     location:           center;
     width:              33%;
 }
 
 inputbar {
-    font:       "MesloLGL Nerd Font Mono Bold 16";
+    font:       "Hack Nerd Font Mono Bold 16";
     padding:    12px;
     spacing:    12px;
     children:   [ icon-search, entry ];
@@ -49,7 +48,7 @@ entry {
     font:   inherit;
 
     placeholder         : "Apps";
-    placeholder-color   : @fg3;
+    placeholder-color   : @fg2;
 }
 
 message {
@@ -68,13 +67,13 @@ listview {
 
     fixed-height:   true;
     border:         3px 0 0;
-    border-color:   @bg2;
+    border-color:   @bg3;
 }
 
 element {
     padding:            8px 16px;
     spacing:            16px;
-    text-color:         @fg3;
+    text-color:         @fg2;
 }
 
 element normal active {
@@ -87,7 +86,7 @@ element alternate active {
 
 element selected normal, element selected active {
     background-color: @focus;
-    text-color:       @fg1;
+    text-color:       @bg2;
 }
 
 element-icon {
