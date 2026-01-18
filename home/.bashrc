@@ -21,8 +21,8 @@ else
   alias vi="vim"
   alias code="vim"
 fi
-alias ll="ls -lhA"
 alias ls="ls --color=auto"
+alias ll="ls -lhA"
 alias grep="grep --color=auto"
 alias me="cd ${REPOS}/${GH_USER}"
 alias run="docker run -it --rm"
@@ -30,6 +30,9 @@ alias k="kubectl"
 alias 2.="cd ../.."
 alias 3.="cd ../../.."
 alias 4.="cd ../../../.."
+alias rm="rm -Iv"
+alias mv="mv -iv"
+alias cp="cp -iv"
 
 # Path
 prefix_path() {
