@@ -70,8 +70,6 @@ client.placeholder      $bg         $bg         $bg     $bg         $bg
 client.background       $bg
 
 
-workspace_layout tabbed
-
 #############
 #  OUTPUTS  #
 #############

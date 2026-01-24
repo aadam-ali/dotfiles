@@ -17,6 +17,10 @@ return {
     },
   },
   opts = {
+    format_on_save = {
+      timeout_ms = 500,
+      lsp_format = "fallback",
+    },
     formatters_by_ft = {
       -- Go
       go = { "goimports", "gofmt" },
@@ -25,22 +29,18 @@ return {
       lua = { "stylua" },
 
       -- Python
-      python = { "isort", "reorder-python-imports", "ruff", "black" },
+      python = { "reorder-python-imports", "ruff_organize_imports", "ruff_format", "black" },
 
       -- Shell
       sh = { "shfmt" },
       bash = { "shfmt" },
 
       -- Terraofrm
-      terraform = { "terraform_fmt" }
+      terraform = { "terraform_fmt" },
     },
     default_format_opts = {
       lsp_format = "fallback",
     },
-    -- format_on_save = {
-    --     timeout_ms = 1000,
-    --     lsp_format = "fallback",
-    -- },
   },
   init = function()
     vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
