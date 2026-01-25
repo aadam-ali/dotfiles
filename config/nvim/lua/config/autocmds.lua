@@ -17,17 +17,17 @@ vim.api.nvim_create_autocmd("VimEnter", {
 })
 
 vim.api.nvim_create_autocmd("User", {
-    desc = "Hide lualine on goyo enter",
-    pattern = "GoyoEnter",
-    callback = function()
-        require("lualine").hide()
-    end,
+  desc = "Hide lualine on goyo enter",
+  pattern = "GoyoEnter",
+  callback = function()
+    require("lualine").hide()
+  end,
 })
 
 vim.api.nvim_create_autocmd("User", {
-    desc = "Show lualine after goyo exit",
-    pattern = "GoyoLeave",
-    callback = function()
-        require("lualine").hide({ unhide = true })
-    end,
+  desc = "Show lualine after goyo exit",
+  pattern = "GoyoLeave",
+  callback = function()
+    require("lualine").hide({ unhide = true })
+  end,
 })

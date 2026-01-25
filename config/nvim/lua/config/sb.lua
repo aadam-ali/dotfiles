@@ -6,7 +6,6 @@ local function open_file(file_path)
 
   vim.api.nvim_set_current_buf(buffer_number)
 end
-
 local function new_note(no_date)
   local title = vim.fn.input("Title")
   if not title or string.len(title) == 0 then

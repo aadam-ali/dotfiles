@@ -1,11 +1,5 @@
 return {
   {
-    "saghen/blink.compat",
-    version = "*",
-    lazy = true,
-    opts = {},
-  },
-  {
     "saghen/blink.cmp",
 
     version = "1.*",
@@ -30,11 +24,23 @@ return {
       },
 
       completion = {
-        documentation = { auto_show = true },
+        documentation = { auto_show = true, window = { border = "solid" } },
+        menu = {
+          border = "solid",
+          scrollbar = false,
+          draw = {
+            columns = {
+              { "kind_icon" },
+              { "label", "label_description", gap = 1 },
+              { "kind" },
+              { "source_name" },
+            },
+          },
+        },
       },
 
       -- Shows function signature as you type arguments
-      signature = { enabled = true },
+      signature = { enabled = true, window = { border = "solid" } },
 
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },

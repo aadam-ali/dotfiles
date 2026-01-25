@@ -3,8 +3,11 @@ return {
   event = "VeryLazy",
   opts_extend = { "spec" },
   opts = {
-    delay = 200,
     preset = "helix",
+    win = {
+      border = "solid",
+    },
+    delay = 200,
     spec = {
       { "<leader>b", group = "Buffers" },
       { "<leader>c", group = "Code" },

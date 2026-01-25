@@ -7,10 +7,6 @@ return {
     -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
     { "mason-org/mason.nvim", opts = {} },
     "mason-org/mason-lspconfig.nvim",
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-
-    -- Useful status updates for LSP.
-    { "j-hui/fidget.nvim", opts = {} },
   },
   config = function()
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -22,32 +18,32 @@ return {
         end
 
         -- Jump to the definition of the word under your cursor.
-        --  This is where a variable was first declared, or where a function is defined, etc.
-        --  To jump back, press <C-t>.
+        -- This is where a variable was first declared, or where a function is defined, etc.
+        -- To jump back, press <C-t>.
         map("gd", require("fzf-lua").lsp_definitions, "[G]oto [D]efinition")
 
         -- Find references for the word under your cursor.
         map("gr", require("fzf-lua").lsp_references, "[G]oto [R]eferences")
 
         -- Jump to the implementation of the word under your cursor.
-        --  Useful when your language has ways of declaring types without an actual implementation.
+        -- Useful when your language has ways of declaring types without an actual implementation.
         map("gI", require("fzf-lua").lsp_implementations, "[G]oto [I]mplementation")
 
         -- Jump to the type of the word under your cursor.
-        --  Useful when you're not sure what type a variable is and you want to see
-        --  the definition of its *type*, not where it was *defined*.
+        -- Useful when you're not sure what type a variable is and you want to see
+        -- the definition of its *type*, not where it was *defined*.
         map("gtd", require("fzf-lua").lsp_typedefs, "[G]oto [T]ype [D]efinition")
 
         -- Fuzzy find all the symbols in your current document.
-        --  Symbols are things like variables, functions, types, etc.
+        -- Symbols are things like variables, functions, types, etc.
         map("<leader>fs", require("fzf-lua").lsp_document_symbols, "[F]ind [S]ymbols in Document")
 
         -- Fuzzy find all the symbols in your current workspace.
-        --  Similar to document symbols, except searches over your entire project.
+        -- Similar to document symbols, except searches over your entire project.
         map("<leader>fS", require("fzf-lua").lsp_live_workspace_symbols, "[F]ind [s]ymbols in Workspace")
 
         -- Rename the variable under your cursor.
-        --  Most Language Servers support renaming across files, etc.
+        -- Most Language Servers support renaming across files, etc.
         map("<leader>cr", vim.lsp.buf.rename, "[C]ode [R]ename")
 
         -- Execute a code action, usually your cursor needs to be on top of an error
@@ -55,7 +51,13 @@ return {
         map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
 
         -- Open a window with the functions documentation
-        map("<leader>cd", vim.lsp.buf.hover, "[C]ode [D]ocs (press twice to focus)", { "n", "x" })
+        map("<leader>cd", function()
+          vim.lsp.buf.hover({ border = "solid" })
+        end, "[C]ode [D]ocs (press twice to focus)", { "n", "x" })
+
+        map("K", function()
+          vim.lsp.buf.hover({ border = "solid" })
+        end, "LSP Hover", { "n", "x" })
 
         -- Open a window showing any errors present on the current line
         map("<leader>ce", vim.diagnostic.open_float, "[C]ode [E]rror (press twice to focus)", { "n", "x" })
@@ -125,7 +127,7 @@ return {
     -- See :help vim.diagnostic.Opts
     vim.diagnostic.config({
       severity_sort = true,
-      float = { border = "rounded", source = "if_many" },
+      float = { border = "solid", source = "if_many" },
       underline = { severity = vim.diagnostic.severity.ERROR },
       signs = {
         text = {
@@ -160,15 +162,15 @@ return {
     --  - settings (table): Override the default settings passed when initializing the server.
     local servers = {}
 
-    local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, {
-      "lua_ls",
-      "stylua",
-    })
-    require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
-
     require("mason-lspconfig").setup({
-      ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+      ensure_installed = {
+        "docker_language_server",
+        "gopls",
+        "lua_ls",
+        "stylua",
+        "terraformls",
+        "ty",
+      },
       automatic_installation = false,
       handlers = {
         function(server_name)

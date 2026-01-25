@@ -18,12 +18,15 @@ end
 
 return {
   "ibhagwan/fzf-lua",
-  -- optional for icon support
-  -- dependencies = { "nvim-tree/nvim-web-devicons" },
-  -- or if using mini.icons/mini.nvim
-  dependencies = { "echasnovski/mini.icons" },
+  dependencies = { "nvim-tree/nvim-web-devicons" },
   opts = {
     fzf_colors = true,
+    winopts = {
+      border = "solid",
+      preview = {
+        border = "solid",
+      },
+    },
   },
   keys = {
     {

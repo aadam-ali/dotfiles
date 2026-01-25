@@ -29,3 +29,7 @@ vim.opt.hlsearch = true
 
 -- Use system clipboard
 vim.opt.clipboard = "unnamedplus"
+
+-- Disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
