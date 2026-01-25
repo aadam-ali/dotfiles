@@ -7,7 +7,7 @@ export TOOLS="${REPOS}/tools"
 export DOTFILES="${REPOS}/${GH_USER}/dotfiles"
 export SCRIPTS="${DOTFILES}/scripts"
 export SB="${REPOS}/${GH_USER}/second-brain"
-export HISTSIZE=5000
+export HISTSIZE=10000
 export HISTFILESIZE=10000
 export ASDF_DATA_DIR="${TOOLS}/asdf"
 
