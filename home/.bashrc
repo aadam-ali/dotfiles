@@ -3,13 +3,11 @@ export CONFIG="${HOME}/.config"
 export XDG_CONFIG_HOME="${CONFIG}"
 export GH_USER="aadam-ali"
 export REPOS="${HOME}/Repos"
-export TOOLS="${REPOS}/tools"
 export DOTFILES="${REPOS}/${GH_USER}/dotfiles"
 export SCRIPTS="${DOTFILES}/scripts"
-export SB="${REPOS}/${GH_USER}/second-brain"
+export SB="${REPOS}/${GH_USER}/notes/notes"
 export HISTSIZE=10000
 export HISTFILESIZE=10000
-export ASDF_DATA_DIR="${TOOLS}/asdf"
 
 # Aliases
 if [[ -x "$(command -v nvim)" ]]; then
@@ -60,7 +58,6 @@ prefix_path \
   /opt/homebrew/opt/gnu-tar/libexec/gnubin \
   "/usr/local/go/bin" \
   "$HOME/go/bin" \
-  "$ASDF_DATA_DIR/shims" \
   "$HOME/.local/bin" \
   "$HOME/bin" \
   "$SCRIPTS"
@@ -125,3 +122,7 @@ prompt() {
 }
 
 export PROMPT_COMMAND="prompt"
+
+if [[ -x "$(command -v mise)" ]]; then
+  eval "$(mise activate bash)"
+fi
