@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+EXT_DIR="/run/media/${USER}/Backup"
+
+if [[ ! -d "$EXT_DIR" ]]; then
+  echo "$EXT_DIR not mounted"
+  exit 1
+fi
+
+MUSIC_SRC="$HOME/Music"
+MUSIC_DEST="$EXT_DIR/Music"
+
+DOCS_SRC="$HOME/Documents"
+DOCS_DEST="$EXT_DIR/Documents"
+
+PICS_SRC="$HOME/Pictures"
+PICS_DEST="$EXT_DIR/Pictures"
+
+
+echo "======================= Syncing Music Folder ======================="
+rsync --progress --archive --human-readable --mkpath --delete "$@" \
+  "$MUSIC_SRC/" "$MUSIC_DEST"
+
+echo -e "\n"
+echo "===================== Syncing Documents Folder ====================="
+rsync --progress --archive --human-readable --mkpath --delete "$@" \
+  "$DOCS_SRC/" "$DOCS_DEST"
+
+echo -e "\n"
+echo "====================== Syncing Pictures Folder ====================="
+rsync --progress --archive --human-readable --mkpath --delete "$@" \
+  "$PICS_SRC/" "$PICS_DEST"

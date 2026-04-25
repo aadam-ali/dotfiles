@@ -10,11 +10,11 @@ configured for my setup(s) i.e. references to my username.
 
 To set up these dotfiles simple run:
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/aadam-ali/dotfiles/main/scripts/dot)
+bash <(curl -s https://raw.githubusercontent.com/aadam-ali/dotfiles/main/scripts/updot)
 ```
 OR
 ```bash
-bash <(wget -qO- https://raw.githubusercontent.com/aadam-ali/dotfiles/main/scripts/dot)
+bash <(wget -qO- https://raw.githubusercontent.com/aadam-ali/dotfiles/main/scripts/updot)
 ```
 
 You can add the `-h` flag to clone the repository using HTTPS instead of
