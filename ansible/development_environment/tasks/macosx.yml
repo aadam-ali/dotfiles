@@ -14,11 +14,6 @@
     name: "{{ os_pkgs }}"
     state: present
 
-- name: Install Python Build Dependencies
-  community.general.homebrew:
-    name: "{{ python_build_deps }}"
-    state: present
-
 - name: Install Docker
   community.general.homebrew:
     name: "{{ docker_pkgs }}"

@@ -3,21 +3,6 @@ de_pkgs: [sway, rofi, waybar, redshift, wlsunset, alacritty, pavucontrol, thunar
 gui_pkgs: [md.obsidian.Obsidian, org.onlyoffice.desktopeditors, grim-shot]
 docker_pkgs: [docker-ce, docker-ce-cli, containerd.io, docker-compose-plugin, docker-buildx-plugin]
 os_pkgs: [flatpak]
-python_build_deps:
-  - build-essential
-  - libssl-dev
-  - zlib1g-dev
-  - libbz2-dev
-  - libreadline-dev
-  - libsqlite3-dev
-  - curl
-  - libncursesw5-dev
-  - xz-utils
-  - tk-dev
-  - libxml2-dev
-  - libxmlsec1-dev
-  - libffi-dev
-  - liblzma-dev
 
 font_dir: "{{ ansible_env['HOME'] }}/.local/share/fonts"
 

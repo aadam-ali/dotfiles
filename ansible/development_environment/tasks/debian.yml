@@ -34,12 +34,6 @@
     state: present
   become: true
 
-- name: Install Python Build Dependencies
-  ansible.builtin.apt:
-    name: "{{ python_build_deps }}"
-    state: present
-  become: true
-
 - name: Install Docker
   ansible.builtin.apt:
     name: "{{ docker_pkgs }}"
@@ -76,13 +70,3 @@
     name: "{{ de_pkgs }}"
     state: present
   become: true
-
-- name: Create Desktop Entry For i3 With .xinitrc
-  ansible.builtin.copy:
-    src: i3-custom.desktop
-    dest: /usr/share/xsessions/i3-custom.desktop
-    owner: root
-    group: root
-    mode: '0644'
-  become: true
-  when: '"i3" in de_pkgs'

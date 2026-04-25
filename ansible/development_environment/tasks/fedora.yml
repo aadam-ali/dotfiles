@@ -35,12 +35,6 @@
     state: present
   become: true
 
-- name: Install Python Build Dependencies
-  ansible.builtin.dnf:
-    name: "{{ python_build_deps }}"
-    state: present
-  become: true
-
 - name: Install Docker
   ansible.builtin.dnf:
     name:

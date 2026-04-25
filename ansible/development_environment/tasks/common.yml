@@ -34,11 +34,3 @@
     src: "{{ sb_url }}"
     dest: "{{ ansible_env['HOME'] }}/.local/bin"
     remote_src: yes
-
-- name: Install ASDF
-  ansible.builtin.unarchive:
-    creates: "{{ ansible_env['HOME'] }}/.local/bin/asdf"
-    include: ["asdf"]
-    src: "{{ asdf_url }}"
-    dest: "{{ ansible_env['HOME'] }}/.local/bin"
-    remote_src: yes
