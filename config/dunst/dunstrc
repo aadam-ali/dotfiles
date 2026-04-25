@@ -2,7 +2,7 @@
     offset = (5,5)
     origin = top-right
 
-    font = "Hack Nerd Font Mono 12"
+    font = "Hack Nerd Font Mono 10"
     frame_color = "#a9b665"
     gap_size = 5
 

@@ -41,7 +41,7 @@ title_align center
 # Remove borders for single window (in split or tabbed mode)
 hide_edge_borders --i3 smart
 
-font pango: MesloLGS Nerd Font Mono Bold 11px
+font pango: Hack Nerd Font Mono Bold 10px
 
 set $gnome-schema org.gnome.desktop.interface
 exec_always {
@@ -114,6 +114,9 @@ input 1133:16505:Logitech_G_Pro {
 ###############
 
 # Assign workspace to secondary display
+workspace $ws1 output DP-1
+workspace $ws2 output DP-1
+workspace $ws3 output DP-1
 workspace $ws10 output DP-2
 
 # Assign apps to workspaces
