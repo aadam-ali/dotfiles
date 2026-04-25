@@ -2,7 +2,7 @@
 pkg_repos:
   docker: https://download.docker.com/linux/fedora/docker-ce.repo
 
-font_dir: "{{ ansible_env['HOME'] }}/.local/share/fonts"
+font_dir: "{{ ansible_facts['env']['HOME'] }}/.local/share/fonts"
 
 de_pkgs: [sway, rofi-wayland, waybar, alacritty, pavucontrol, network-manager-applet, thunar, wl-clipboard, grimshot, wlsunset]
 gui_pkgs: [md.obsidian.Obsidian, org.onlyoffice.desktopeditors]

@@ -2,36 +2,67 @@
 
 set -euo pipefail
 
+ANSIBLE_BECOME_EXE="sudo" # https://github.com/ansible/ansible/issues/85837
+ANSIBLE_VERSION="13.6.0"
+MISE_VERSION="v2026.4.20"
+
 OS=$(uname)
 DIST=$(grep '^ID=' /etc/os-release | cut -d'=' -f2 || true)
+DIST_VERSION=$(grep '^VERSION_ID=' /etc/os-release | cut -d'=' -f2 | tr -d '"' || true)
 DOTFILES="$HOME/Repos/aadam-ali/dotfiles"
 DOTFILES_VENV="$DOTFILES/.venv"
 CONFIG_DIR="$HOME/.config"
 
+HTTP=0
+while getopts "h" opt; do
+  case $opt in
+    h) HTTP=1 ;;
+    \?) echo "Error: Invalid option provided" >&2; exit 1 ;;
+  esac
+done
+
 function prepare_linux() {
+  echo "Installing pre-requisites..."
   if [[ "${DIST}" == "fedora" ]]; then
     sudo dnf update -y
-    sudo dnf install git python3-libdnf5 -y
+    sudo dnf install git python3-libdnf5 curl wget -y
   else
     sudo apt-get update -y && sudo apt-get upgrade -y
-    sudo apt-get install -y software-properties-common git python3-pip python3-venv
+    sudo apt-get install -y git python3-pip python3-venv curl wget
+    if [[ "${DIST}" == "ubuntu" && "${DIST_VERSION}" == "26.04" ]]; then
+      sudo apt-get install -y software-properties-common
+      ANSIBLE_BECOME_EXE="sudo.ws"
+    fi
+
+  fi
+
+  if [[ ! -x $(command -v mise) ]]; then
+    echo "Installing mise..."
+    mkdir -p "$HOME/.local/bin"
+    curl -L "https://github.com/jdx/mise/releases/download/$MISE_VERSION/mise-$MISE_VERSION-linux-x64" > "$HOME/.local/bin/mise"
+    chmod +x "$HOME/.local/bin/mise"
+  else
+    echo "Upgrading mise..."
+    mise self-update
   fi
 }
 
 function prepare_macos() {
+  echo "Installing pre-requisites..."
   if [[ ! $(which brew) ]]; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
-  brew install python@3.12
+  brew install python@3.14
 }
 
 function install_ansible() {
+  echo "Installing ansible..."
   if [[ ! -d "$DOTFILES_VENV" ]]; then
     python3 -m venv "$DOTFILES_VENV"
   fi
 
   if [[ ! -f "$DOTFILES_VENV/bin/ansible" ]]; then
-    "$DOTFILES_VENV"/bin/pip install ansible==9.6.1
+    "$DOTFILES_VENV"/bin/pip install ansible=="$ANSIBLE_VERSION"
   fi
 }
 
@@ -40,7 +71,7 @@ function create_ssh_key() {
     mkdir -p "$HOME/.ssh"
     ssh-keygen -t ed25519 -f "$HOME/.ssh/id_ed25519" -N ''
 
-    echo "========== Add the following key to GitHub (Before Cloning Dotfiles) =========="
+    echo "======================= Add the following key to GitHub ======================="
     cat "$HOME/.ssh/id_ed25519.pub"
     echo "==============================================================================="
 
@@ -49,9 +80,16 @@ function create_ssh_key() {
 }
 
 function pull_dotfiles_repo() {
+  repo_url="git@github.com:aadam-ali/dotfiles"
+  if [[ $HTTP == 1 ]]; then
+    repo_url="https://github.com/aadam-ali/dotfiles"
+  fi
+
+
   if [[ ! -d "$DOTFILES" ]]; then
+    echo "Cloning $repo_url"
     mkdir -p "$HOME/Repos/aadam-ali"
-    git clone git@github.com:aadam-ali/dotfiles "$DOTFILES"
+    git clone "$repo_url" "$DOTFILES"
     cd "$DOTFILES"
   else
     cd "$DOTFILES"
@@ -62,6 +100,7 @@ function pull_dotfiles_repo() {
 }
 
 function symlink_dotfiles() {
+  echo "Creating symlinks to config files..."
   [[ ! -f $HOME/.bash_local ]] && touch "$HOME/.bash_local"
 
   ln -sf "$PWD/home/.profile" "$HOME/.profile"
@@ -76,9 +115,9 @@ function symlink_dotfiles() {
 
   ln -nsf "$DOTFILES/config/tmux" "$HOME/.config/tmux"
   ln -nsf "$DOTFILES/config/git" "$HOME/.config/git"
-  ln -nsf "$DOTFILES/config/alacritty" "$HOME/.config/alacritty"
 
   if [[ ${OS} == "Linux" ]]; then
+    ln -nsf "$DOTFILES/config/alacritty" "$HOME/.config/alacritty"
     ln -nsf "$DOTFILES/config/rofi" "$HOME/.config/rofi"
     ln -nsf "$DOTFILES/config/waybar" "$HOME/.config/waybar"
     ln -nsf "$DOTFILES/config/sway" "$HOME/.config/sway"
@@ -86,19 +125,24 @@ function symlink_dotfiles() {
 }
 
 function run_ansible_playbook() {
-  "$DOTFILES_VENV"/bin/ansible-playbook --diff -v -K -i ansible/hosts ansible/playbook.yml
+  echo "Running ansible playbook..."
+  ANSIBLE_BECOME_EXE="${ANSIBLE_BECOME_EXE}" "$DOTFILES_VENV"/bin/ansible-playbook --diff --verbose --ask-become-pass --inventory ansible/hosts ansible/playbook.yml
 }
 
-if [[ ${OS} == "Linux" ]]; then
-  prepare_linux
-elif [[ ${OS} == "Darwin" ]]; then
-  prepare_macos
-fi
+function main() {
+  if [[ ${OS} == "Linux" ]]; then
+    prepare_linux
+  elif [[ ${OS} == "Darwin" ]]; then
+    prepare_macos
+  fi
 
-[[ ! -d "$CONFIG_DIR" ]] && mkdir "$CONFIG_DIR"
+  [[ ! -d "$CONFIG_DIR" ]] && mkdir "$CONFIG_DIR"
 
-create_ssh_key
-pull_dotfiles_repo
-symlink_dotfiles
-install_ansible
-run_ansible_playbook
+  create_ssh_key
+  pull_dotfiles_repo
+  symlink_dotfiles
+  install_ansible
+  run_ansible_playbook
+}
+
+main

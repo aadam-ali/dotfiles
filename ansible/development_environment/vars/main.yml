@@ -7,7 +7,7 @@ os_pkgs: []
 
 repositories: []
 
-font_dir: "{{ ansible_env['HOME'] }}/.local/share/fonts"
+font_dir: "{{ ansible_facts['env']['HOME'] }}/.local/share/fonts"
 fonts:
   UbuntuMono: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/UbuntuMono.tar.xz
   HackMono: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.tar.xz

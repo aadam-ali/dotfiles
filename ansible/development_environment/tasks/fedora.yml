@@ -76,9 +76,9 @@
     enabled: true
   become: true
 
-- name: "Add '{{ ansible_user_id }}' To Groups"
+- name: "Add '{{ ansible_facts['user_id'] }}' To Groups"
   ansible.builtin.user:
-    name: "{{ ansible_user_id }}"
+    name: "{{ ansible_facts['user_id'] }}"
     groups: docker,libvirt
     append: true
   become: true

@@ -5,4 +5,4 @@ if ! [[ "$1" =~ ^[0-9]+$ ]]; then
   exit 1
 fi
 
-sed -i "s/size = [0-9]\+/size = ${1}/" $CONFIG/alacritty/alacritty.toml
+sed -i "s/size = [0-9]\+/size = ${1}/" "$CONFIG/alacritty/alacritty.toml"

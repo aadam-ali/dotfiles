@@ -2,7 +2,7 @@
 - name: Pull Repos
   ansible.builtin.git:
     repo: "https://github.com/{{ item }}"
-    dest: "{{ ansible_env['HOME'] }}/Repos/tools/{{ item | split('/') | last }}"
+    dest: "{{ ansible_facts['env']['HOME'] }}/Repos/tools/{{ item | split('/') | last }}"
     depth: 1
     clone: yes
     update: yes
@@ -24,13 +24,13 @@
 
 - name: Create Local Bin Dir
   ansible.builtin.file:
-    path: "{{ ansible_env['HOME'] }}/.local/bin"
+    path: "{{ ansible_facts['env']['HOME'] }}/.local/bin"
     state: directory
 
 - name: Install Second Brain CLI
   ansible.builtin.unarchive:
-    creates: "{{ ansible_env['HOME'] }}/.local/bin/sb"
+    creates: "{{ ansible_facts['env']['HOME'] }}/.local/bin/sb"
     include: ["sb"]
     src: "{{ sb_url }}"
-    dest: "{{ ansible_env['HOME'] }}/.local/bin"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.local/bin"
     remote_src: yes
