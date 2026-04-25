@@ -5,6 +5,7 @@ set -euo pipefail
 CHOICE="${1:-}"
 
 ALACRITTY_CONF="$XDG_CONFIG_HOME/alacritty/alacritty.toml"
+FOOT_CONF="$XDG_CONFIG_HOME/foot/foot.ini"
 VIM_CONF="$HOME/.vimrc"
 NVIM_CONF="$XDG_CONFIG_HOME/nvim/lua/plugins/colorscheme.lua"
 
@@ -28,6 +29,16 @@ sed_alacritty_colorscheme() {
   sed -i "s#\(themes/\).*\(\.toml\)#\1${1}\2#" "$ALACRITTY_CONF"
 }
 
+sed_foot_colorscheme() {
+  if [[ "$1" == "dark" ]]; then
+    dm=1
+  else
+    dm=2
+  fi
+
+  sed -i "s#\(initial-color-theme=\).*#\1${dm}#" "$FOOT_CONF"
+}
+
 # Modified from https://shapeshed.com/vim-tmux-alacritty-theme-switcher
 switch_vim_theme() {
   tmux list-panes -a -F '#{pane_id} #{pane_current_command}' |
@@ -39,6 +50,7 @@ switch_vim_theme() {
 }
 
 sed_alacritty_colorscheme "$DESIRED_MODE"
+sed_foot_colorscheme "$DESIRED_MODE"
 sed_vim_colorscheme "$DESIRED_MODE"
 sed_nvim_colorscheme "$DESIRED_MODE"
 switch_vim_theme "$DESIRED_MODE" || true

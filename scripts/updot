@@ -118,6 +118,7 @@ function symlink_dotfiles() {
 
   if [[ ${OS} == "Linux" ]]; then
     ln -nsf "$DOTFILES/config/alacritty" "$HOME/.config/alacritty"
+    ln -nsf "$DOTFILES/config/foot" "$HOME/.config/foot"
     ln -nsf "$DOTFILES/config/rofi" "$HOME/.config/rofi"
     ln -nsf "$DOTFILES/config/waybar" "$HOME/.config/waybar"
     ln -nsf "$DOTFILES/config/sway" "$HOME/.config/sway"
