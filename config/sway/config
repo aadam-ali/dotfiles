@@ -25,7 +25,7 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "0"
 
-set $term alacritty
+set $term foot
 
 set $menu rofi -modi drun -show drun
 
@@ -79,20 +79,19 @@ output * bg #3c3836 solid_color
 
 output Virtual-1 {
   mode 1920x1080@60Hz
-  bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 }
 
 output DP-1 {
   mode 1920x1080@144Hz
   position 0 0
-  bg /usr/share/backgrounds/gnome/blobs-d.svg fill
+  bg $HOME/Pictures/Wallpapers/horizontal fill
 }
 
 output DP-2 {
   mode 1920x1080@144Hz
   transform 270
   position -1080 -420
-  bg /usr/share/backgrounds/gnome/blobs-d.svg fill
+  bg $HOME/Pictures/Wallpapers/horizontal fill
 }
 
 ############
@@ -121,6 +120,7 @@ workspace $ws10 output DP-2
 
 # Assign apps to workspaces
 assign [app_id="Alacritty"] 1
+assign [app_id="foot"] 1
 assign [app_id="org.mozilla.firefox"] 2
 assign [class="obsidian"] 3
 
@@ -135,7 +135,7 @@ exec swayidle -w \
 exec nm-applet
 exec blueman-applet
 exec firefox
-exec alacritty
+exec $term
 
 exec_always wlsunset -S 08:30 -s 20:30
 
