@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+selected=$(
+  {
+    tmux list-sessions -F '#S'
+    find "$REPOS" -mindepth 2 -maxdepth 2 -type d -printf "%P\n"
+  } | fzf --tmux center || echo ""
+)
+
+name=$(basename "$selected")
+
+if [[ -z "$selected" ]]; then
+  exit 0
+fi
+
+tmux -2 has-session -t "$name" 2>/dev/null || tmux -2 new-session -ds "$name" -c "$REPOS/$selected"
+tmux -2 switch-client -t "$name"

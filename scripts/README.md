@@ -9,14 +9,15 @@ that they do what I intend, well.
 Use at your own discretion.
 
 
-| Script                       | Description                                                 |
-|------------------------------|-------------------------------------------------------------|
-| [awsume](./awsume)           | Create tmux window that assumes an AWS role using aws-vault |
-| [backup](./backup)           | Sync files to external backup drive                         |
-| [bright](./bright)           | Set brightness of monitors                                  |
-| [clone](./clone)             | Clone repos following a common directory pattern            |
-| [coauth](./coauth)           | Set coauthors to use in commit messages (only for GitHub)   |
-| [tm](./tm)                   | Toggle system color scheme                                  |
-| [tmux-window](./tmux-window) | Opens a repository in a new tmux window                     |
-| [tt](./tt)                   | Toggle theme of terminal                                    |
-| [updot](./updot)             | Set up and update environment configuration                 |
+| Script                        | Description                                                 |
+|-------------------------------|-------------------------------------------------------------|
+| [awsume](./awsume)            | Create tmux window that assumes an AWS role using aws-vault |
+| [backup](./backup)            | Sync files to external backup drive                         |
+| [bright](./bright)            | Set brightness of monitors                                  |
+| [clone](./clone)              | Clone repos following a common directory pattern            |
+| [coauth](./coauth)            | Set coauthors to use in commit messages (only for GitHub)   |
+| [tm](./tm)                    | Toggle system color scheme                                  |
+| [tmux-session](./tmux-session)| Opens a repository in a new tmux session                    |
+| [tmux-window](./tmux-window)  | Opens a repository in a new tmux window                     |
+| [tt](./tt)                    | Toggle theme of terminal                                    |
+| [updot](./updot)              | Set up and update environment configuration                 |
