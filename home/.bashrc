@@ -96,6 +96,11 @@ prompt() {
   local branch changes aws_role fbranch venv aws_role_prompt wrap_length length dir
 
   branch="$(git branch --show-current 2>/dev/null)"
+  tag="$(git describe --tags --exact-match 2>/dev/null)"
+  commit="$(git rev-parse --short HEAD 2>/dev/null)"
+  [[ -z "$branch" && ! -z $tag ]] &&  branch="tag($tag)"
+  [[ -z "$branch" && ! -z $commit ]] && branch="commit($commit)"
+
   changes="$(git status -su 2>/dev/null)"
   aws_role="${AWS_VAULT:-$AWS_PROFILE}"
   dir="${PWD/$HOME/\~}"
