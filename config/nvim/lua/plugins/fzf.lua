@@ -7,7 +7,7 @@ H.find_files = function()
   cwd = vim.fn.getcwd():gsub("/$", "")
   sb = os.getenv("SB"):gsub("/$", "")
 
-  if cwd == sb or cwd:sub(1, #sb + 1) == sb .. "/" then
+  if string.find(os.getenv("SB"), vim.fn.getcwd(), 1, true) then
     fzf.files({ cwd = sb, rg_opts = "--files --no-ignore --glob '!.git/*'" })
   elseif is_git then
     fzf.git_files()
