@@ -4,10 +4,10 @@ H.find_files = function()
   local fzf = require("fzf-lua")
   local is_git = vim.fn.system("git rev-parse --is-inside-work-tree"):match("true")
 
-  cwd = vim.fn.getcwd():gsub("/$", "")
-  sb = os.getenv("SB"):gsub("/$", "")
+  notes_dir = vim.env.SB
+  notes_dir = notes_dir:gsub("/notes$", "")
 
-  if string.find(os.getenv("SB"), vim.fn.getcwd(), 1, true) then
+  if string.find(vim.fn.getcwd(), notes_dir, 1, true) then
     fzf.files({ cwd = sb, rg_opts = "--files --no-ignore --glob '!.git/*'" })
   elseif is_git then
     fzf.git_files()
