@@ -1,0 +1,119 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+config_dir="${XDG_CONFIG_HOME}/git"
+
+coauthors="${config_dir}/co-authors.txt"
+template="${config_dir}/commit-template.txt"
+
+sed_format="/^$/d ; s/^\s\+//g ; s/\s\+$//g"
+
+if [[ ! -d "${config_dir}" ]]; then
+  mkdir -p "${config_dir}"
+fi
+
+[[ ! -f "${coauthors}" ]] && true > "${coauthors}"
+[[ ! -f "${template}" ]] && true > "${template}"
+
+function help () {
+  cat << EOF
+usage: git-pair
+
+help
+  help    Show help message and exit
+
+pairing session
+  start   Start pairing session
+  stop    Stop pairing session
+  show    Show current co-authors
+
+manage co-authors
+  add     Add a new coauthor to co-authors.txt in the format 'Name <email>'
+  list    Display the contents of co-authors.txt
+EOF
+}
+
+function command_not_found () {
+  echo "git-pair: unexpected command '$1'"
+  echo
+  help
+  exit 127
+}
+
+function add () {
+  if [[ "$1" ]]; then
+    echo "$1" >> "${coauthors}"
+    echo "Added $1 to ${coauthors}"
+  else
+    echo "usage: git-pair add <tag>"
+  fi
+
+  sed --in-place --expression "${sed_format}" "${coauthors}"
+  sort --unique --output "${coauthors}" "${coauthors}"
+}
+
+function stop () {
+  true > "${template}"
+  git config --global --unset commit.template
+  printf "\e[31mPairing mode disabled. Run 'coauth start' to start session.\e[0m\n"
+}
+
+function list () {
+  sed --in-place --expression "${sed_format}" "${coauthors}"
+  sort --unique --output "${coauthors}" "${coauthors}"
+
+  cat "${coauthors}"
+}
+
+function show () {
+  sed --expression "s/Co-authored-by: //g ; ${sed_format}" "${template}"
+}
+
+function start () {
+  git config --global commit.template "${template}"
+
+  echo -e "\n" > "${template}"
+  while true; do
+
+    if git rev-parse --is-inside-work-tree &>/dev/null; then
+      author=$(git log --pretty='format:%an <%ae>' | cat ${coauthors} - | sort --unique | fzf)
+    else
+      author=$(fzf < "${coauthors}")
+    fi
+
+    if [[ "${author}" ]]; then
+        echo "Co-authored-by: ${author}" >> "${template}"
+        echo "Added co-author: ${author}"
+    else
+        printf "\e[32mPairing mode enabled.\e[0m\n"
+        echo "Run 'git-pair stop' to end session. Run 'git-pair start' to change co-authors"
+        break
+    fi
+  done
+}
+
+case "$1" in
+  "" | "help")
+    help
+    ;;
+  "add")
+    shift
+    add "$@"
+    ;;
+  "stop")
+    stop
+    ;;
+  "list")
+    list
+    ;;
+  "show")
+    show
+    ;;
+  "start")
+    start
+    ;;
+  *)
+    command_not_found "$@"
+    ;;
+esac
