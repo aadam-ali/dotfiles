@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+function g() {
+  git -C "$@"
+}
+
+echo """This command will do the following against each repository:
+  * Stash any uncommitted changes
+  * Fetch updates from the remote
+  * Switch to the default branch
+  * Rebase the local default branch onto the remote default branch 
+  * Remove all ignored files and directories e.g. (.terraform, .venv etc.)
+  * Restore stashed changes if the default branch was already checked out
+  """
+
+read -rp "Would like you like to continue? (Type 'yes' to continue): " answer
+
+if [[ "$answer" != "yes" ]]; then
+    echo "Exiting"
+    exit 1
+fi
+
+repos=$(find "$REPOS" -mindepth 2 -maxdepth 2 -type d | sort)
+
+for repo in $repos; do
+  (
+  if ! g "$repo" rev-parse --is-inside-work-tree &>/dev/null; then
+    echo "[SKIP][NOT_A_GIT_REPOSITORY] $repo"
+    exit 
+  fi
+
+  if ! g "$repo" ls-remote &>/dev/null; then
+    echo "[SKIP][INVALID_REMOTE] $repo"
+    exit 
+  fi
+
+  if [[ "$repo" == "$REPOS/$GH_USER/notes" ]]; then
+    echo "[SKIP][EXCLUDED] $repo"
+    exit 
+  fi
+
+  echo "[START] $repo"
+
+  default_branch=$(g "$repo" remote show origin | grep 'HEAD branch' | cut -d: -f2 | tr -d '[:space:]')
+  current_branch=$(g "$repo" branch --show-current)
+  remote=$(g "$repo" remote)
+  
+  g "$repo" add --update
+  g "$repo" stash --quiet -m "git refresh ($(date --iso-8601='seconds'))"
+  g "$repo" fetch "$remote" --quiet
+  g "$repo" switch --quiet "$default_branch"
+  g "$repo" rebase --quiet "$remote/$default_branch"
+  g "$repo" clean --quiet --force -dX
+  
+  if [[ "$current_branch" == "$default_branch" ]]; then
+    g "$repo" stash pop --quiet &>/dev/null || true
+  fi
+
+  echo "[FINISH] $repo"
+  ) &
+done
+
+wait
