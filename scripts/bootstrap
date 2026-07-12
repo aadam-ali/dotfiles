@@ -82,7 +82,7 @@ function pull_dotfiles_repo() {
   if [[ ! -d "${DOTFILES}" ]]; then
     echo "Cloning ${REPO_URL}"
     mkdir -p "${DOTFILES}"
-    git clone -b refactor-bootstrap "${REPO_URL}" "${DOTFILES}"
+    git clone "${REPO_URL}" "${DOTFILES}"
     cd "${DOTFILES}"
   else
     cd "${DOTFILES}"
@@ -131,13 +131,13 @@ while getopts "h" opt; do
   esac
 done
 
-create_ssh_key
-pull_dotfiles_repo
 if [[ "${OS}" == "Linux" ]]; then
   prepare_linux
 elif [[ "${OS}" == "Darwin" ]]; then
   prepare_macos
 fi
+create_ssh_key
+pull_dotfiles_repo
 symlink_dotfiles
 setup_ansible
 
