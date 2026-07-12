@@ -6,9 +6,9 @@ ANSIBLE_BECOME_EXE="sudo"
 
 OS="$(uname)"
 
-DOTFILES="$HOME/Repos/aadam-ali/dotfiles"
-VENV="$HOME/.local/share/dotfiles-venv"
-PATH="$VENV/bin:/opt/homebrew/bin:$PATH"
+DOTFILES="${HOME}/Repos/aadam-ali/dotfiles"
+VENV="${HOME}/.local/share/dotfiles-venv"
+PATH="${VENV}/bin:/opt/homebrew/bin:${PATH}"
 
 
 function prepare_linux() {
@@ -37,7 +37,7 @@ function prepare_macos() {
   fi
 
   if ! command -v brew >/dev/null; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/c7952e40b7957268f61643152f4db725379b292e/install.sh)" #
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/c7952e40b7957268f61643152f4db725379b292e/install.sh)" # HEAD as of 2026-07-11
   fi
 
   brew install -y python@3.14
@@ -45,11 +45,11 @@ function prepare_macos() {
 
 
 function setup_ansible() {
-  [[ ! -d "$HOME/.local/share" ]] && mkdir -p "$HOME/.local/share"
+  [[ ! -d "${HOME}/.local/share" ]] && mkdir -p "${HOME}/.local/share"
 
-  if [[ ! -d "$VENV" ]]; then
-    echo "creating $VENV"
-    python3 -m venv "$VENV"
+  if [[ ! -d "${VENV}" ]]; then
+    echo "creating ${VENV}"
+    python3 -m venv "${VENV}"
   fi
 
   pip install --upgrade pip ansible==14.1.0
@@ -57,15 +57,15 @@ function setup_ansible() {
 
 
 function create_ssh_key() {
-  if [[ ! -f "$HOME/.ssh/id_ed25519" ]]; then
-    mkdir -p "$HOME/.ssh"
-    ssh-keygen -t ed25519 -f "$HOME/.ssh/id_ed25519" -N ''
+  if [[ ! -f "${HOME}/.ssh/id_ed25519" ]]; then
+    mkdir -p "${HOME}/.ssh"
+    ssh-keygen -t ed25519 -f "${HOME}/.ssh/id_ed25519" -N ''
 
     echo "======================= Add the following key to GitHub ======================="
-    cat "$HOME/.ssh/id_ed25519.pub"
+    cat "${HOME}/.ssh/id_ed25519.pub"
     echo "==============================================================================="
 
-    if [[ "$HTTP" == 0 ]]; then
+    if [[ "${HTTP}" == 0 ]]; then
       read -r -p "Press enter to continue ..." </dev/tty
     fi
   fi
@@ -73,19 +73,19 @@ function create_ssh_key() {
 
 
 function pull_dotfiles_repo() {
-  echo "Checking that $DOTFILES exists"
-  repo_url="git@github.com:aadam-ali/dotfiles"
-  if [[ "$HTTP" == 1 ]]; then
-    repo_url="https://github.com/aadam-ali/dotfiles"
+  echo "Checking that ${DOTFILES} exists"
+  REPO_URL="git@github.com:aadam-ali/dotfiles"
+  if [[ "${HTTP}" == 1 ]]; then
+    REPO_URL="https://github.com/aadam-ali/dotfiles"
   fi
 
-  if [[ ! -d "$DOTFILES" ]]; then
-    echo "Cloning $repo_url"
-    mkdir -p "$DOTFILES"
-    git clone -b refactor-bootstrap "$repo_url" "$DOTFILES"
-    cd "$DOTFILES"
+  if [[ ! -d "${DOTFILES}" ]]; then
+    echo "Cloning ${REPO_URL}"
+    mkdir -p "${DOTFILES}"
+    git clone -b refactor-bootstrap "${REPO_URL}" "${DOTFILES}"
+    cd "${DOTFILES}"
   else
-    cd "$DOTFILES"
+    cd "${DOTFILES}"
     echo "Making sure dotfiles are up to date"
     git stash --quiet -m "bootstrap ($(date -Iseconds))"
     git pull --quiet
@@ -93,30 +93,33 @@ function pull_dotfiles_repo() {
   fi
 }
 
+
 function symlink_dotfiles() {
   echo "Creating symlinks to config files"
-  [[ ! -f $HOME/.bash_local ]] && touch "$HOME/.bash_local"
+  [[ ! -f "${HOME}/.bash_local" ]] && touch "${HOME}/.bash_local"
+  [[ ! -f "${HOME/.config}" ]] && mkdir -p "${HOME}/.config"
 
-  ln -sf "$PWD/home/.profile" "$HOME/.profile"
-  ln -sf "$PWD/home/.bashrc" "$HOME/.bashrc"
+  ln -sf "${PWD}/home/.profile" "${HOME}/.profile"
+  ln -sf "${PWD}/home/.bashrc" "${HOME}/.bashrc"
 
-  [[ ! -d "$HOME/.vim/autoload" ]] && mkdir -p "$HOME/.vim/autoload"
-  ln -sf "$DOTFILES/home/vim/.vimrc" "$HOME/.vimrc"
-  ln -sf "$DOTFILES/home/vim/autoload/plug.vim" "$HOME/.vim/autoload/plug.vim"
-  ln -nsf "$DOTFILES/config/nvim" "$HOME/.config/nvim"
+  [[ ! -d "${HOME}/.vim/autoload" ]] && mkdir -p "${HOME}/.vim/autoload"
+  ln -sf "${DOTFILES}/home/vim/.vimrc" "${HOME}/.vimrc"
+  ln -sf "${DOTFILES}/home/vim/autoload/plug.vim" "${HOME}/.vim/autoload/plug.vim"
+  ln -nsf "${DOTFILES}/config/nvim" "${HOME}/.config/nvim"
 
-  ln -nsf "$DOTFILES/config/tmux" "$HOME/.config/tmux"
-  ln -nsf "$DOTFILES/config/git" "$HOME/.config/git"
+  ln -nsf "${DOTFILES}/config/tmux" "${HOME}/.config/tmux"
+  ln -nsf "${DOTFILES}/config/git" "${HOME}/.config/git"
 
   if [[ "${OS}" == "Linux" ]]; then
-    ln -nsf "$DOTFILES/config/alacritty" "$HOME/.config/alacritty"
-    ln -nsf "$DOTFILES/config/foot" "$HOME/.config/foot"
-    ln -nsf "$DOTFILES/config/rofi" "$HOME/.config/rofi"
-    ln -nsf "$DOTFILES/config/waybar" "$HOME/.config/waybar"
-    ln -nsf "$DOTFILES/config/sway" "$HOME/.config/sway"
+    ln -nsf "${DOTFILES}/config/alacritty" "${HOME}/.config/alacritty"
+    ln -nsf "${DOTFILES}/config/foot" "${HOME}/.config/foot"
+    ln -nsf "${DOTFILES}/config/rofi" "${HOME}/.config/rofi"
+    ln -nsf "${DOTFILES}/config/waybar" "${HOME}/.config/waybar"
+    ln -nsf "${DOTFILES}/config/sway" "${HOME}/.config/sway"
   fi
 
-  source "$HOME/.bashrc"
+  # shellcheck disable=SC1091
+  source "${HOME}/.bashrc"
 }
 
 
