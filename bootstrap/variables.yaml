@@ -1,0 +1,90 @@
+---
+# Common Variables
+os_name: "{{ ansible_facts.system | lower }}"
+os_distribution: "{{ ansible_facts.distribution | lower }}"
+
+user_home_dir: "{{ ansible_facts.env.HOME }}"
+user_local_bin_dir: "{{ user_home_dir }}/.local/bin"
+
+desktop_hosts:
+  - ws01
+  - vm01
+  - vm02
+is_desktop_host: "{{ ansible_facts.hostname | lower in desktop_hosts }}"
+
+# Packages
+common_packages:
+  - fzf
+  - gcc
+  - git
+  - htop
+  - jq
+  - neovim
+  - pandoc
+  - ripgrep
+  - tmux
+  - vim
+  - curl
+  - wget
+
+packages:
+  linux: []
+  darwin:
+    - bash
+    - coreutils
+    - gnu-sed
+    - gnu-tar
+    - grep
+
+docker_packages:
+  linux:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-buildx-plugin
+    - docker-compose-plugin
+  darwin:
+    - colima
+    - docker
+    - docker-buildx
+    - docker-compose
+
+desktop_environment_packages:
+  - blueman
+  - flatpak
+  - grimshot
+  - network-manager-applet
+  - pavucontrol
+  - rofi
+  - sway
+  - waybar
+  - wl-clipboard
+  - wlsunset
+
+flatpaks:
+  - com.obsproject.Studio
+  - org.gimp.GIMP
+  - org.strawberrymusicplayer.strawberry
+
+homebrew_casks:
+  - firefox
+
+# Fonts
+font_dir:
+  linux: "{{ user_home_dir }}/.local/share/fonts"
+  darwin: "{{ user_home_dir }}/Library/Fonts"
+
+fonts:
+  D2CodingNF: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/D2Coding.tar.xz
+  HackNF: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.tar.xz
+  IosevkaNF: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Iosevka.tar.xz
+  UbuntuMonoNF: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/UbuntuMono.tar.xz
+
+# Binaries
+sb_url:
+  linux: "https://github.com/aadam-ali/second-brain-cli/releases/download/v0.10.0/sb-v0.10.0-linux-amd64.tar.gz"
+  darwin: "https://github.com/aadam-ali/second-brain-cli/releases/download/v0.10.0/sb-v0.10.0-darwin-arm64.tar.gz"
+
+mise_url:
+  linux: "https://github.com/jdx/mise/releases/download/v2026.7.5/mise-v2026.7.5-linux-x64"
+  darwin: "https://github.com/jdx/mise/releases/download/v2026.7.5/mise-v2026.7.5-macos-arm64"

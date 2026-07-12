@@ -1,0 +1,34 @@
+---
+- name: Ensure Font Directory Exists
+  ansible.builtin.file:
+    path: "{{ font_dir[os_name] }}//{{ item.key }}"
+    state: directory
+  loop: "{{ fonts | dict2items }}"
+
+- name: Install Fonts
+  ansible.builtin.unarchive:
+    remote_src: yes
+    src: "{{ item.value }}"
+    dest: "{{ font_dir[os_name] }}/{{ item.key }}"
+    creates: "{{ font_dir[os_name] }}//{{ item.key }}/README.md"
+  loop: "{{ fonts | dict2items }}"
+
+- name: Ensure {{ user_local_bin_dir }} Exists
+  ansible.builtin.file:
+    path: "{{ user_local_bin_dir }}"
+    state: directory
+
+- name: Install Second Brain CLI
+  ansible.builtin.unarchive:
+    remote_src: yes
+    src: "{{ sb_url[os_name] }}"
+    dest: "{{ user_local_bin_dir }}"
+    include: ["sb"]
+    creates: "{{ user_local_bin_dir }}/sb"
+
+- name: Install Mise
+  ansible.builtin.uri:
+    url: "{{ mise_url[os_name] }}"
+    dest: "{{ user_local_bin_dir }}/mise"
+    creates: "{{ user_local_bin_dir }}/mise"
+    mode: 755

@@ -1,0 +1,28 @@
+- name: Upgrade Homebrew & Packages
+  community.general.homebrew:
+    update_homebrew: true
+    upgrade_all: true
+
+- name: Install Common Packages
+  community.general.homebrew:
+    name: "{{ common_packages }}"
+    state: present
+
+- name: Install Packages
+  community.general.homebrew:
+    name: "{{ packages[os_name] }}"
+    state: present
+
+- name: Install Docker
+  community.general.homebrew:
+    name: "{{ docker_packages[os_name] }}"
+    state: present
+
+- name: Upgrade Homebrew Casks
+  community.general.homebrew_cask:
+    upgrade_all: true
+
+- name: Install Homebrew Casks
+  community.general.homebrew_cask:
+    name: "{{ homebrew_casks }}"
+    state: latest
