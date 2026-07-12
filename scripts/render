@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+open=false
+while getopts 'o' opt; do
+    case "${opt}" in
+        o) open=true ;;
+        \?) echo "Error: Invalid option provided" >&2; exit 1 ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+real_path="$(realpath "$1")"
+render_dir="/tmp/render"
+file_dir="${render_dir}${real_path}"
+file_path="${file_dir}.html"
+
+mkdir -p "${file_dir}"
+
+pandoc "${real_path}" -s -o "${file_path}" --include-in-header <(echo '
+<style>
+body {
+  width: 50%;
+  max-width: 900px;
+}
+</style>
+')
+
+echo "${file_path}"
+
+if ${open}; then
+  xdg-open "${file_path}"
+fi
