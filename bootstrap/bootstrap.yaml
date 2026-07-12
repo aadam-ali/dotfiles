@@ -1,0 +1,14 @@
+---
+- name: Setup Machine
+  hosts: localhost
+  connection: local
+
+  vars_files:
+    - variables.yaml
+
+  tasks:
+    - name: Setup Distribution
+      include_tasks: "{{ os_distribution }}.yaml"
+
+    - name: Common Tasks
+      include_tasks: common.yaml

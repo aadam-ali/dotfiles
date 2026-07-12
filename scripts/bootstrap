@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ANSIBLE_BECOME_EXE="sudo"
+
+OS="$(uname)"
+
+DOTFILES="$HOME/Repos/aadam-ali/dotfiles"
+VENV="$HOME/.local/share/dotfiles-venv"
+PATH="$VENV/bin:/opt/homebrew/bin:$PATH"
+
+
+function prepare_linux() {
+  DIST=$(grep '^ID=' /etc/os-release  | cut -d'=' -f2)
+  DIST_VERSION=$(grep '^VERSION_ID=' /etc/os-release | cut -d'=' -f2 | tr -d '"')
+
+  if [[ "${DIST}" == "fedora" ]]; then
+    sudo dnf install -y git
+  elif [[ "${DIST}" == "ubuntu" ]]; then
+    sudo apt-get update -y
+    sudo apt-get install -y python3-venv git
+
+    if [[ "${DIST_VERSION}" == "26.04" ]]; then
+      ANSIBLE_BECOME_EXE="sudo.ws"
+    fi
+  else
+    echo "${DIST} is not supported"
+    exit 1
+  fi
+}
+
+
+function prepare_macos() {
+  if ! xcode-select -p >/dev/null; then
+      xcode-select --install
+  fi
+
+  if ! command -v brew >/dev/null; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/c7952e40b7957268f61643152f4db725379b292e/install.sh)" #
+  fi
+
+  brew install -y python@3.14
+}
+
+
+function setup_ansible() {
+  [[ ! -d "$HOME/.local/share" ]] && mkdir -p "$HOME/.local/share"
+
+  if [[ ! -d "$VENV" ]]; then
+    echo "creating $VENV"
+    python3 -m venv "$VENV"
+  fi
+
+  pip install --upgrade pip ansible==14.1.0
+}
+
+
+function create_ssh_key() {
+  if [[ ! -f "$HOME/.ssh/id_ed25519" ]]; then
+    mkdir -p "$HOME/.ssh"
+    ssh-keygen -t ed25519 -f "$HOME/.ssh/id_ed25519" -N ''
+
+    echo "======================= Add the following key to GitHub ======================="
+    cat "$HOME/.ssh/id_ed25519.pub"
+    echo "==============================================================================="
+
+    if [[ "$HTTP" == 0 ]]; then
+      read -r -p "Press enter to continue ..." </dev/tty
+    fi
+  fi
+}
+
+
+function pull_dotfiles_repo() {
+  echo "Checking that $DOTFILES exists"
+  repo_url="git@github.com:aadam-ali/dotfiles"
+  if [[ "$HTTP" == 1 ]]; then
+    repo_url="https://github.com/aadam-ali/dotfiles"
+  fi
+
+  if [[ ! -d "$DOTFILES" ]]; then
+    echo "Cloning $repo_url"
+    mkdir -p "$DOTFILES"
+    git clone -b refactor-bootstrap "$repo_url" "$DOTFILES"
+    cd "$DOTFILES"
+  else
+    cd "$DOTFILES"
+    echo "Making sure dotfiles are up to date"
+    git stash --quiet -m "bootstrap ($(date -Iseconds))"
+    git pull --quiet
+    git stash pop --quiet || true
+  fi
+}
+
+function symlink_dotfiles() {
+  echo "Creating symlinks to config files"
+  [[ ! -f $HOME/.bash_local ]] && touch "$HOME/.bash_local"
+
+  ln -sf "$PWD/home/.profile" "$HOME/.profile"
+  ln -sf "$PWD/home/.bashrc" "$HOME/.bashrc"
+
+  [[ ! -d "$HOME/.vim/autoload" ]] && mkdir -p "$HOME/.vim/autoload"
+  ln -sf "$DOTFILES/home/vim/.vimrc" "$HOME/.vimrc"
+  ln -sf "$DOTFILES/home/vim/autoload/plug.vim" "$HOME/.vim/autoload/plug.vim"
+  ln -nsf "$DOTFILES/config/nvim" "$HOME/.config/nvim"
+
+  ln -nsf "$DOTFILES/config/tmux" "$HOME/.config/tmux"
+  ln -nsf "$DOTFILES/config/git" "$HOME/.config/git"
+
+  if [[ "${OS}" == "Linux" ]]; then
+    ln -nsf "$DOTFILES/config/alacritty" "$HOME/.config/alacritty"
+    ln -nsf "$DOTFILES/config/foot" "$HOME/.config/foot"
+    ln -nsf "$DOTFILES/config/rofi" "$HOME/.config/rofi"
+    ln -nsf "$DOTFILES/config/waybar" "$HOME/.config/waybar"
+    ln -nsf "$DOTFILES/config/sway" "$HOME/.config/sway"
+  fi
+
+  source "$HOME/.bashrc"
+}
+
+
+HTTP=0
+while getopts "h" opt; do
+  case $opt in
+    h) HTTP=1 ;;
+    \?) echo "Error: Invalid option provided" >&2; exit 1 ;;
+  esac
+done
+
+create_ssh_key
+pull_dotfiles_repo
+if [[ "${OS}" == "Linux" ]]; then
+  prepare_linux
+elif [[ "${OS}" == "Darwin" ]]; then
+  prepare_macos
+fi
+symlink_dotfiles
+setup_ansible
+
+ANSIBLE_BECOME_EXE="${ANSIBLE_BECOME_EXE}" ansible-playbook bootstrap/bootstrap.yaml --ask-become-pass
