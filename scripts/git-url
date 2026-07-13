@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+object=$(realpath "${1:-.}")
+
+if [ -d "${object}" ]; then
+  object_dir="${object}"
+else
+  object_dir=$(dirname "${object}")
+fi
+
+if ! repo_root=$(git -C "${object_dir}" rev-parse --show-toplevel 2>/dev/null); then
+  echo "'${object}' is not in a Git repository"
+  exit 1
+fi
+
+object=$(realpath --relative-to "$repo_root" "$object")
+
+if ! git -C "${repo_root}" diff --quiet -- "${object}" >/dev/null; then
+  echo "File in '${repo_root}' has uncommitted changes"
+  exit 1
+fi
+
+commit="$(git -C "${repo_root}" rev-list --max-count 1 HEAD -- "$object")"
+remote_url="$(git -C "${repo_root}" remote get-url origin | sed -e 's|[A-Za-z]\+@\(github.com\):|https://\1/| ; s|.git$||')"
+
+if ! git -C "${repo_root}" branch -r --contains "${commit}" | grep --quiet . >/dev/null; then
+  echo "Commit where file was last updated is not on remote"
+  exit 1
+fi
+
+echo "${remote_url}/tree/${commit}/${object}"

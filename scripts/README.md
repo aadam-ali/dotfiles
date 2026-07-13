@@ -20,6 +20,7 @@ they do what I intend, well.
 | [`clone`](./clone)              | Clone repos following a common directory pattern            |
 | [`git-pair`](./git-pair)        | Set coauthors to use in commit messages                     |
 | [`git-refresh`](./git-refresh)  | Sync repositories with upstream and remove ignored files    |
+| [`git-url`](./git-url)          | Generate a permalink to the provided file                   |
 | [`render`](./render)            | Generate a HTML file from a given markdown file             |
 | [`tm`](./tm)                    | Toggle system color scheme                                  |
 | [`tmux-session`](./tmux-session)| Opens a repository in a new tmux session                    |
