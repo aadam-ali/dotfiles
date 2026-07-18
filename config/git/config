@@ -4,13 +4,13 @@
 	rebase = true
 [core]
 	editor = nvim
-	excludesfile = /home/aadam/.config/git/gitignore
+	excludesfile = ~/.config/git/gitignore
 [init]
 	defaultBranch = main
 [user]
 	name = Aadam Ali
 	email = 57071686+aadam-ali@users.noreply.github.com
-	signingkey = /home/aadam/.ssh/id_ed25519.pub
+	signingkey = ~/.ssh/id_ed25519.pub
 [commit]
 	gpgsign = true
 	verbose = true
