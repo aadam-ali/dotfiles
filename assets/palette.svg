@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 152" width="488" height="152">
+  <defs>
+    <style>
+      .role { font-family: system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 600; text-anchor: middle; }
+      .hex { font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace; font-size: 11px; text-anchor: middle; }
+      .light { fill: #ffffff; }
+      .dark { fill: #1e1e1e; }
+    </style>
+  </defs>
+
+  <rect x="4" y="4" width="120" height="72" fill="#1e1e1e" stroke="#333" stroke-width="1" rx="0"/>
+  <text x="64" y="36" class="role light">bg1</text>
+  <text x="64" y="56" class="hex light">#1e1e1e</text>
+
+  <rect x="124" y="4" width="120" height="72" fill="#242424" stroke="#333" stroke-width="1" rx="0"/>
+  <text x="184" y="36" class="role light">bg2</text>
+  <text x="184" y="56" class="hex light">#242424</text>
+
+  <rect x="244" y="4" width="120" height="72" fill="#ffffff" stroke="#333" stroke-width="1" rx="0"/>
+  <text x="304" y="36" class="role dark">fg1</text>
+  <text x="304" y="56" class="hex dark">#ffffff</text>
+
+  <rect x="364" y="4" width="120" height="72" fill="#929292" stroke="#333" stroke-width="1" rx="0"/>
+  <text x="424" y="36" class="role dark">fg2</text>
+  <text x="424" y="56" class="hex dark">#929292</text>
+
+  <rect x="4" y="76" width="120" height="72" fill="#3584e4" stroke="#333" stroke-width="1" rx="0"/>
+  <text x="64" y="108" class="role light">accent</text>
+  <text x="64" y="128" class="hex light">#3584e4</text>
+
+  <rect x="124" y="76" width="120" height="72" fill="#e01b24" stroke="#333" stroke-width="1" rx="0"/>
+  <text x="184" y="108" class="role light">alert</text>
+  <text x="184" y="128" class="hex light">#e01b24</text>
+
+  <rect x="244" y="76" width="120" height="72" fill="#ff7800" stroke="#333" stroke-width="1" rx="0"/>
+  <text x="304" y="108" class="role dark">warning</text>
+  <text x="304" y="128" class="hex dark">#ff7800</text>
+
+  <rect x="364" y="76" width="120" height="72" fill="#505050" stroke="#333" stroke-width="1" rx="0"/>
+  <text x="424" y="108" class="role light">inactive</text>
+  <text x="424" y="128" class="hex light">#505050</text>
+</svg>

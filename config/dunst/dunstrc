@@ -3,21 +3,21 @@
     origin = top-right
 
     font = "Hack Nerd Font Mono 10"
-    frame_color = "#a9b665"
+    frame_color = "#3584e4"
     gap_size = 5
 
 [urgency_low]
-    background = "#282828"
-    foreground = "#d4be98"
+    background = "#1e1e1e"
+    foreground = "#ffffff"
     timeout = 1.5
 
 [urgency_normal]
-    background = "#282828"
-    foreground = "#d4be98"
+    background = "#1e1e1e"
+    foreground = "#ffffff"
     timeout = 3
 
 [urgency_critical]
-    background = "#ea6962"
-    foreground = "#282828"
-    frame_color = "#282828"
+    background = "#e01b24"
+    foreground = "#ffffff"
+    frame_color = "#1e1e1e"
     timeout = 0

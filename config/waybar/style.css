@@ -9,7 +9,7 @@
 window#waybar {
   transition-property: background-color;
   transition-duration: 0.5s;
-  background-color: @bg1;
+  background-color: @bg2;
   color: @fg1;
 }
 
@@ -32,18 +32,19 @@ button {
 }
 
 #workspaces button.focused {
-  color: @bg1;
+  color: @bg2;
   background-color: @focus;
   font-size: 12px;
 }
 
 #workspaces button.urgent {
   background-color: @alert;
-  color: @bg1;
+  color: @fg1;
 }
 
 #mode {
   background-color: @alert;
+  color: @fg1;
 }
 
 #clock,
@@ -85,10 +86,12 @@ button {
 
 #network.disconnected {
   background-color: @alert;
+  color: @fg1;
 }
 
 #pulseaudio.muted {
   background-color: @alert;
+  color: @fg1;
 }
 
 #tray>.passive {
@@ -98,8 +101,10 @@ button {
 #tray>.needs-attention {
   -gtk-icon-effect: highlight;
   background-color: @alert;
+  color: @fg1;
 }
 
 #idle_inhibitor.activated {
   background-color: @focus;
+  color: @fg1;
 }

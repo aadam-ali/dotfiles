@@ -1,0 +1,53 @@
+* {
+    font: "Hack Nerd Font Mono 48";
+    bg1: #1e1e1e;
+    bg2: #2d2d2d;
+
+    fg1: #ffffff;
+    fg2: #929292;
+
+    focus: #3584e4;
+    alert: #e01b24;
+
+    background-color:   transparent;
+    text-color:         @fg1;
+
+    margin:     0;
+    padding:    0;
+    spacing:    0;
+}
+
+mainbox {
+  children: [listview];
+}
+
+window {
+    background-color:   @bg1;
+    border:             3px;
+    border-color:       @focus;
+    location:           center;
+    width:              720px;
+}
+
+listview {
+    lines:      1;
+    columns:    5;
+    fixed-height:   true;
+}
+
+element {
+    padding:            16px;
+    text-color:         @fg2;
+    cursor:             pointer;
+}
+
+element selected normal {
+    background-color: @focus;
+    text-color:       @bg1;
+}
+
+element-text {
+    text-color:       inherit;
+    vertical-align:   0.5;
+    horizontal-align: 0.4;
+}

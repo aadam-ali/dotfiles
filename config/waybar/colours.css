@@ -1,7 +1,7 @@
-@define-color bg1 #282828;
+@define-color bg2 #242424;
 
-@define-color fg1 #d4be98;
-@define-color fg2 #a89984;
+@define-color fg1 #ffffff;
+@define-color fg2 #929292;
 
-@define-color focus #a9b665;
-@define-color alert #ea6962;
+@define-color focus #3584e4;
+@define-color alert #e01b24;

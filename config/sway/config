@@ -43,30 +43,19 @@ hide_edge_borders --i3 smart
 
 font pango: Hack Nerd Font Mono Bold 10px
 
-set $gnome-schema org.gnome.desktop.interface
-exec_always {
-  gsettings set $gnome-schema font-name 'Fira Sans 10'
-}
-
-workspace_layout tabbed
-
-# Adapted from https://gist.github.com/Cardoso1994/80641d652a4adcf6c8f718ebc3770ab9
-set $bg       #282828
-set $fg       #d4be98
-set $red      #ea6962
-set $orange   #e78a4e
-set $green    #a9b665
-set $blue     #7daea3
-set $purple   #d3869b
-set $aqua     #89b482
-set $gray     #a89984
+set $bg       #1e1e1e
+set $fg       #ffffff
+set $red      #e01b24
+set $gray     #929292
+set $accent   #3584e4
+set $inactive #505050
 
 #                       border      background  text    indicator   chld_brdr
-client.focused          $green      $green      $bg     $green      $green
-client.focused_inactive $orange     $orange     $bg     $orange     $orange
-client.unfocused        $bg         $bg         $gray   $bg         $bg
-client.urgent           $red        $red        $bg     $red        $red
-client.placeholder      $bg         $bg         $bg     $bg         $bg
+client.focused          $accent      $accent     $bg     $accent     $accent
+client.focused_inactive $inactive    $inactive   $fg     $inactive   $inactive
+client.unfocused        $bg          $bg         $gray   $bg          $bg
+client.urgent           $red         $red        $fg     $red         $red
+client.placeholder      $bg          $bg         $bg     $bg          $bg
 client.background       $bg
 
 
@@ -75,7 +64,7 @@ client.background       $bg
 #############
 
 # Default wallpaper
-output * bg #3c3836 solid_color
+output * bg #1a1a1a solid_color
 
 output Virtual-1 {
   mode 1920x1080@60Hz
@@ -84,14 +73,12 @@ output Virtual-1 {
 output DP-1 {
   mode 1920x1080@144Hz
   position 0 0
-  bg $HOME/Pictures/Wallpapers/horizontal fill
 }
 
 output DP-2 {
   mode 1920x1080@144Hz
   transform 270
   position -1080 -420
-  bg $HOME/Pictures/Wallpapers/horizontal fill
 }
 
 ############
