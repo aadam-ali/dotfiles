@@ -1,9 +1,8 @@
 ---
 - name: Ensure Font Directory Exists
   ansible.builtin.file:
-    path: "{{ font_dir[os_name] }}//{{ item.key }}"
+    path: "{{ font_dir[os_name] }}"
     state: directory
-  loop: "{{ fonts | dict2items }}"
 
 - name: Install Fonts
   ansible.builtin.unarchive:
