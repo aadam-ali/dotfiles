@@ -1,97 +1,56 @@
-local function open_file(file_path)
-  file_path = file_path:gsub("\n", ""):match("^%s*(.-)%s*$")
+local function open_note(path)
+  path = path:match("^%s*(.-)%s*$")
 
-  vim.cmd("badd " .. vim.fn.fnameescape(file_path))
-  local buffer_number = vim.fn.bufnr(file_path)
+  vim.cmd("badd " .. vim.fn.fnameescape(path))
+  buffer_number = vim.fn.bufnr(path)
 
   vim.api.nvim_set_current_buf(buffer_number)
 end
-local function new_note(no_date)
-  local title = vim.fn.input("Title")
+
+local function create_new_note(remove_date)
+  title = vim.fn.input("Title: ")
   if not title or string.len(title) == 0 then
     return nil
   end
 
-  local cmd_flags = "-n"
-  if no_date then
-    cmd_flags = "-n -d"
+  cmd_flags = "-n"
+  if remove_date then
+    cmd_flags = cmd_flags .. " -d"
   end
 
-  local note = vim.fn.system(string.format("sb new %s '%s'", cmd_flags, title))
-  local exit_code = vim.v.shell_error
+  sb_new_output = vim.fn.system(string.format("sb new %s '%s'", cmd_flags, title:gsub("\n", "")))
+  sb_new_exit_code = vim.v.shell_error
 
-  if exit_code ~= 0 then
-    vim.notify(note, vim.log.levels.ERROR)
+  if sb_new_exit_code == 0 then
+    open_note(sb_new_output)
   else
-    open_file(note)
+    vim.notify(sb_new_output, vim.log.levels.ERROR)
   end
 end
 
-local function new_note_interactive()
-  new_note(true)
-end
-
-local function new_dated_note_interactive()
-  new_note(false)
-end
-
-local function new_note_non_interactive(title)
-  local note = vim.fn.system(string.format("sb new -n '%s'", title))
-  local exit_code = vim.v.shell_error
-
-  if exit_code == 0 then
-    open_file(note)
-  else
-    vim.notify(note, vim.log.levels.ERROR)
-  end
-end
-
-local function open_note_from_markdown_link()
-  local encoded_filepath = vim.fn.expand("<cfile>")
-  local encoded_filename = vim.fn.fnamemodify(encoded_filepath, ":t")
+local function open_note_from_link()
+  encoded_filepath = vim.fn.expand("<cfile>")
+  encoded_filename = vim.fn.fnamemodify(encoded_filepath, ":t")
 
   if encoded_filename then
-    local filepath = vim.fn.system(string.format("sb path '%s'", encoded_filename)):gsub("\n", "")
-    local exit_code = vim.v.shell_error
+    sb_path_output = vim.fn.system(string.format("sb path '%s'", encoded_filename)):gsub("\n", "")
+    sb_path_exit_code = vim.v.shell_error
 
-    if exit_code == 0 then
-      open_file(filepath)
+    if sb_path_exit_code == 0 then
+      open_note(sb_path_output)
     else
-      new_note_non_interactive(title)
+      vim.notify(sb_path_output, vim.log.levels.ERROR)
     end
   end
 end
 
-local function open_note_from_wiki_link()
-  local current_line = vim.api.nvim_get_current_line()
-  local title = current_line:match("%[%[([^|%]]+)")
+local function insert_link_to_note()
+  fzf = require("fzf-lua")
 
-  if title then
-    local path = vim.fn.system(string.format("sb path -w '%s'", title)):gsub("\n", "")
-    local exit_code = vim.v.shell_error
+  rg_cmd = "rg --files --no-ignore --type markdown"
+  cwd = os.getenv("SB")
 
-    if exit_code == 0 then
-      open_file(path)
-    else
-      new_note_non_interactive(title)
-    end
-  end
-end
-
-local function open_daily_note()
-  vim.cmd("r!sb daily")
-end
-
-local function link_note(wiki_link)
-  local fzf = require("fzf-lua")
-
-  local rg_cmd = "rg --files --type markdown"
-  local cwd = os.getenv("SB")
-
-  local link_cmd_flags = ""
-  if wiki_link then
-    link_cmd_flags = "-w"
-  end
+  link_cmd_flags = ""
 
   fzf.fzf_exec(rg_cmd, {
     cwd = cwd,
@@ -100,17 +59,17 @@ local function link_note(wiki_link)
     actions = {
       -- Map <CR> to custom function
       ["default"] = function(selected)
-        local file = selected[1]
+        file = selected[1]
         if file then
-          local absolute_path = string.format("%s/%s", cwd, file)
-          local link_cmd = string.format("sb link %s '%s' '%s'", link_cmd_flags, vim.fn.expand("%:p"), absolute_path)
-          local link = vim.fn.system(link_cmd)
-          local exit_code = vim.v.shell_error
+          absolute_path = string.format("%s/%s", cwd, file)
+          sb_link_cmd = string.format("sb link %s '%s' '%s'", link_cmd_flags, vim.fn.expand("%:p"), absolute_path)
+          sb_link_output = vim.fn.system(sb_link_cmd)
+          sb_link_exit_code = vim.v.shell_error
 
-          if exit_code == 0 then
-            vim.api.nvim_put({ link }, "c", true, true)
+          if sb_link_exit_code == 0 then
+            vim.api.nvim_put({ sb_link_output }, "c", true, true)
           else
-            vim.notify(link, vim.log.levels.ERROR)
+            vim.notify(sb_link_output, vim.log.levels.ERROR)
           end
         end
       end,
@@ -118,38 +77,27 @@ local function link_note(wiki_link)
   })
 end
 
-local function markdown_link_note()
-  link_note(false)
+local function insert_todo()
+  id = vim.fn.input("ID: ", os.date("%Y%m%d") .. "-XXX")
+  todo = vim.fn.input("To Do: ")
+
+  if not todo or string.len(todo) == 0 then
+    return nil
+  end
+
+  vim.api.nvim_put({ string.format("    - [ ] [%s] %s", id, todo) }, "c", true, true)
 end
 
-local function wiki_link_note()
-  link_note(true)
-end
-
-local function insert_time()
-  local time_str = os.date("%H:%M")
-
-  vim.api.nvim_put({ time_str }, "c", true, true)
-end
-
--- Register the commands as user commands
-vim.api.nvim_create_user_command("SBDailyNote", open_daily_note, {})
-vim.api.nvim_create_user_command("SBMarkdownLinkNote", markdown_link_note, {})
-vim.api.nvim_create_user_command("SBNewDatedNote", new_dated_note_interactive, {})
-vim.api.nvim_create_user_command("SBNewNote", new_note_interactive, {})
-vim.api.nvim_create_user_command("SBOpenNoteMarkdownLink", open_note_from_markdown_link, {})
-vim.api.nvim_create_user_command("SBOpenNoteWikiLink", open_note_from_wiki_link, {})
-vim.api.nvim_create_user_command("SBTime", insert_time, {})
-vim.api.nvim_create_user_command("SBWikiLinkNote", wiki_link_note, {})
-
--- Register new note keybind
--- Open and Link keybinds in autoload.lua (should only open when in markdown files)
-vim.keymap.set("n", "<space>nL", ":SBWikiLinkNote<CR>", { desc = "Insert Wiki Link to Note" })
-vim.keymap.set("n", "<space>nn", ":SBNewDatedNote<CR>", { desc = "Create New Note With Date in Filename" })
-vim.keymap.set("n", "<space>nO", ":SBOpenNoteWikiLink<CR>", { desc = "Open Note From Wiki Link" })
-vim.keymap.set("n", "<space>nd", "G:SBDailyNote<CR>", { desc = "Insert Daily Note Entry" })
-vim.keymap.set("n", "<space>nl", ":SBMarkdownLinkNote<CR>", { desc = "Insert Markdown Link to Note" })
-vim.keymap.set("n", "<space>nN", ":SBNewNote<CR>", { desc = "Create New Note" })
-vim.keymap.set("n", "<space>no", ":SBOpenNoteMarkdownLink<CR>", { desc = "Open Note From Markdown Link" })
-vim.keymap.set("n", "<space>nt", ":SBTime<CR>", { desc = "Insert Current Time Under Cursor" })
-vim.keymap.set("n", "<space>nz", ":Goyo<CR>", { desc = "Start Focus Mode" })
+vim.keymap.set("n", "<space>nN", function()
+  create_new_note(true)
+end, { desc = "Create New Note Without Date in Filename" })
+vim.keymap.set("n", "<space>nT", insert_todo, { desc = "Insert To Do Under Cursor" })
+vim.keymap.set("n", "<space>nd", function()
+  vim.cmd("$read !sb daily")
+end, { desc = "Insert Daily Note Template" })
+vim.keymap.set("n", "<space>nl", insert_link_to_note, { desc = "Insert Link to Note Under Cursor" })
+vim.keymap.set("n", "<space>nn", create_new_note, { desc = "Create New Note" })
+vim.keymap.set("n", "<space>no", open_note_from_link, { desc = "Open Note From Link" })
+vim.keymap.set("n", "<space>nt", function()
+  vim.api.nvim_put({ os.date("%H:%M") }, "c", true, true)
+end, { desc = "Insert Current Time Under Cursor" })
