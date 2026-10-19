@@ -82,8 +82,8 @@ fonts:
 
 # Binaries
 sb_url:
-  linux: "https://github.com/aadam-ali/second-brain-cli/releases/download/v0.10.1/sb-v0.10.1-linux-amd64.tar.gz"
-  darwin: "https://github.com/aadam-ali/second-brain-cli/releases/download/v0.10.1/sb-v0.10.1-darwin-arm64.tar.gz"
+  linux: "https://github.com/aadam-ali/second-brain-cli/releases/download/v0.11.0/sb-v0.11.0-linux-amd64"
+  darwin: "https://github.com/aadam-ali/second-brain-cli/releases/download/v0.11.0/sb-v0.11.0-darwin-arm64"
 
 mise_url:
   linux: "https://github.com/jdx/mise/releases/download/v2026.7.5/mise-v2026.7.5-linux-x64"

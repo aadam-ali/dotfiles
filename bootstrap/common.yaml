@@ -18,12 +18,11 @@
     state: directory
 
 - name: Install Second Brain CLI
-  ansible.builtin.unarchive:
-    remote_src: yes
-    src: "{{ sb_url[os_name] }}"
-    dest: "{{ user_local_bin_dir }}"
-    include: ["sb"]
+  ansible.builtin.uri:
+    url: "{{ sb_url[os_name] }}"
+    dest: "{{ user_local_bin_dir }}/sb"
     creates: "{{ user_local_bin_dir }}/sb"
+    mode: 755
 
 - name: Install Mise
   ansible.builtin.uri:
