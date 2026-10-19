@@ -5,7 +5,7 @@ export GH_USER="aadam-ali"
 export REPOS="${HOME}/Repos"
 export DOTFILES="${REPOS}/${GH_USER}/dotfiles"
 export SCRIPTS="${DOTFILES}/scripts"
-export SB="${REPOS}/${GH_USER}/notes/notes"
+export NOTES="${REPOS}/${GH_USER}/notes/notes"
 export HISTSIZE=10000
 export HISTFILESIZE=10000
 
