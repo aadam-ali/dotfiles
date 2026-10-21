@@ -31,3 +31,10 @@ vim.api.nvim_create_autocmd("User", {
     require("lualine").hide({ unhide = true })
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "<filetype>" },
+  callback = function()
+    vim.treesitter.start()
+  end,
+})

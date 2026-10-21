@@ -4,7 +4,7 @@ H.find_files = function()
   local fzf = require("fzf-lua")
   local is_git = vim.fn.system("git rev-parse --is-inside-work-tree"):match("true")
 
-  notes_dir = vim.env.SB
+  notes_dir = vim.env.NOTES
   notes_dir = notes_dir:gsub("/notes$", "")
 
   if string.find(vim.fn.getcwd(), notes_dir, 1, true) then
