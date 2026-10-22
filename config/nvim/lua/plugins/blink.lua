@@ -2,7 +2,7 @@ return {
   {
     "saghen/blink.cmp",
 
-    version = "1.*",
+    branch = "1.10.2",
 
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
