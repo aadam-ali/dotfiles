@@ -4,16 +4,16 @@
     // "position": "bottom", // Waybar position (top|bottom|left|right)
     // Choose the order of the modules
     "modules-left": [
-        "sway/workspaces",
         "sway/mode",
-        "sway/scratchpad"
+        "sway/workspaces",
+        "sway/window"
     ],
     "modules-center": ["clock"],
     "modules-right": [
-        "pulseaudio",
-        "network",
+        "tray",
         "idle_inhibitor",
-        "tray"
+        "pulseaudio",
+        "network"
     ],
     // Modules configuration
     "sway/workspaces": {
@@ -57,20 +57,21 @@
     },
     "clock": {
         "format": "[ {:%H:%M} ]",
-        "format-alt": "[ {:%H:%M %d-%m-%Y} ]",
-        "tooltip-format": "<tt>{calendar}</tt>"
+        "format-alt": "[ {:%H:%M:%S %d-%m-%Y} ]",
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "interval": 1
     },
     "network": {
-        "format-wifi": "[ {essid} ({signalStrength}%)  ]",
-        "format-ethernet": "[ {ifname}  ]",
-        "format-linked": "[ {ifname} (No IP)  ]",
-        "format-disconnected": "[ Disconnected  ]",
+        "format-wifi": "[  {essid} ({signalStrength}%) ]",
+        "format-ethernet": "[  {ifname} ]",
+        "format-linked": "[  {ifname} (No IP) ]",
+        "format-disconnected": "[  Disconnected ]",
         "format-alt": "[ {ifname}: {ipaddr}/{cidr} ]",
         "tooltip-format": "{ifname} via {gwaddr}"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "[ {volume}% {icon}  {format_source} ]",
+        "format": "[ {icon} {volume}% - {format_source} ]",
         "format-muted": "[  {format_source} ]",
         "format-source": " {volume}%",
         "format-source-muted": "",

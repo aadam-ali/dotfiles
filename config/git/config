@@ -16,6 +16,8 @@
 	verbose = true
 [gpg]
 	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = ~/.config/git/allowed_signers
 [branch]
 	sort = -committerdate
 [column]

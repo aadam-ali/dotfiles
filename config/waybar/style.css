@@ -18,6 +18,11 @@ button {
   border-radius: 0;
 }
 
+#window {
+  background-color: transparent;
+  color: @fg2;
+}
+
 #workspaces button {
   padding: 0 5px;
   background-color: transparent;
